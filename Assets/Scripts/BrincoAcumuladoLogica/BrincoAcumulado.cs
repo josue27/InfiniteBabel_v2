@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Brinco;
 public class BrincoAcumulado : MonoBehaviour
 {
 
@@ -21,7 +21,10 @@ public class BrincoAcumulado : MonoBehaviour
 
     public float acumulacionFuerza = 0.0f;
     public float maxFuerza = 16.5f;
-    [SerializeField] private float stepAcumulacion = 0.1f;
+    public float stepAcumulacion = 0.1f;
+
+    public float stepAcumulacionMin = 0.1f;
+    public float stepAcumulacionMax = 0.5f;
 
     public bool presionada;
     public bool soltada;
@@ -32,6 +35,14 @@ public class BrincoAcumulado : MonoBehaviour
 
     bool jugando;
 
+    public bool cruzandoApertura;
+    public float duracionShake;
+    public float intencidadShake;
+    public Vector2 mousePosInit = Vector2.zero;
+    public Vector2 mousePosFinal = Vector2.zero;
+    public float distanciaMouse;
+
+    public Animator sprite_anim;
     void Start()
     {
         rigid = this.GetComponent<Rigidbody>();
@@ -43,6 +54,13 @@ public class BrincoAcumulado : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+          //  CameraShake.Shake(duracionShake,intencidadShake);
+
+        }
         if (!jugando)
             return;
 
@@ -51,8 +69,11 @@ public class BrincoAcumulado : MonoBehaviour
 #endif
 #if UNITY_EDITOR
         Brinco_PC();
-#endif
+        BrincoSwipePC();
 
+#endif
+  
+         
 
         //Esta condicion solo se cumple cuando esta en su punto mas alto o en posicion inicial
         //donde  en ambas partes la velocidad inicial debe ser 0 
@@ -75,7 +96,7 @@ public class BrincoAcumulado : MonoBehaviour
 
     private void LateUpdate()
     {
-        scoreActual.text = aperturas.ToString();
+       // scoreActual.text = aperturas.ToString();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -84,8 +105,21 @@ public class BrincoAcumulado : MonoBehaviour
         if (collision.transform.tag == "piso")
         {
             enPiso = true;
+            Camara_Control.camara.ShakeCam_Call();
+
+            //TODO: shake cam
         }
         print(collision.transform.name);
+
+        
+
+        // if(collision.transform.tag == "pared")
+        // {
+        //      if(!cruzandoApertura)
+        //      {
+        //        EmpujarJugador(new Vector3(0.0f, 1.0f, -1.0f), 50.0f);
+        //      }//TODO:activar chispas de suelo, ver collisionGetContact
+        // }
 
         //Esto no funciona si el jugador esta en el suelo
         //ContactPoint c = collision.GetContact(0);
@@ -104,6 +138,7 @@ public class BrincoAcumulado : MonoBehaviour
         {
             enPiso = false;
         }
+       
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -113,18 +148,89 @@ public class BrincoAcumulado : MonoBehaviour
 
         //}
         //TODO: Cambiar a un script independiento o EventDispatcher
-        if(other.transform.tag == "apertura")
-        {
-            aperturas++;
-        }
+        
         if (other.transform.tag == "pared")
         {
-            EmpujarJugador(new Vector3(0.0f, 1.0f, -1.0f), 500.0f);
+            if(!cruzandoApertura)
+             EmpujarJugador(new Vector3(0.0f, 1.0f, -1.0f), 50.0f);
+             return;
+        }
+        if(other.transform.tag == "apertura")
+        {
+           // this.GetComponent<BoxCollider>().enabled = false;
+           // aperturas++;
+           Eventos_Dispatcher.eventos.CruceObstaculo_Call();
+         
+            cruzandoApertura = true;
         }
     }
+    private void OnTriggerExit(Collider other) {
+        if(other.transform.tag == "apertura")
+        {
+           cruzandoApertura = false;
+           
 
+        }
+        }
+
+        ///<sumary>
+        ///Brinco para PC con dedo arrastrandose
+        ///</sumary>
+    public void BrincoSwipePC()
+    {
+        if(enPiso)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                mousePosInit = Input.mousePosition;
+
+            }
+            if(Input.GetMouseButtonUp(0))
+            {
+                mousePosFinal = Input.mousePosition;
+                 distanciaMouse = mousePosInit.y - mousePosFinal.y;
+
+
+                
+
+                acumulacionFuerza = Mathf.Clamp(distanciaMouse/100,0.0f,maxFuerza);
+
+
+                 rigid.velocity = Vector3.up * acumulacionFuerza;
+                    //print("Fuerza:" + acumulacionFuerza);
+                    acumulacionFuerza = 0;
+                    this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            }
+           //Debug.Log("posInicial:"+ mousePosInit.y+" posFinal:"+ mousePosFinal.y+"="+ dist);
+
+        }
+        else if(!enPiso)
+        {
+             if(Input.GetMouseButtonDown(0))
+            {
+                mousePosInit = Input.mousePosition;
+
+            }
+            if(Input.GetMouseButtonUp(0))
+            {
+                mousePosFinal = Input.mousePosition;
+                 distanciaMouse = mousePosFinal.y - mousePosInit.y  ;
+
+
+                
+
+                acumulacionFuerza = Mathf.Clamp(distanciaMouse/100,0.0f,maxFuerza*2);
+
+
+                 rigid.velocity = Vector3.down * acumulacionFuerza;
+                    //print("Fuerza:" + acumulacionFuerza);
+                    acumulacionFuerza = 0;
+                    this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            }
+        }
+    }
     /// <summary>
-    /// Logica de Brinco para PC
+    /// Logica de Brinco para PC con tecla
     /// </summary>
     private void Brinco_PC()
     {
@@ -135,6 +241,14 @@ public class BrincoAcumulado : MonoBehaviour
                 if (Input.GetKey(teclaSalto))
                 {
                     print("Saltando");
+                    if(acumulacionFuerza < maxFuerza/2)
+                    {
+                        stepAcumulacion = stepAcumulacionMax;
+                    }else if(acumulacionFuerza > maxFuerza/2)
+                    {
+                        stepAcumulacion = stepAcumulacionMin;
+
+                    }
                     acumulacionFuerza += stepAcumulacion;
                     acumulacionFuerza = Mathf.Clamp(acumulacionFuerza, 0, maxFuerza);
 
@@ -159,7 +273,7 @@ public class BrincoAcumulado : MonoBehaviour
         
     }
     /// <summary>
-    /// Logica de Brinco para App Movil
+    /// Logica de Brinco para App Movil con touchHold
     /// </summary>
     private void Brinco_Movil()
     {
@@ -200,11 +314,14 @@ public class BrincoAcumulado : MonoBehaviour
     private void InicioJuego()
     {
         jugando = true;
+       // sprite_anim.SetTrigger("idle");
+
     }
 
     private void PerdioJuego()
     {
         jugando = false;
+        sprite_anim.SetTrigger("muerto");
     }
 
     private void EmpujarJugador(Vector3 direccion,float fuerza)

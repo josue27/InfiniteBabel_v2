@@ -7,6 +7,7 @@ namespace Brinco
 
     public class Camara_Control : MonoBehaviour
     {
+        public static Camara_Control camara;
         public Transform posJuego;
         public Transform posInicio;
         public float zoomInicial,zoomJuego;
@@ -25,6 +26,7 @@ namespace Brinco
         }
         void Start()
         {
+            camara = this;
             Eventos_Dispatcher.inicioJuego += InicioJuego;
 
         }
@@ -43,6 +45,11 @@ namespace Brinco
             {
                 StartCoroutine(ShakeCam(duracionShake, magnitudShake));
             }
+        }
+        public void ShakeCam_Call()
+        {
+             StartCoroutine(ShakeCam(duracionShake, magnitudShake));
+
         }
         IEnumerator ShakeCam(float duracion, float magnitud)
         {

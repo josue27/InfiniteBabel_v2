@@ -14,11 +14,16 @@ public class UIX_Animacion_Control : MonoBehaviour
     }
     public void BotonPresionado()
     {
+        if(!animator)
+           return;
         if (nombreTrigger != null)
             animator.SetBool(nombreTrigger,true);
     }
     public void BotonSoltado()
     {
+         if(!animator)
+           return;
+           
         if (nombreTrigger != null)
             animator.SetBool(nombreTrigger, false);
     }
