@@ -130,7 +130,7 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
 
     void EmpezoJuego()
     {
-        InvokeRepeating("LlamarObstaculo", intervaloTiempo, intervaloTiempo);
+        InvokeRepeating("LlamarObstaculo", 0.1f, intervaloTiempo);
         puedeSpawnear = true;
     }
 

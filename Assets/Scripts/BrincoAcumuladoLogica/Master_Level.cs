@@ -18,7 +18,7 @@ namespace Brinco
         // Start is called before the first frame update
         public Button boton_inicio;
         public Button boton_reinicio;
-        public Button boton_brinco;
+
 
         [Header("Pasing Niveles")]
         public float velocidadObstaculosInicial = 1.0f;
@@ -91,7 +91,7 @@ namespace Brinco
 
             yield return new WaitForSeconds(0.5f);
 
-            boton_brinco.gameObject.SetActive(true);
+         
             yield return new WaitForSeconds(1.5f);
             SpawnObstaculos_Apertura.spawner.ActivarObstaculo();
         }

@@ -26,6 +26,8 @@ public class BrincoAcumulado : MonoBehaviour
     public float stepAcumulacionMin = 0.1f;
     public float stepAcumulacionMax = 0.5f;
 
+    public float empujeEnCruze = 1.0f;
+
     public bool presionada;
     public bool soltada;
 
@@ -61,14 +63,19 @@ public class BrincoAcumulado : MonoBehaviour
           //  CameraShake.Shake(duracionShake,intencidadShake);
 
         }
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            EmpujarJugador(Vector3.up, empujeEnCruze);
+
+        }
         if (!jugando)
             return;
 
 #if UNITY_ANDROID
-        Brinco_Movil();
+       // Brinco_Movil();
 #endif
 #if UNITY_EDITOR
-        Brinco_PC();
+     //   Brinco_PC();
         BrincoSwipePC();
 
 #endif
@@ -152,14 +159,19 @@ public class BrincoAcumulado : MonoBehaviour
         if (other.transform.tag == "pared")
         {
             if(!cruzandoApertura)
-             EmpujarJugador(new Vector3(0.0f, 1.0f, -1.0f), 50.0f);
-             return;
+             {
+                EmpujarJugador(new Vector3(0.0f, 1.0f, -1.0f), 50.0f);
+                Eventos_Dispatcher.jugadorPerdio();
+
+            }
+            return;
         }
         if(other.transform.tag == "apertura")
         {
            // this.GetComponent<BoxCollider>().enabled = false;
            // aperturas++;
            Eventos_Dispatcher.eventos.CruceObstaculo_Call();
+            EmpujarJugador(Vector3.up, empujeEnCruze);
          
             cruzandoApertura = true;
         }
@@ -328,7 +340,6 @@ public class BrincoAcumulado : MonoBehaviour
     {
         print("Choco con pared");
         this.rigid.AddForce(direccion * fuerza);
-        Eventos_Dispatcher.jugadorPerdio();
        
     }
 
