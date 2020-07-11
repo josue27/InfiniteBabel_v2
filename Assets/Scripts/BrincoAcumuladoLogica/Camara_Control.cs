@@ -27,7 +27,7 @@ namespace Brinco
         void Start()
         {
             camara = this;
-            Eventos_Dispatcher.inicioJuego += InicioJuego;
+            Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
 
         }
         public void MePudeVer()
@@ -89,7 +89,7 @@ namespace Brinco
         }
         private void OnDestroy()
         {
-            Eventos_Dispatcher.inicioJuego -= InicioJuego;
+            Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
 
         }
 

@@ -38,8 +38,8 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
     {
        
 
-        Eventos_Dispatcher.inicioJuego += EmpezoJuego;
-        Eventos_Dispatcher.jugadorPerdio += FinJuego;
+        Eventos_Dispatcher.eventos.InicioJuego += EmpezoJuego;
+        Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
         Eventos_Dispatcher.CambioVelocidad += CambioVelocidad;
 
         //SpawnearPool();
@@ -174,8 +174,8 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
     private void OnDestroy()
     {
 
-        Eventos_Dispatcher.inicioJuego -= EmpezoJuego;
-        Eventos_Dispatcher.jugadorPerdio -= FinJuego;
+        Eventos_Dispatcher.eventos.InicioJuego -= EmpezoJuego;
+        Eventos_Dispatcher.eventos.JugadorPerdio -= FinJuego;
         Eventos_Dispatcher.CambioVelocidad -=CambioVelocidad;
     }
 

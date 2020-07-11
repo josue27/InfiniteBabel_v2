@@ -7,8 +7,8 @@ using Brinco;
 public  class Eventos_Dispatcher : MonoBehaviour
 {
     public static Eventos_Dispatcher eventos;
-    public static Action jugadorPerdio;
-    public static Action inicioJuego;
+    public  Action JugadorPerdio;
+    public  Action InicioJuego;
 
     public static Action MonedaTomada;
 
@@ -20,11 +20,11 @@ public  class Eventos_Dispatcher : MonoBehaviour
    {
        eventos = this;
    }
-   public void InicioJuego_llamada() => inicioJuego?.Invoke();
+   public void InicioJuego_llamada() => InicioJuego?.Invoke();
     public void JugadorPerdioLlamada()
     {
         print("Llamando Perdio");
-        jugadorPerdio();
+        JugadorPerdio();
     }
     public void MonedaTomada_Call() => MonedaTomada?.Invoke();
 

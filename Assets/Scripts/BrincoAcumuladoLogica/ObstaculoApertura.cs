@@ -8,7 +8,7 @@ public class ObstaculoApertura : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Eventos_Dispatcher.jugadorPerdio += FinJuego;
+        Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
         Invoke("DestruirObstaculo", 20.0f);
     }
 
@@ -26,10 +26,10 @@ public class ObstaculoApertura : MonoBehaviour
     }
     private void FinJuego()
     {
-        velociadMovimiento = 0.0f;
+       // velociadMovimiento = 0.0f;
     }
     private void OnDestroy()
     {
-        Eventos_Dispatcher.jugadorPerdio -= FinJuego;
+        Eventos_Dispatcher.eventos.JugadorPerdio -= FinJuego;
     }
 }

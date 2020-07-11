@@ -45,12 +45,17 @@ public class BrincoAcumulado : MonoBehaviour
     public float distanciaMouse;
 
     public Animator sprite_anim;
+
+    [Header("Muerte settings")]
+    public Transform posicionMuerte;
+    public float duracionAPosicionMuerte = 1.0f;
+    public bool muerto;
     void Start()
     {
         rigid = this.GetComponent<Rigidbody>();
 
-        Eventos_Dispatcher.jugadorPerdio += PerdioJuego;
-        Eventos_Dispatcher.inicioJuego += InicioJuego;
+        Eventos_Dispatcher.eventos.JugadorPerdio += PerdioJuego;
+        Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
     }
 
     // Update is called once per frame
@@ -113,6 +118,8 @@ public class BrincoAcumulado : MonoBehaviour
         {
             enPiso = true;
             Camara_Control.camara.ShakeCam_Call();
+            if(muerto)
+               LeanTween.moveZ(this.gameObject,posicionMuerte.position.z,duracionAPosicionMuerte);
 
             //TODO: shake cam
         }
@@ -144,6 +151,7 @@ public class BrincoAcumulado : MonoBehaviour
         if (collision.transform.tag == "piso")
         {
             enPiso = false;
+
         }
        
     }
@@ -161,7 +169,7 @@ public class BrincoAcumulado : MonoBehaviour
             if(!cruzandoApertura)
              {
                 EmpujarJugador(new Vector3(0.0f, 1.0f, -1.0f), 50.0f);
-                Eventos_Dispatcher.jugadorPerdio();
+                Eventos_Dispatcher.eventos.JugadorPerdio();
 
             }
             return;
@@ -334,6 +342,8 @@ public class BrincoAcumulado : MonoBehaviour
     {
         jugando = false;
         sprite_anim.SetTrigger("muerto");
+        //this.rigid.isKinematic = true;
+        muerto = true;
     }
 
     private void EmpujarJugador(Vector3 direccion,float fuerza)
@@ -345,7 +355,7 @@ public class BrincoAcumulado : MonoBehaviour
 
     private void OnDestroy()
     {
-        Eventos_Dispatcher.jugadorPerdio -= PerdioJuego;
-        Eventos_Dispatcher.inicioJuego -= InicioJuego;
+        Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
+        Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
     }
 }

@@ -42,11 +42,16 @@ namespace Brinco
         public int monedasTomadas;
         public TMP_Text monedas_txt;
 
+        [Space(10)]
+        [Header("BandaTransportadora")]
+        public Animator[] bandasTransportadoras;
+
+
         void Start()
         {
             _masterBrinco = this;
-            Eventos_Dispatcher.inicioJuego += InicioJuego;
-            Eventos_Dispatcher.jugadorPerdio += PerdioJuego;
+            Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
+            Eventos_Dispatcher.eventos.JugadorPerdio += PerdioJuego;
             Eventos_Dispatcher.MonedaTomada += MonedaTomada;
             Eventos_Dispatcher.CruceObstaculo += ObstaculoCruzado;
             
@@ -75,14 +80,14 @@ namespace Brinco
         
         public void Reiniciar()
         {
-            Eventos_Dispatcher.inicioJuego -= InicioJuego;
-            Eventos_Dispatcher.jugadorPerdio -= PerdioJuego;
+            Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
+            Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
             SceneManager.LoadScene(0);
         }
         private void OnDestroy()
         {
-            Eventos_Dispatcher.inicioJuego -= InicioJuego;
-            Eventos_Dispatcher.jugadorPerdio -= PerdioJuego;
+            Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
+            Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
         }
 
         IEnumerator InicioJuego_Rutina()
@@ -90,7 +95,7 @@ namespace Brinco
             boton_inicio.gameObject.SetActive(false);
 
             yield return new WaitForSeconds(0.5f);
-
+            EncenderBandaTransportadora(true);
          
             yield return new WaitForSeconds(1.5f);
             SpawnObstaculos_Apertura.spawner.ActivarObstaculo();
@@ -142,6 +147,16 @@ namespace Brinco
         {
             float r = sigVelocidad * 1.10f;
             return r;
+        }
+
+        public void EncenderBandaTransportadora(bool _encender)
+        {
+            if(bandasTransportadoras.Length <=0)
+            return;
+            for(int i=0;i<bandasTransportadoras.Length;i++)
+            {
+                bandasTransportadoras[i].SetBool("corriendo",_encender);
+            }
         }
     }
     

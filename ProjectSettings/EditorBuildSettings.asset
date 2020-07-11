@@ -11,7 +11,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/brincoAcumulado_01.unity
     guid: 081d898993f53df41b0cb572461a32b7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/brincoAcumulado_02.unity
     guid: a7fd4ddf88a264f85b8f83d401c224d3
+  - enabled: 1
+    path: Assets/Scenes/brincoAcumulado_03_Perspective.unity
+    guid: 139f7afe7870d45de83a4441c25b5bf3
   m_configObjects: {}
