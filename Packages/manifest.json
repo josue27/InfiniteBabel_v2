@@ -1,9 +1,12 @@
 {
   "dependencies": {
+    "com.madsbangh.easybuttons": "https://github.com/madsbangh/EasyButtons.git#upm",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.collab-proxy": "1.2.16",
+    "com.unity.ext.nunit": "1.0.0",
     "com.unity.ide.rider": "1.1.4",
     "com.unity.ide.vscode": "1.2.0",
+    "com.unity.package-manager-ui": "2.2.0",
     "com.unity.probuilder": "4.1.2",
     "com.unity.render-pipelines.universal": "7.3.1",
     "com.unity.test-framework": "1.1.14",
@@ -41,5 +44,11 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
+  },
+  "lock": {
+    "com.madsbangh.easybuttons": {
+      "revision": "upm",
+      "hash": "7047cf063c0dbc92b73a3d5e319ab25db877b01e"
+    }
   }
 }

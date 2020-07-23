@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 1348376150526198490}
   - component: {fileID: 1348376150526198493}
   - component: {fileID: 1348376150526198491}
+  - component: {fileID: 3603656180921001213}
   m_Layer: 0
   m_Name: Cube (3)
   m_TagString: pared
@@ -173,7 +174,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 0.8, z: 0.5}
+  m_Center: {x: 0, y: 0, z: -0.23}
+--- !u!65 &3603656180921001213
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348376150526198495}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.95, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1348376150634878215
 GameObject:
@@ -187,6 +201,7 @@ GameObject:
   - component: {fileID: 1348376150634878210}
   - component: {fileID: 1348376150634878213}
   - component: {fileID: 1348376150634878211}
+  - component: {fileID: 1922586310507958643}
   m_Layer: 0
   m_Name: Cube (7)
   m_TagString: pared
@@ -267,7 +282,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 0.8, z: 0.5}
+  m_Center: {x: 0, y: 0, z: -0.23}
+--- !u!65 &1922586310507958643
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348376150634878215}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.95, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1348376150662943311
 GameObject:
@@ -281,6 +309,7 @@ GameObject:
   - component: {fileID: 1348376150662943306}
   - component: {fileID: 1348376150662943309}
   - component: {fileID: 1348376150662943307}
+  - component: {fileID: 4666135041565407000}
   m_Layer: 0
   m_Name: Cube
   m_TagString: pared
@@ -361,7 +390,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 0.8, z: 0.5}
+  m_Center: {x: 0, y: 0, z: -0.23}
+--- !u!65 &4666135041565407000
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348376150662943311}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.95, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1348376151448764367
 GameObject:
@@ -375,6 +417,7 @@ GameObject:
   - component: {fileID: 1348376151448764362}
   - component: {fileID: 1348376151448764365}
   - component: {fileID: 1348376151448764363}
+  - component: {fileID: 366379170627021670}
   m_Layer: 0
   m_Name: Cube (6)
   m_TagString: pared
@@ -455,7 +498,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 0.8, z: 0.5}
+  m_Center: {x: 0, y: 0, z: -0.23}
+--- !u!65 &366379170627021670
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348376151448764367}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.95, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1348376151459043018
 GameObject:
@@ -469,6 +525,7 @@ GameObject:
   - component: {fileID: 1348376151459043017}
   - component: {fileID: 1348376151459043016}
   - component: {fileID: 1348376151459042998}
+  - component: {fileID: 350958277140350917}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: pared
@@ -549,7 +606,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 0.8, z: 0.5}
+  m_Center: {x: 0, y: 0, z: -0.23}
+--- !u!65 &350958277140350917
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348376151459043018}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.95, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1348376151749227970
 GameObject:
@@ -563,6 +633,7 @@ GameObject:
   - component: {fileID: 1348376151749227969}
   - component: {fileID: 1348376151749227968}
   - component: {fileID: 1348376151749227982}
+  - component: {fileID: 4397536113802902682}
   m_Layer: 0
   m_Name: Cube (5)
   m_TagString: pared
@@ -643,7 +714,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 0.8, z: 0.5}
+  m_Center: {x: 0, y: 0, z: -0.23}
+--- !u!65 &4397536113802902682
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348376151749227970}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.95, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1348376151896805675
 GameObject:
@@ -656,7 +740,6 @@ GameObject:
   - component: {fileID: 1348376151896805673}
   - component: {fileID: 1348376151896805672}
   - component: {fileID: 1348376151896805655}
-  - component: {fileID: 1348376151896805654}
   m_Layer: 0
   m_Name: Obstaculo_modular
   m_TagString: apertura
@@ -699,6 +782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b214804d967241dcb781c19c830b653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velociadMovimiento: 3
   posiciones:
   - {fileID: 1348376150662943308}
   - {fileID: 1348376152427112684}
@@ -721,21 +805,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 10, z: 0.7}
-  m_Center: {x: 0, y: 0, z: 0.15}
---- !u!114 &1348376151896805654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1348376151896805675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c59f36f82d7c15241b7099cd6d771d26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  velociadMovimiento: 3
+  m_Size: {x: 1, y: 10, z: 0.3}
+  m_Center: {x: 0, y: 0, z: 0.3}
 --- !u!1 &1348376152195509891
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,6 +819,7 @@ GameObject:
   - component: {fileID: 1348376152195509902}
   - component: {fileID: 1348376152195509889}
   - component: {fileID: 1348376152195509903}
+  - component: {fileID: 7932737334799257019}
   m_Layer: 0
   m_Name: Cube (4)
   m_TagString: pared
@@ -828,7 +900,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 0.8, z: 0.5}
+  m_Center: {x: 0, y: 0, z: -0.23}
+--- !u!65 &7932737334799257019
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348376152195509891}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.95, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1348376152427112687
 GameObject:
@@ -842,6 +927,7 @@ GameObject:
   - component: {fileID: 1348376152427112682}
   - component: {fileID: 1348376152427112685}
   - component: {fileID: 1348376152427112683}
+  - component: {fileID: 1978422228204401642}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: pared
@@ -922,7 +1008,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 0.8, z: 0.5}
+  m_Center: {x: 0, y: 0, z: -0.23}
+--- !u!65 &1978422228204401642
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348376152427112687}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.95, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1500038524906717118
 GameObject:

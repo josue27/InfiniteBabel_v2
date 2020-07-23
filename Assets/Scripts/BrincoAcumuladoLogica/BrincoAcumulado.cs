@@ -12,7 +12,7 @@ public class BrincoAcumulado : MonoBehaviour
 
     public bool enPiso;
     public float fuerzaSalto = 1.0f;
-    
+    public Transform posEnPiso;
     [Header("KeyBindigns")]
     public KeyCode teclaSalto;
     public Rigidbody rigid;
@@ -50,6 +50,11 @@ public class BrincoAcumulado : MonoBehaviour
     public Transform posicionMuerte;
     public float duracionAPosicionMuerte = 1.0f;
     public bool muerto;
+
+    [Header("SFX")]
+    public AudioSource audioJugador;
+    public List<ClipSonido> clipsSonido_Jugador = new List<ClipSonido>();
+
     void Start()
     {
         rigid = this.GetComponent<Rigidbody>();
@@ -121,6 +126,12 @@ public class BrincoAcumulado : MonoBehaviour
             if(muerto)
                LeanTween.moveZ(this.gameObject,posicionMuerte.position.z,duracionAPosicionMuerte);
 
+            if(this.transform.position.z != posEnPiso.position.z)
+            {
+                LeanTween.moveZ(this.gameObject,posEnPiso.position.z,0.3f);
+            }
+            ReproducirSonido_Jugador("golpePiso");
+
             //TODO: shake cam
         }
         print(collision.transform.name);
@@ -164,33 +175,34 @@ public class BrincoAcumulado : MonoBehaviour
         //}
         //TODO: Cambiar a un script independiento o EventDispatcher
         
-        if (other.transform.tag == "pared")
+        if (other.CompareTag("pared"))
         {
             if(!cruzandoApertura)
              {
-                EmpujarJugador(new Vector3(0.0f, 1.0f, -1.0f), 50.0f);
+                EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
                 Eventos_Dispatcher.eventos.JugadorPerdio();
 
             }
             return;
         }
-        if(other.transform.tag == "apertura")
+        if(other.CompareTag("apertura"))
         {
+
            // this.GetComponent<BoxCollider>().enabled = false;
            // aperturas++;
            Eventos_Dispatcher.eventos.CruceObstaculo_Call();
-            EmpujarJugador(Vector3.up, empujeEnCruze);
+           EmpujarJugador(Vector3.up, empujeEnCruze);
          
             cruzandoApertura = true;
         }
     }
     private void OnTriggerExit(Collider other) {
         if(other.transform.tag == "apertura")
-        {
-           cruzandoApertura = false;
-           
+            {
+            cruzandoApertura = false;
+            
 
-        }
+            }
         }
 
         ///<sumary>
@@ -220,6 +232,9 @@ public class BrincoAcumulado : MonoBehaviour
                     //print("Fuerza:" + acumulacionFuerza);
                     acumulacionFuerza = 0;
                     this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+        ReproducirSonido_Jugador("brinco");
+
             }
            //Debug.Log("posInicial:"+ mousePosInit.y+" posFinal:"+ mousePosFinal.y+"="+ dist);
 
@@ -246,6 +261,7 @@ public class BrincoAcumulado : MonoBehaviour
                     //print("Fuerza:" + acumulacionFuerza);
                     acumulacionFuerza = 0;
                     this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                    ReproducirSonido_Jugador("brincoRegreso");
             }
         }
     }
@@ -343,6 +359,7 @@ public class BrincoAcumulado : MonoBehaviour
         jugando = false;
         sprite_anim.SetTrigger("muerto");
         //this.rigid.isKinematic = true;
+        ReproducirSonido_Jugador("caidaPerdio");
         muerto = true;
     }
 
@@ -353,6 +370,24 @@ public class BrincoAcumulado : MonoBehaviour
        
     }
 
+    //cgs-32 o cgs-10 golpe en piso
+    /// <summary>
+    /// Reproduce un sonido a un audio source buscandolo por su nombre
+    /// </summary>
+    /// <param name="nombrePista">brinco,brincoRegreso,caidaPerdio,golpePiso</param>
+    public void ReproducirSonido_Jugador(string nombrePista)
+    {
+          foreach(ClipSonido clipSonido in clipsSonido_Jugador)
+        {
+            if(clipSonido.nombre.Equals(nombrePista))
+            {
+                audioJugador.clip = clipSonido.clip;
+                audioJugador.Play();
+                
+                break;
+            }
+        }
+    }
     private void OnDestroy()
     {
         Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;

@@ -7,7 +7,7 @@ public class SpawnEscenario : MonoBehaviour
     //TODO: Crear scriptble object ElementoEscenario
     public List<Elemento> elementos = new List<Elemento>();
 
-
+    public bool spawnear;
     public Dictionary<string,Queue<GameObject>> elementosDictionary = new Dictionary<string, Queue<GameObject>>();
     /// <summary>
     /// Called when the script is loaded or a value is changed in the
@@ -25,10 +25,30 @@ public class SpawnEscenario : MonoBehaviour
         SpawnElementos();
         Eventos_Dispatcher.eventos.InicioJuego +=   InicioJuego; 
     }
-
+ 
+    void Update()
+    {
+        if(spawnear)
+        {
+            for (int i = 0; i < elementos.Count; i++)
+            {   
+                if(Time.time>= elementos[i].sigSpawn)
+                {
+                  elementos[i].sigSpawn = Time.time+elementos[i].rateSpawn;
+                  ActivarObjeto(elementos[i].nombre); 
+                }
+            }
+        }
+    }
     public void InicioJuego()
     {
-        InvokeRepeating("ActivarObjeto",1.0f,3.0f);
+        //InvokeRepeating("ActivarObjeto",1.0f,3.0f);
+        // for (int i = 0; i < elementos.Count; i++)
+        // {
+        //     elementos[i].sigSpawn = Time.time+elementos[i].rateSpawn;
+        // }
+        ActivarObjetoInicial("paredIntermedia");
+        spawnear = true;
     }
     public void SpawnElementos()
     {
@@ -85,6 +105,33 @@ public class SpawnEscenario : MonoBehaviour
         
     }
 
+    public void ActivarObjetoInicial(string nombreObjeto)
+    {
+        GameObject objetoActivar;
+        foreach(Elemento elemenoEnLista in elementos){
+
+            if(elemenoEnLista.nombre.Equals(nombreObjeto))
+            {
+                if(!elemenoEnLista.objetoInical)
+                    return;
+                objetoActivar = elemenoEnLista.objetoInical;
+                //objetoActivar.transform.position = elemenoEnLista.posInicial.position;
+                objetoActivar.gameObject.SetActive(true);
+                
+                float distanciaPos =   elemenoEnLista.posFinal.position.z-elemenoEnLista.posInicial.position.z;
+                Debug.Log("Distancia:"+distanciaPos);
+                Vector3 posFinalInicial = objetoActivar.transform.position;
+                posFinalInicial.z += distanciaPos;
+                objetoActivar.GetComponent<ElementoEscenario_Control>().Mover(posFinalInicial,elemenoEnLista.duracionRecorrido);
+                //elemenoEnLista.objetos.Enqueue(objetoActivar);
+                Debug.Log("objeto inicial activado");
+
+                
+            }
+        }
+        
+    }
+
 
 }
 
@@ -100,7 +147,10 @@ public class Elemento
     public Transform posInicial;
     public Transform posFinal;
     
+    public GameObject objetoInical;
     public float rateSpawn = 3.0f;
+    [SerializeField]
+    public float sigSpawn;
     public Queue<GameObject> objetos;
 
 

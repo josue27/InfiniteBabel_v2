@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a27ad74c929b4e2085f3aef498e0676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animMoneda: {fileID: 7550049478603434480}
 --- !u!135 &8863533743974977050
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -208,7 +209,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 2124845166488999865, guid: fd777e8c581514d2e95dd582ef95d686,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

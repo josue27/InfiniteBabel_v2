@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Moneda_Control : MonoBehaviour
 {
+
+    public Animator animMoneda;
    /// <summary>
    /// OnTriggerEnter is called when the Collider other enters the trigger.
    /// </summary>
@@ -12,8 +14,15 @@ public class Moneda_Control : MonoBehaviour
    {
        if(other.CompareTag("Player"))
        {
-           this.gameObject.SetActive (false);
+           StartCoroutine(SecuenciaTomar());
            Eventos_Dispatcher.eventos.MonedaTomada_Call();
+           
        }
+   }
+   IEnumerator SecuenciaTomar()
+   {
+       animMoneda.SetTrigger("tomar");
+       yield return new WaitForSeconds(0.2f);
+       this.gameObject.SetActive(false);
    }
 }

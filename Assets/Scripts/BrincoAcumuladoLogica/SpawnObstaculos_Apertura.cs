@@ -7,7 +7,7 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
 {
 
     public static SpawnObstaculos_Apertura spawner;
-   
+  
     public float intervaloTiempo = 3.0f;
     public float velocidadObstaculos = 4.0f;
     [SerializeField]
@@ -18,6 +18,8 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
     public GameObject obstaculos_prefab_B;
     public GameObject obstaculos_prefab_C;
     public float maxY=6.0f, minY=1.0f;
+
+    [SerializeField ]private int cantidadCajas;
     [SerializeField] private float alturaPrevia;
     // Start is called before the first frame update
     public int cantidadObstaculos;
@@ -38,12 +40,26 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
     {
        
 
-        Eventos_Dispatcher.eventos.InicioJuego += EmpezoJuego;
+       
         Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
         Eventos_Dispatcher.CambioVelocidad += CambioVelocidad;
 
         //SpawnearPool();
         LlenarDiccionario();
+        
+    }
+     private void Update()
+    {
+        if(puedeSpawnear)
+        {
+            if(Time.time >= sigSpawn)
+            {
+                sigSpawn = Time.time + intervaloTiempo;
+                ActivarObstaculo("obstaculoA");
+                
+            }
+        }
+
         
     }
 
@@ -116,7 +132,7 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
         GameObject obstaculo = obstaculosB[tag].Dequeue();
         obstaculo.transform.position = this.transform.position;
         obstaculo.gameObject.SetActive(true);
-        obstaculo.GetComponent<ObstaculoControl>().SetObstaculo();
+        obstaculo.GetComponent<ObstaculoControl>().SetObstaculo(cantidadCajas,velocidadObstaculos);
         if(LoteriaMoneda())
         {
          obstaculo.GetComponent<ObstaculoControl>().ActivarMoneda();    
@@ -127,10 +143,17 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
 
     }
     
-
-    void EmpezoJuego()
+    public void SetDificultad(float _velocidadObstaculos,int _cantidadCajas)
     {
-        InvokeRepeating("LlamarObstaculo", 0.1f, intervaloTiempo);
+        velocidadObstaculos = _velocidadObstaculos;
+        cantidadCajas =_cantidadCajas;
+        
+    }
+    public void EmpezoJuego()
+    {
+       // InvokeRepeating("LlamarObstaculo", 0.1f, intervaloTiempo);
+        ActivarObstaculo("obstaculoA");
+        sigSpawn = Time.time + intervaloTiempo;
         puedeSpawnear = true;
     }
 
@@ -164,7 +187,7 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
         // si r > 70 la probabilidad de que r sea mayor es del 30%?
         // si r < 70 la probabilidad de que r sea mayor es del 70%?
 
-        if(r > 5)// %50?    
+        if(r > 1)// %50?    
         {
             spawnearMoneda = true;
             Debug.Log("Spaneando moneda");
@@ -174,7 +197,7 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
     private void OnDestroy()
     {
 
-        Eventos_Dispatcher.eventos.InicioJuego -= EmpezoJuego;
+   
         Eventos_Dispatcher.eventos.JugadorPerdio -= FinJuego;
         Eventos_Dispatcher.CambioVelocidad -=CambioVelocidad;
     }

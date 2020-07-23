@@ -22,7 +22,7 @@ public class ObstaculoApertura : MonoBehaviour
     void DestruirObstaculo()
     {
         
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
     }
     private void FinJuego()
     {
