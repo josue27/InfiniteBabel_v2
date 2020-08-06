@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b2a5bc0c13184f0195ce570bc8effb3, type: 3}
+  m_Name: Escenario_Transportadora
+  m_EditorClassIdentifier: 
+  nombre: cintaTransportadora
+  prefab: {fileID: 3583433917843722971, guid: 1f5e43538b32542be9552d8a5a4e6b57, type: 3}
+  cantidadSpawn: 15
+  duracionRecorrido: 4.5

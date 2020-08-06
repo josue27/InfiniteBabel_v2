@@ -10,6 +10,7 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
   
     public float intervaloTiempo = 3.0f;
     public float velocidadObstaculos = 4.0f;
+    public int probabilidadMoneda = 5;
     [SerializeField]
     float sigSpawn ;
     public bool puedeSpawnear;
@@ -42,6 +43,7 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
 
        
         Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
+
         Eventos_Dispatcher.CambioVelocidad += CambioVelocidad;
 
         //SpawnearPool();
@@ -143,12 +145,23 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
 
     }
     
-    public void SetDificultad(float _velocidadObstaculos,int _cantidadCajas)
+    public void SetDificultad(float _velocidadObstaculos,int _cantidadCajas, float _rateSpawn)
     {
         velocidadObstaculos = _velocidadObstaculos;
         cantidadCajas =_cantidadCajas;
+        intervaloTiempo = _rateSpawn > 0 ? _rateSpawn : intervaloTiempo;
+        
         
     }
+     public void SetDificultad(int _cantidadCajas, float _rateSpawn,int _probabilidadMoneda)
+    {
+        
+        cantidadCajas =_cantidadCajas;
+        intervaloTiempo = _rateSpawn > 0 ? _rateSpawn : intervaloTiempo;//asgurarse que no de 0
+        probabilidadMoneda = _probabilidadMoneda;
+        
+    }
+
     public void EmpezoJuego()
     {
        // InvokeRepeating("LlamarObstaculo", 0.1f, intervaloTiempo);
@@ -160,7 +173,7 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
     void FinJuego()
     {
         puedeSpawnear = false;
-
+        DesactivarColisiones();
         CancelInvoke();
     }
 
@@ -187,7 +200,7 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
         // si r > 70 la probabilidad de que r sea mayor es del 30%?
         // si r < 70 la probabilidad de que r sea mayor es del 70%?
 
-        if(r > 1)// %50?    
+        if(r > 10-probabilidadMoneda)// %50?    
         {
             spawnearMoneda = true;
             Debug.Log("Spaneando moneda");
@@ -206,6 +219,21 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
     {
         velocidadObstaculos = nuevaVelocidad;
 
+    }
+
+    public void DesactivarColisiones()
+    {
+        foreach(GameObject obstaculo in obstaculosB["obstaculoA"])
+        {
+            if(obstaculo.activeInHierarchy)
+            {
+                BoxCollider[] colliders = obstaculo.GetComponentsInChildren<BoxCollider>();
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    colliders[i].enabled = false;
+                }
+           }
+        }
     }
 }
 

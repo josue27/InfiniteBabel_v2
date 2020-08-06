@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Brinco;
+using Lean.Touch;
+using Lean.Common;
 public class BrincoAcumulado : MonoBehaviour
 {
 
-    int aperturas = 0;
-
-    
 
     public bool enPiso;
     public float fuerzaSalto = 1.0f;
@@ -46,6 +45,9 @@ public class BrincoAcumulado : MonoBehaviour
 
     public Animator sprite_anim;
 
+
+    public LineRenderer trazoDedo;
+
     [Header("Muerte settings")]
     public Transform posicionMuerte;
     public float duracionAPosicionMuerte = 1.0f;
@@ -54,18 +56,40 @@ public class BrincoAcumulado : MonoBehaviour
     [Header("SFX")]
     public AudioSource audioJugador;
     public List<ClipSonido> clipsSonido_Jugador = new List<ClipSonido>();
+    [Header("VFX")]
+    public GameObject humofx;
+    
+    public GameObject imagenDebug;
 
+    public bool inmortal;
+    public float multiplicadorSensibilidad  = 1.2f;
+
+    public Vector3 Ubicacion{ get; set;}
+
+    public Vector3 mousePos;
     void Start()
     {
         rigid = this.GetComponent<Rigidbody>();
 
         Eventos_Dispatcher.eventos.JugadorPerdio += PerdioJuego;
         Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
+
+        LeanTouch.OnFingerDown+= DedoDown;
+        LeanTouch.OnFingerUp +=DedoArriba;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Screen"+Screen.width+"w "+Screen.height+" h");
+
+
+            if(imagenDebug)
+            {
+                    imagenDebug.transform.position = Input.mousePosition;
+            }
+
+
 
 
         if(Input.GetKeyDown(KeyCode.S))
@@ -84,20 +108,21 @@ public class BrincoAcumulado : MonoBehaviour
 #if UNITY_ANDROID
        // Brinco_Movil();
 #endif
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
      //   Brinco_PC();
-        BrincoSwipePC();
 
 #endif
   
          
+        BrincoSwipePC();
 
         //Esta condicion solo se cumple cuando esta en su punto mas alto o en posicion inicial
         //donde  en ambas partes la velocidad inicial debe ser 0 
         if (rigid.velocity.y < 0)
         {
             rigid.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
-           
+            if(!muerto && !enPiso)
+                 ReproducirAnimacion("caida");
 
         }
         //esto solo se cumple cuando la velocidad es mayor a 0 y no llego a su punto mas alto
@@ -110,10 +135,25 @@ public class BrincoAcumulado : MonoBehaviour
     }
 
 
-
     private void LateUpdate()
     {
        // scoreActual.text = aperturas.ToString();
+        // if(Input.GetMouseButtonDown(0))
+        // {
+        //     mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //     mousePos.z = mousePos.x;
+        //     mousePos.x = 0;
+        //   trazoDedo.SetPosition(0,mousePos);
+        //   trazoDedo.SetPosition(1,mousePos);
+        // }
+        // if(Input.GetMouseButtonUp(0))
+        // {     
+        //       mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //        mousePos.z = mousePos.x;
+        //     mousePos.x = 0;
+        //       trazoDedo.SetPosition(1,mousePos);
+
+        // }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -123,14 +163,28 @@ public class BrincoAcumulado : MonoBehaviour
         {
             enPiso = true;
             Camara_Control.camara.ShakeCam_Call();
-            if(muerto)
-               LeanTween.moveZ(this.gameObject,posicionMuerte.position.z,duracionAPosicionMuerte);
 
-            if(this.transform.position.z != posEnPiso.position.z)
+            if(muerto)
+            {
+              // LeanTween.moveZ(this.gameObject,posicionMuerte.position.z,duracionAPosicionMuerte);
+               ReproducirAnimacion("muerto");
+            }else if(!muerto)
+            {
+                if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.inicio)
+                 ReproducirAnimacion("idle");
+                else
+                    ReproducirAnimacion("corriendo");
+            //  ReproducirAnimacion("corriendo",true);
+
+            }
+
+            if(this.transform.position.z != posEnPiso.position.z && !muerto)
             {
                 LeanTween.moveZ(this.gameObject,posEnPiso.position.z,0.3f);
             }
+            
             ReproducirSonido_Jugador("golpePiso");
+            StartCoroutine(HumoFX());
 
             //TODO: shake cam
         }
@@ -138,31 +192,108 @@ public class BrincoAcumulado : MonoBehaviour
 
         
 
-        // if(collision.transform.tag == "pared")
-        // {
-        //      if(!cruzandoApertura)
-        //      {
-        //        EmpujarJugador(new Vector3(0.0f, 1.0f, -1.0f), 50.0f);
-        //      }//TODO:activar chispas de suelo, ver collisionGetContact
-        // }
-
-        //Esto no funciona si el jugador esta en el suelo
-        //ContactPoint c = collision.GetContact(0);
-        //if(c.normal.z < 0)
-        //{
-        //    print("Choco con pared");
-        //    this.rigid.AddForce(Vector3.back * 500.3f);
-        //    Eventos_Dispatcher.jugadorPerdio();
-        //    print(c.normal);
-        //}
       
+      
+    }
+
+    
+    public void Display(Vector3 value)
+	{
+		//Display(value.ToString());
+		
+    }
+    public void DedoDown(LeanFinger dedo)
+    {
+        if(Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)
+            return;
+       // Debug.Log("Dedo abajo: "+dedo.GetWorldPosition(10,Camera.main));
+        mousePosInit = dedo.GetWorldPosition(10,Camera.main);
+
+        StopCoroutine(DesctivarTrail());
+        trazoDedo.transform.GetComponent<TrailRenderer>().enabled = true;
+        trazoDedo.transform.position = dedo.GetWorldPosition(1,Camera.main);
+
+      
+
+    }
+    public void DedoArriba(LeanFinger dedo)
+    {
+        if(Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)
+         return;
+
+
+        if(enPiso)
+        { 
+            // Debug.Log("Dedo arriba: "+dedo.GetWorldPosition(10,Camera.main));
+            
+            mousePosFinal = dedo.GetWorldPosition(10,Camera.main);
+            //Solo queremos saber la distancia en Y
+            // distanciaMouse = Vector3.Distance( mousePosFinal , mousePosInit ) * multiplicadorSensibilidad;
+            distanciaMouse = ( mousePosInit.y - mousePosFinal.y) * multiplicadorSensibilidad;
+            Debug.Log("Distancia dedo: "+ distanciaMouse);
+            //trazoDedo.SetPosition(0,dedo.StartScreenPosition);
+            StartCoroutine(DesctivarTrail());
+            trazoDedo.transform.position = dedo.GetWorldPosition(1,Camera.main);
+
+            // acumulacionFuerza = Mathf.Clamp(distanciaMouse/100,0.0f,maxFuerza);
+            acumulacionFuerza = Mathf.Clamp(distanciaMouse,0f,maxFuerza);
+                    
+            if(rigid){
+                rigid.velocity = Vector3.up * acumulacionFuerza;
+            }
+            //print("Fuerza:" + acumulacionFuerza);
+            acumulacionFuerza = 0;
+            this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+        }else if(!enPiso)
+        {
+            mousePosFinal = dedo.GetWorldPosition(10,Camera.main);
+            distanciaMouse = (  mousePosFinal.y - mousePosInit.y ) * multiplicadorSensibilidad;
+
+            StartCoroutine(DesctivarTrail());
+            trazoDedo.transform.position = dedo.GetWorldPosition(1,Camera.main);
+
+      
+            acumulacionFuerza = Mathf.Clamp(distanciaMouse,0f,maxFuerza);
+                    
+            if(rigid)
+                rigid.velocity = Vector3.down * acumulacionFuerza;
+            
+            //print("Fuerza:" + acumulacionFuerza);
+            acumulacionFuerza = 0;
+            this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+
+        }
+       
+    }
+   
+    IEnumerator DesctivarTrail()
+    {
+        yield return new WaitForSeconds(0.5f);
+        trazoDedo.transform.GetComponent<TrailRenderer>().enabled = false;
+    }
+    /// <summary>
+    /// OnCollisionStay is called once per frame for every collider/rigidbody
+    /// that is touching rigidbody/collider.
+    /// </summary>
+    /// <param name="other">The Collision data associated with this collision.</param>
+    void OnCollisionStay(Collision other)
+    {
+        if(other.transform.CompareTag("piso"))
+        {
+            if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.jugando)
+            {
+                ReproducirAnimacion("corriendo");
+            }
+        }
     }
     private void OnCollisionExit(Collision collision)
     {
         if (collision.transform.tag == "piso")
         {
             enPiso = false;
-
+            ReproducirAnimacion("brinco");
         }
        
     }
@@ -175,13 +306,13 @@ public class BrincoAcumulado : MonoBehaviour
         //}
         //TODO: Cambiar a un script independiento o EventDispatcher
         
-        if (other.CompareTag("pared"))
+        if (other.CompareTag("pared") && !inmortal)
         {
             if(!cruzandoApertura)
              {
                 EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
                 Eventos_Dispatcher.eventos.JugadorPerdio();
-
+                ReproducirAnimacion("muerto");
             }
             return;
         }
@@ -199,7 +330,7 @@ public class BrincoAcumulado : MonoBehaviour
     private void OnTriggerExit(Collider other) {
         if(other.transform.tag == "apertura")
             {
-            cruzandoApertura = false;
+                 cruzandoApertura = false;
             
 
             }
@@ -210,22 +341,37 @@ public class BrincoAcumulado : MonoBehaviour
         ///</sumary>
     public void BrincoSwipePC()
     {
+        return;
+        //TODO:
+        /*
+        Hay un mega pedo, tomar la posicion de la pantalla se calculo mal, pues si la pantalla es muy chica
+        no tiene la sufciente fuerza para brincar, si es muy grande siempre se va a pasar
+        A)Medimos la posicion convirtiendo la posicion del mouse en worldposition
+        B)Hacemos porcentual el tamaño de la pantalla 
+                size.y = 100%
+                fuerza = (p0-p1)/size.y 
+        */
+        
         if(enPiso)
         {
             if(Input.GetMouseButtonDown(0))
             {
-                mousePosInit = Input.mousePosition;
+                mousePosInit = Camera.main.ScreenToWorldPoint( Input.mousePosition);
 
+            
             }
-            if(Input.GetMouseButtonUp(0))
+            else if(Input.GetMouseButtonUp(0))
             {
-                mousePosFinal = Input.mousePosition;
-                 distanciaMouse = mousePosInit.y - mousePosFinal.y;
+                mousePosFinal =  Camera.main.ScreenToWorldPoint( Input.mousePosition);
+              //  mousePosFinal =  new Vector3(0f,Mathf.Clamp(Input.mousePosition.y,0, Screen.height)) ;
+                //  distanciaMouse = mousePosInit.y - mousePosFinal.y;
+                 distanciaMouse = Vector3.Distance( mousePosFinal , mousePosInit ) *100f;
 
 
                 
 
-                acumulacionFuerza = Mathf.Clamp(distanciaMouse/100,0.0f,maxFuerza);
+               // acumulacionFuerza = Mathf.Clamp(distanciaMouse/100,0.0f,maxFuerza);
+                acumulacionFuerza = Mathf.Clamp(distanciaMouse,0f,maxFuerza);
 
 
                  rigid.velocity = Vector3.up * acumulacionFuerza;
@@ -233,10 +379,10 @@ public class BrincoAcumulado : MonoBehaviour
                     acumulacionFuerza = 0;
                     this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-        ReproducirSonido_Jugador("brinco");
+                ReproducirSonido_Jugador("brinco");
+            //  Debug.Log("posInicial:"+ mousePosInit.y+" posFinal:"+ mousePosFinal.y+"="+ distanciaMouse);
 
             }
-           //Debug.Log("posInicial:"+ mousePosInit.y+" posFinal:"+ mousePosFinal.y+"="+ dist);
 
         }
         else if(!enPiso)
@@ -357,10 +503,28 @@ public class BrincoAcumulado : MonoBehaviour
     private void PerdioJuego()
     {
         jugando = false;
-        sprite_anim.SetTrigger("muerto");
+        ReproducirAnimacion("muerto");
         //this.rigid.isKinematic = true;
         ReproducirSonido_Jugador("caidaPerdio");
         muerto = true;
+    }
+    /// <summary>
+    /// Activa un trigger dentro del animator del personaje
+    /// </summary>
+    /// <param name="trigger">idle,muerto,caida,brinco,corriendo</param>
+    private void ReproducirAnimacion(string trigger)
+    {
+        
+        sprite_anim.SetTrigger(trigger);
+    }
+    /// <summary>
+    /// Activa un bool dentro del animator del personaje
+    /// </summary>
+    /// <param name="nombre">corriendo</param>
+    /// <param name="estado">true/false</param>
+    private void ReproducirAnimacion(string nombre,bool estado)
+    {
+        sprite_anim.SetBool(nombre,estado);
     }
 
     private void EmpujarJugador(Vector3 direccion,float fuerza)
@@ -388,9 +552,21 @@ public class BrincoAcumulado : MonoBehaviour
             }
         }
     }
+
+    private IEnumerator HumoFX(){
+        if(humofx.activeInHierarchy)
+            humofx.SetActive(false);
+        humofx.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        humofx.SetActive(false);
+    }
     private void OnDestroy()
     {
         Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
         Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
+        LeanTouch.OnFingerDown -= DedoDown;
+        LeanTouch.OnFingerUp -= DedoArriba;
+
+        
     }
 }

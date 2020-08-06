@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PisoSpawn : MonoBehaviour
+public class    PisoSpawn : MonoBehaviour
 {
     public static PisoSpawn _pisoSpawn;
     public GameObject piso_prefab;

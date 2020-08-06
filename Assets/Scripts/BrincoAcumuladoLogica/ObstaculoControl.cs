@@ -17,7 +17,7 @@ public class ObstaculoControl : MonoBehaviour
     void Start()
     {
        // SetObstaculo();
-     //  Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
+       Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
     }
 
     // Update is called once per frame
@@ -176,5 +176,19 @@ public class ObstaculoControl : MonoBehaviour
      private void OnDestroy()
     {
         ///Eventos_Dispatcher.eventos.JugadorPerdio -= FinJuego;
+    }
+
+    private void FinJuego()
+    {
+
+        velociadMovimiento = 0f;
+        return;
+        //TODO:Causo un crash a UNITY
+        //  LeanTween.value(velociadMovimiento,0f,1.0f).setOnUpdate((float val)=>
+        //  {
+        //      velociadMovimiento = val;
+        //  });
+         
+        
     }
 }

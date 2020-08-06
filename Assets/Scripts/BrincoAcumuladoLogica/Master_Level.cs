@@ -76,7 +76,10 @@ namespace Brinco
         private void InicioJuego()
         {
             print("Se inicio Juego");
+            estadoJuego = EstadoJuego.jugando;
             StartCoroutine(InicioJuego_Rutina());
+            
+            
         }
          private void PerdioJuego()
         {
@@ -103,12 +106,19 @@ namespace Brinco
             Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
         }
 
+        /// <summary>
+        /// Secuencia de como inicia el juego despues de presionar PLAY
+        /// </summary>
+        /// <returns></returns>
         IEnumerator InicioJuego_Rutina()
         {
             boton_inicio.gameObject.SetActive(false);
-            SpawnObstaculos_Apertura.spawner.SetDificultad(this.velocidadObstaculos,nivelesDificultad[enNivel].cantidadEspacios);
+            // SpawnObstaculos_Apertura.spawner.SetDificultad(this.velocidadObstaculos,nivelesDificultad[enNivel].cantidadEspacios);
+            SpawnObstaculos_Apertura.spawner.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
+                                                           nivelesDificultad[enNivel].rateSpawn,
+                                                           nivelesDificultad[enNivel].probabilidadMoneda);
             yield return new WaitForSeconds(0.5f);
-            EncenderBandaTransportadora(true);
+           // EncenderBandaTransportadora(true);
             SpawnObstaculos_Apertura.spawner.EmpezoJuego();
          
             yield return new WaitForSeconds(1.5f);
@@ -155,7 +165,10 @@ namespace Brinco
                     enNivel++;
 
                 }
-                 SpawnObstaculos_Apertura.spawner.SetDificultad(SigVelocidad(), nivelesDificultad[enNivel].cantidadEspacios);
+                //  SpawnObstaculos_Apertura.spawner.SetDificultad(SigVelocidad(), nivelesDificultad[enNivel].cantidadEspacios);
+                SpawnObstaculos_Apertura.spawner.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
+                                                               nivelesDificultad[enNivel].rateSpawn,
+                                                               nivelesDificultad[enNivel].probabilidadMoneda);
                 Debug.Log("Se aumento la dificultad nivel: "+enNivel);
             }
 
@@ -206,8 +219,15 @@ public class Niveles
     public int obstaculFinal;//obstaculo donde termina el  y empieza el siguiente, 1 -> infinito
     public int cantidadEspacios;
     public float multiplicadorVelocidad;//por cuanto hacemos el incremente de velocidad, tomando en cuenta la velocidad anterior
-    public int rateSpawnMin;
-    public int rateSpawnMax;
+    public float rateSpawnMin;
+    public float rateSpawnMax;
+
+    public float rateSpawn;
+
+    [Tooltip("Probabilidad que aparezca una moneda(int)")]
+    public int probabilidadMoneda;
+    [Tooltip("Se spawnearan obstaculos extras en las orillsa(niveles mas dificiles")]
+    public bool obstaculoOrilla;
 }
 
 public enum EstadoJuego

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ElementoEscenario_Control : MonoBehaviour
 {
-
+    LeanTween tween;
     public void Mover(Vector3 aPosicion,float duracion){
         LeanTween.move(this.gameObject,aPosicion,duracion).setOnComplete(()=>
         {
@@ -12,6 +12,10 @@ public class ElementoEscenario_Control : MonoBehaviour
                 Reiniciar();
 
          });
+    }
+    public void Parar()
+    {
+        LeanTween.cancel(this.gameObject);
     }
     public void Reiniciar()
     {

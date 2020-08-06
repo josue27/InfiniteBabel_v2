@@ -158,6 +158,7 @@ public class Score_Control : MonoBehaviour
 
     public void CargarScoreLocal()
     {
-        highscoreLocal = SaveGame.Load<int>(nombreSlotHighscore);
+        if(SaveGame.Exists(nombreSlotHighscore))
+             highscoreLocal = SaveGame.Load<int>(nombreSlotHighscore);
     }
 }

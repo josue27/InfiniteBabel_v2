@@ -7,6 +7,7 @@ public class SpawnEscenario : MonoBehaviour
     //TODO: Crear scriptble object ElementoEscenario
     public List<Elemento> elementos = new List<Elemento>();
 
+    public List<ElementoEscenario_Control> elementosIniciales = new List<ElementoEscenario_Control>();
     public bool spawnear;
     public Dictionary<string,Queue<GameObject>> elementosDictionary = new Dictionary<string, Queue<GameObject>>();
     /// <summary>
@@ -24,6 +25,7 @@ public class SpawnEscenario : MonoBehaviour
     {
         SpawnElementos();
         Eventos_Dispatcher.eventos.InicioJuego +=   InicioJuego; 
+        Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
     }
  
     void Update()
@@ -48,6 +50,7 @@ public class SpawnEscenario : MonoBehaviour
         //     elementos[i].sigSpawn = Time.time+elementos[i].rateSpawn;
         // }
         ActivarObjetoInicial("paredIntermedia");
+        ActivarObjetoInicial("cintaTransportadora");
         spawnear = true;
     }
     public void SpawnElementos()
@@ -112,24 +115,51 @@ public class SpawnEscenario : MonoBehaviour
 
             if(elemenoEnLista.nombre.Equals(nombreObjeto))
             {
-                if(!elemenoEnLista.objetoInical)
+                if(elemenoEnLista.objetoInical.Length <= 0)
                     return;
-                objetoActivar = elemenoEnLista.objetoInical;
-                //objetoActivar.transform.position = elemenoEnLista.posInicial.position;
-                objetoActivar.gameObject.SetActive(true);
                 
-                float distanciaPos =   elemenoEnLista.posFinal.position.z-elemenoEnLista.posInicial.position.z;
-                Debug.Log("Distancia:"+distanciaPos);
-                Vector3 posFinalInicial = objetoActivar.transform.position;
-                posFinalInicial.z += distanciaPos;
-                objetoActivar.GetComponent<ElementoEscenario_Control>().Mover(posFinalInicial,elemenoEnLista.duracionRecorrido);
-                //elemenoEnLista.objetos.Enqueue(objetoActivar);
-                Debug.Log("objeto inicial activado");
+                foreach(GameObject objetoI in elemenoEnLista.objetoInical)
+                {
+                // objetoActivar = elemenoEnLista.objetoInical;
+                    //objetoActivar.transform.position = elemenoEnLista.posInicial.position;
+                    objetoI.gameObject.SetActive(true);
+                    
+                    float distanciaPos =   elemenoEnLista.posFinal.position.z-elemenoEnLista.posInicial.position.z;
+                    Debug.Log("Distancia:"+distanciaPos);
+                    Vector3 posFinalInicial = objetoI.transform.position;
+                    posFinalInicial.z += distanciaPos;
+                    objetoI.GetComponent<ElementoEscenario_Control>().Mover(posFinalInicial,elemenoEnLista.duracionRecorrido);
+                    //elemenoEnLista.objetos.Enqueue(objetoActivar);
+                    Debug.Log("objeto inicial activado");
+                    elementosIniciales.Add(objetoI.GetComponent<ElementoEscenario_Control>());
+
+                }
+                Debug.Log("objetos iniciales activado");
 
                 
             }
         }
         
+    }
+
+    private void FinJuego()
+    {
+        spawnear = false;
+        
+        foreach(Elemento elementoEnLista in elementos)
+        {
+            foreach(GameObject objeto in elementoEnLista.objetos)
+            {
+                if(objeto.activeInHierarchy)
+                {
+                    objeto.GetComponent<ElementoEscenario_Control>().Parar();
+                }
+            }
+        }
+        foreach(ElementoEscenario_Control elementoInicial in elementosIniciales)
+        {
+            elementoInicial.Parar();
+        }
     }
 
 
@@ -147,7 +177,7 @@ public class Elemento
     public Transform posInicial;
     public Transform posFinal;
     
-    public GameObject objetoInical;
+    public GameObject[] objetoInical;
     public float rateSpawn = 3.0f;
     [SerializeField]
     public float sigSpawn;
