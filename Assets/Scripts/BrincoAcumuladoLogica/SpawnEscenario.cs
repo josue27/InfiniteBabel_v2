@@ -10,6 +10,14 @@ public class SpawnEscenario : MonoBehaviour
     public List<ElementoEscenario_Control> elementosIniciales = new List<ElementoEscenario_Control>();
     public bool spawnear;
     public Dictionary<string,Queue<GameObject>> elementosDictionary = new Dictionary<string, Queue<GameObject>>();
+    [Header("Sprite Piso")]
+    public SpriteRenderer spritePiso;
+    public Material spritePiso_material;
+    public float velocidadPiso = 4.3f;
+    [Header("Sprite Fondo")]
+    public SpriteRenderer spriteFondo;
+    public Material spriteFondo_material;
+    public float velocidadFondo = 0.03f;
     /// <summary>
     /// Called when the script is loaded or a value is changed in the
     /// inspector (Called in the editor only).
@@ -26,6 +34,11 @@ public class SpawnEscenario : MonoBehaviour
         SpawnElementos();
         Eventos_Dispatcher.eventos.InicioJuego +=   InicioJuego; 
         Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
+        
+        if(spritePiso)
+            spritePiso_material = spritePiso.material;
+        if(spriteFondo)
+            spriteFondo_material = spriteFondo.material;
     }
  
     void Update()
@@ -51,6 +64,9 @@ public class SpawnEscenario : MonoBehaviour
         // }
         ActivarObjetoInicial("paredIntermedia");
         ActivarObjetoInicial("cintaTransportadora");
+        spritePiso_material.SetFloat("_Velocidad",velocidadPiso);
+        spriteFondo_material.SetFloat("_Velocidad",velocidadFondo);
+
         spawnear = true;
     }
     public void SpawnElementos()
@@ -160,6 +176,9 @@ public class SpawnEscenario : MonoBehaviour
         {
             elementoInicial.Parar();
         }
+        spritePiso_material.SetFloat("_Velocidad",0f);
+        spriteFondo_material.SetFloat("_Velocidad",0f);
+
     }
 
 
