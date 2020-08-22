@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ec5667fe40a4251a99f948a2629797, type: 3}
+  m_Name: punk_man
+  m_EditorClassIdentifier: 
+  nombre: punkman
+  nombreUI: Punk man
+  precio: 10
+  sprites_idle:
+  - {fileID: 5492780272649404610, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  - {fileID: 7215996922070432026, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  - {fileID: -8969966447515548399, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  - {fileID: -5006995212937847439, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  sprites_corriendo:
+  - {fileID: -5006995212937847439, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  - {fileID: 7764862004220666088, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  - {fileID: 8120068758653288400, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  - {fileID: -5006995212937847439, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  - {fileID: 5081453990730193174, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  - {fileID: 5081453990730193174, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  sprites_brinco:
+  - {fileID: 3646753116046600847, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  - {fileID: 2788846545741499964, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  sprites_caida:
+  - {fileID: -2246314707857102778, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
+  sprites_muerte:
+  - {fileID: 5244049351378982234, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}

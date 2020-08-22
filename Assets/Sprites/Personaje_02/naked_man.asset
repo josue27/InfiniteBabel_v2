@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ec5667fe40a4251a99f948a2629797, type: 3}
+  m_Name: naked_man
+  m_EditorClassIdentifier: 
+  nombre: naked_man
+  nombreUI: Naked Man
+  precio: 10
+  sprites_idle:
+  - {fileID: 7488625582086559195, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  - {fileID: -6596457080614018026, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  - {fileID: 2255273774893091014, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  - {fileID: -1691831785681762274, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  - {fileID: -3268562217110738259, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  sprites_corriendo:
+  - {fileID: 2548714019366002219, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  - {fileID: -4233684992937320039, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  - {fileID: 8037359945621573076, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  - {fileID: 8993767214829053965, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  - {fileID: 2375877987765587885, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  - {fileID: 2375877987765587885, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  sprites_brinco:
+  - {fileID: -7578753640702760674, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  - {fileID: 5854360903029825715, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  sprites_caida:
+  - {fileID: 712853946675662025, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
+  sprites_muerte:
+  - {fileID: 5786069931367777461, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}

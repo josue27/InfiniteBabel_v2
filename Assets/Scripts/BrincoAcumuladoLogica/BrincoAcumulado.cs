@@ -67,6 +67,8 @@ public class BrincoAcumulado : MonoBehaviour
     public Vector3 Ubicacion{ get; set;}
 
     public Vector3 mousePos;
+
+    public Sprite_Animador spriteAnim;
     void Start()
     {
         rigid = this.GetComponent<Rigidbody>();
@@ -76,12 +78,14 @@ public class BrincoAcumulado : MonoBehaviour
 
         LeanTouch.OnFingerDown+= DedoDown;
         LeanTouch.OnFingerUp +=DedoArriba;
+
+        spriteAnim?.CambioAnimacion("idle",true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Screen"+Screen.width+"w "+Screen.height+" h");
+       // Debug.Log("Screen"+Screen.width+"w "+Screen.height+" h");
 
 
             if(imagenDebug)
@@ -114,15 +118,26 @@ public class BrincoAcumulado : MonoBehaviour
 #endif
   
          
-        BrincoSwipePC();
+        //BrincoSwipePC();
 
         //Esta condicion solo se cumple cuando esta en su punto mas alto o en posicion inicial
         //donde  en ambas partes la velocidad inicial debe ser 0 
-        if (rigid.velocity.y < 0)
+      
+    }
+
+    /// <summary>
+    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void FixedUpdate()
+    {
+          if (rigid.velocity.y < 0)
         {
             rigid.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
             if(!muerto && !enPiso)
-                 ReproducirAnimacion("caida");
+            {
+                //  ReproducirAnimacion("caida");
+                spriteAnim.CambioAnimacion("caida",false);
+            }
 
         }
         //esto solo se cumple cuando la velocidad es mayor a 0 y no llego a su punto mas alto
@@ -133,8 +148,6 @@ public class BrincoAcumulado : MonoBehaviour
 
         slider_fuerzaBrinco.value = Mathf.Lerp(slider_fuerzaBrinco.value, acumulacionFuerza, 1.0f);
     }
-
-
     private void LateUpdate()
     {
        // scoreActual.text = aperturas.ToString();
@@ -167,13 +180,22 @@ public class BrincoAcumulado : MonoBehaviour
             if(muerto)
             {
               // LeanTween.moveZ(this.gameObject,posicionMuerte.position.z,duracionAPosicionMuerte);
-               ReproducirAnimacion("muerto");
+             //  ReproducirAnimacion("muerto");
+             spriteAnim.CambioAnimacion("muerte",false);
             }else if(!muerto)
             {
                 if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.inicio)
-                 ReproducirAnimacion("idle");
+                {
+                    // ReproducirAnimacion("idle");
+                     spriteAnim.CambioAnimacion("idle",true);
+
+                }
                 else
-                    ReproducirAnimacion("corriendo");
+                {
+                     spriteAnim.CambioAnimacion("corriendo",true);
+
+                 //   ReproducirAnimacion("corriendo");
+                }
             //  ReproducirAnimacion("corriendo",true);
 
             }
@@ -284,7 +306,8 @@ public class BrincoAcumulado : MonoBehaviour
         {
             if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.jugando)
             {
-                ReproducirAnimacion("corriendo");
+                //ReproducirAnimacion("corriendo");
+
             }
         }
     }
@@ -293,7 +316,8 @@ public class BrincoAcumulado : MonoBehaviour
         if (collision.transform.tag == "piso")
         {
             enPiso = false;
-            ReproducirAnimacion("brinco");
+            //ReproducirAnimacion("brinco");
+            spriteAnim.CambioAnimacion("brinco",false);
         }
        
     }
@@ -335,82 +359,9 @@ public class BrincoAcumulado : MonoBehaviour
 
             }
         }
-
-        ///<sumary>
-        ///Brinco para PC con dedo arrastrandose
-        ///</sumary>
-    public void BrincoSwipePC()
-    {
-        return;
-        //TODO:
-        /*
-        Hay un mega pedo, tomar la posicion de la pantalla se calculo mal, pues si la pantalla es muy chica
-        no tiene la sufciente fuerza para brincar, si es muy grande siempre se va a pasar
-        A)Medimos la posicion convirtiendo la posicion del mouse en worldposition
-        B)Hacemos porcentual el tamaño de la pantalla 
-                size.y = 100%
-                fuerza = (p0-p1)/size.y 
-        */
-        
-        if(enPiso)
-        {
-            if(Input.GetMouseButtonDown(0))
-            {
-                mousePosInit = Camera.main.ScreenToWorldPoint( Input.mousePosition);
-
-            
-            }
-            else if(Input.GetMouseButtonUp(0))
-            {
-                mousePosFinal =  Camera.main.ScreenToWorldPoint( Input.mousePosition);
-              //  mousePosFinal =  new Vector3(0f,Mathf.Clamp(Input.mousePosition.y,0, Screen.height)) ;
-                //  distanciaMouse = mousePosInit.y - mousePosFinal.y;
-                 distanciaMouse = Vector3.Distance( mousePosFinal , mousePosInit ) *100f;
-
-
-                
-
-               // acumulacionFuerza = Mathf.Clamp(distanciaMouse/100,0.0f,maxFuerza);
-                acumulacionFuerza = Mathf.Clamp(distanciaMouse,0f,maxFuerza);
-
-
-                 rigid.velocity = Vector3.up * acumulacionFuerza;
-                    //print("Fuerza:" + acumulacionFuerza);
-                    acumulacionFuerza = 0;
-                    this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-
-                ReproducirSonido_Jugador("brinco");
-            //  Debug.Log("posInicial:"+ mousePosInit.y+" posFinal:"+ mousePosFinal.y+"="+ distanciaMouse);
-
-            }
-
-        }
-        else if(!enPiso)
-        {
-             if(Input.GetMouseButtonDown(0))
-            {
-                mousePosInit = Input.mousePosition;
-
-            }
-            if(Input.GetMouseButtonUp(0))
-            {
-                mousePosFinal = Input.mousePosition;
-                 distanciaMouse = mousePosFinal.y - mousePosInit.y  ;
-
-
-                
-
-                acumulacionFuerza = Mathf.Clamp(distanciaMouse/100,0.0f,maxFuerza*2);
-
-
-                 rigid.velocity = Vector3.down * acumulacionFuerza;
-                    //print("Fuerza:" + acumulacionFuerza);
-                    acumulacionFuerza = 0;
-                    this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    ReproducirSonido_Jugador("brincoRegreso");
-            }
-        }
-    }
+    ///
+   
+  
     /// <summary>
     /// Logica de Brinco para PC con tecla
     /// </summary>
@@ -496,14 +447,16 @@ public class BrincoAcumulado : MonoBehaviour
     private void InicioJuego()
     {
         jugando = true;
-       // sprite_anim.SetTrigger("idle");
+        spriteAnim.CambioAnimacion("corriendo",true);
+       //sprite_anim.SetTrigger("idle");
 
     }
 
     private void PerdioJuego()
     {
         jugando = false;
-        ReproducirAnimacion("muerto");
+        // ReproducirAnimacion("muerto");
+        spriteAnim.CambioAnimacion("muerte",false);
         //this.rigid.isKinematic = true;
         ReproducirSonido_Jugador("caidaPerdio");
         muerto = true;
@@ -516,6 +469,7 @@ public class BrincoAcumulado : MonoBehaviour
     {
         
         sprite_anim.SetTrigger(trigger);
+        spriteAnim.CambioAnimacion(trigger);
     }
     /// <summary>
     /// Activa un bool dentro del animator del personaje
@@ -525,6 +479,8 @@ public class BrincoAcumulado : MonoBehaviour
     private void ReproducirAnimacion(string nombre,bool estado)
     {
         sprite_anim.SetBool(nombre,estado);
+        spriteAnim.CambioAnimacion(nombre);
+
     }
 
     private void EmpujarJugador(Vector3 direccion,float fuerza)

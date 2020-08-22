@@ -24,6 +24,7 @@ public class Score_Control : MonoBehaviour
     private int scoreRonda;
 
     private string nombreSlotHighscore = "highscore";
+    private string nombreSlotPersonajeUsado = "nombrePersonaje" ;
 
     [Header("UIX Juego")]
     public Animator monitorAnimator;
@@ -34,11 +35,15 @@ public class Score_Control : MonoBehaviour
        Eventos_Dispatcher.CruceObstaculo += ObstaculoCruzado;
        Eventos_Dispatcher.MonedaTomada += MonedaTomada;
        Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
-        Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
+       Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
+       Eventos_Dispatcher.eventos.GuardarPersonaje += GuardarPersonajeSeleccionado;
+
         panelScore.transform.position = panelScore_posCerrada.position;
+
         if(SaveGame.Exists(nombreSlotHighscore)){
             CargarScoreLocal();
             AbrirPanelScore();
+            CargarPersonajeGuardado();
         }else{
             Debug.Log("No hay scores, debe ser primeriso");
         }
@@ -160,5 +165,25 @@ public class Score_Control : MonoBehaviour
     {
         if(SaveGame.Exists(nombreSlotHighscore))
              highscoreLocal = SaveGame.Load<int>(nombreSlotHighscore);
+    }
+
+    /// <summary>
+    /// Se encarga de buscar el slot del personaje guardado, 
+    /// si existe le manda el nombre del Personaje para buscarlo
+    /// </summary>
+    public void CargarPersonajeGuardado()
+    {
+        if(SaveGame.Exists(nombreSlotPersonajeUsado))
+        {
+            string p = SaveGame.Load<string>(nombreSlotPersonajeUsado);
+            SeleccionPersonaje._seleccionPersonaje?.BuscarPersonaje(p);
+        }
+        Debug.Log("Se mando cambio de personaje guardado");
+    }
+
+    private void GuardarPersonajeSeleccionado(string _nombrePersonaje)
+    {
+        SaveGame.Save(nombreSlotPersonajeUsado,_nombrePersonaje);
+        Debug.Log("Personaje: "+_nombrePersonaje+" guardado para siguiente partida");
     }
 }

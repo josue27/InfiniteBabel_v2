@@ -15,7 +15,8 @@ public  class Eventos_Dispatcher : MonoBehaviour
     public static Action CruceObstaculo;
 
     public static Action<float> CambioVelocidad;
-  
+    
+    public Action<string> GuardarPersonaje;
    void Awake()
    {
        eventos = this;
@@ -32,5 +33,5 @@ public  class Eventos_Dispatcher : MonoBehaviour
 
     public void CambioVelocidad_Call(float nuevaVelocidad) => CambioVelocidad?.Invoke(nuevaVelocidad);
 
-
+    public void GuardarPersonaje_Call(string nombrePersonaje) => GuardarPersonaje?.Invoke(nombrePersonaje);
 }

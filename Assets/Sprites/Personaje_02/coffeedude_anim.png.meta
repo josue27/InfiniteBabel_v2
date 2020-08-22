@@ -1,0 +1,548 @@
+fileFormatVersion: 2
+guid: 501aefcced99e44469a193e659dd06c4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6046956157892424168
+    second: coffeedude_anim_0
+  - first:
+      213: -710574314188483639
+    second: coffeedude_anim_1
+  - first:
+      213: -4123260157473385733
+    second: coffeedude_anim_2
+  - first:
+      213: 6526678328544475824
+    second: coffeedude_anim_3
+  - first:
+      213: -5878111307845051878
+    second: coffeedude_anim_4
+  - first:
+      213: -1308922142995835
+    second: coffeedude_anim_5
+  - first:
+      213: 6235687893490885706
+    second: coffeedude_anim_6
+  - first:
+      213: -6941647341825387116
+    second: coffeedude_anim_7
+  - first:
+      213: -6819994855542815787
+    second: coffeedude_anim_8
+  - first:
+      213: -5576477829149029329
+    second: coffeedude_anim_9
+  - first:
+      213: 5814597884165064579
+    second: coffeedude_anim_10
+  - first:
+      213: 9166777871230035167
+    second: coffeedude_anim_11
+  - first:
+      213: -8320883139588884560
+    second: coffeedude_anim_12
+  - first:
+      213: -5773167130411651393
+    second: coffeedude_anim_13
+  - first:
+      213: -7290728413271975224
+    second: coffeedude_anim_14
+  - first:
+      213: -6507166466971677503
+    second: coffeedude_anim_15
+  - first:
+      213: 7301973769673760643
+    second: coffeedude_anim_16
+  - first:
+      213: -1526023974319721949
+    second: coffeedude_anim_17
+  - first:
+      213: 4749994040908849685
+    second: coffeedude_anim_18
+  - first:
+      213: 7743492440679624321
+    second: coffeedude_anim_19
+  - first:
+      213: -8925875299534803835
+    second: coffeedude_anim_20
+  - first:
+      213: 1011232404803813271
+    second: coffeedude_anim_21
+  - first:
+      213: 6046417258043089408
+    second: coffeedude_anim_0
+  - first:
+      213: 2070191628988727148
+    second: coffeedude_anim_1
+  - first:
+      213: -3843580012024839468
+    second: coffeedude_anim_2
+  - first:
+      213: 4953848893201861219
+    second: coffeedude_anim_3
+  - first:
+      213: -2627605877487628854
+    second: coffeedude_anim_4
+  - first:
+      213: -476169386159995520
+    second: coffeedude_anim_5
+  - first:
+      213: 1788244660802514720
+    second: coffeedude_anim_6
+  - first:
+      213: -4102746103720201033
+    second: coffeedude_anim_7
+  - first:
+      213: 7632932514449136123
+    second: coffeedude_anim_8
+  - first:
+      213: -3856125419565544880
+    second: coffeedude_anim_9
+  - first:
+      213: 6174770541605848304
+    second: coffeedude_anim_10
+  - first:
+      213: -8366635091219624342
+    second: coffeedude_anim_11
+  - first:
+      213: -8713408246299446283
+    second: coffeedude_anim_12
+  - first:
+      213: -8203896097825514717
+    second: coffeedude_anim_13
+  - first:
+      213: -2382094602834897605
+    second: coffeedude_anim_14
+  - first:
+      213: -4424258095740229638
+    second: coffeedude_anim_15
+  - first:
+      213: -6084590928559732675
+    second: coffeedude_anim_16
+  - first:
+      213: 1993186297711599143
+    second: coffeedude_anim_17
+  - first:
+      213: 568628798298676905
+    second: coffeedude_anim_18
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 2
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 256
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 256
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 256
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 256
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: coffeedude_anim_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 86
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 002237df57039e350800000000000000
+      internalID: 6046417258043089408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: coffeedude_anim_1
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 86
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6f3cd6715ccabc10800000000000000
+      internalID: 2070191628988727148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: coffeedude_anim_2
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 86
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d2c77dd75cd8aac0800000000000000
+      internalID: -3843580012024839468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: coffeedude_anim_3
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 86
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36a424e525b9fb440800000000000000
+      internalID: 4953848893201861219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: coffeedude_anim_8
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 58
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf9154e4eaf9de960800000000000000
+      internalID: 7632932514449136123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: coffeedude_anim_9
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 58
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05a017d8c5a4c7ac0800000000000000
+      internalID: -3856125419565544880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: coffeedude_anim_10
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 58
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f486fd971131b550800000000000000
+      internalID: 6174770541605848304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: coffeedude_anim_11
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 28
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6e498e76bdb3eb80800000000000000
+      internalID: -8366635091219624342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: coffeedude_anim_12
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 30
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f3bc589d51c31780800000000000000
+      internalID: -8713408246299446283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: coffeedude_anim_13
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 30
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32b95e217f7e52e80800000000000000
+      internalID: -8203896097825514717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: coffeedude_anim_14
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 30
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3596a0649911fed0800000000000000
+      internalID: -2382094602834897605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: coffeedude_anim_15
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af7e1c0e3b0e992c0800000000000000
+      internalID: -4424258095740229638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: coffeedude_anim_16
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 2
+        width: 18
+        height: 20
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3802abb9c03f8ba0800000000000000
+      internalID: -6084590928559732675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 6aba7dfc52d9f40a6af8baad1683baff
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
