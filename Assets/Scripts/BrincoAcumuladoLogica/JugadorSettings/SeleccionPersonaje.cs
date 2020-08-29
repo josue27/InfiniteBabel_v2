@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class SeleccionPersonaje : MonoBehaviour
 {
     public static SeleccionPersonaje _seleccionPersonaje;
@@ -10,7 +10,7 @@ public class SeleccionPersonaje : MonoBehaviour
     public List<PersonajeScriptable> personajes = new List<PersonajeScriptable>();
     [Header("UIX")]
     public GameObject botonesSeleccion;
-
+    public TMP_Text nombrePersonaje_text;
      /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -48,6 +48,8 @@ public class SeleccionPersonaje : MonoBehaviour
     public void CambiarPersonaje()
     {
         spriteAnimacion.CambiarSprites(personajes[enPersonaje]);
+        //cambiar texto con el nombre del personaje
+        nombrePersonaje_text.SetText(personajes[enPersonaje].nombreUI);
         Debug.Log("Se cambio personaje...mandando sprites");
     }
 

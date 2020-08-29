@@ -58,6 +58,7 @@ public class BrincoAcumulado : MonoBehaviour
     public List<ClipSonido> clipsSonido_Jugador = new List<ClipSonido>();
     [Header("VFX")]
     public GameObject humofx;
+    public ParticleSystem shadow_fx;
     
     public GameObject imagenDebug;
 
@@ -137,6 +138,7 @@ public class BrincoAcumulado : MonoBehaviour
             {
                 //  ReproducirAnimacion("caida");
                 spriteAnim.CambioAnimacion("caida",false);
+                if(shadow_fx.isPlaying) shadow_fx.Stop();
             }
 
         }
@@ -260,6 +262,7 @@ public class BrincoAcumulado : MonoBehaviour
             // acumulacionFuerza = Mathf.Clamp(distanciaMouse/100,0.0f,maxFuerza);
             acumulacionFuerza = Mathf.Clamp(distanciaMouse,0f,maxFuerza);
                     
+            shadow_fx.Play();
             if(rigid){
                 rigid.velocity = Vector3.up * acumulacionFuerza;
             }
@@ -277,7 +280,8 @@ public class BrincoAcumulado : MonoBehaviour
 
       
             acumulacionFuerza = Mathf.Clamp(distanciaMouse,0f,maxFuerza);
-                    
+            shadow_fx.Play();
+            
             if(rigid)
                 rigid.velocity = Vector3.down * acumulacionFuerza;
             
