@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.google.external-dependency-manager": {
+      "version": "1.2.157",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://unityregistry-pa.googleapis.com"
+    },
     "com.madsbangh.easybuttons": {
       "version": "https://github.com/madsbangh/EasyButtons.git#upm",
       "depth": 0,

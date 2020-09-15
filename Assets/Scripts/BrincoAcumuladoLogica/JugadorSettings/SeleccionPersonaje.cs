@@ -11,6 +11,7 @@ public class SeleccionPersonaje : MonoBehaviour
     [Header("UIX")]
     public GameObject botonesSeleccion;
     public TMP_Text nombrePersonaje_text;
+    
      /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -27,6 +28,7 @@ public class SeleccionPersonaje : MonoBehaviour
     private void InicioJuego()
     {
         botonesSeleccion.SetActive(false);
+        nombrePersonaje_text.gameObject.SetActive(false);
         GuardarPersonajeSeleccionado();
     }
     public void SiguientePersonaje()
