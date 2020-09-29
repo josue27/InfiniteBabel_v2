@@ -24,6 +24,7 @@
 
 public static class GPGSIds
 {
+        public const string achievement_welcome_to_the_late_shift = "CgkIsfDXnPEcEAIQAw"; // <GPGSID>
         public const string leaderboard_the_best_runner = "CgkIsfDXnPEcEAIQAQ"; // <GPGSID>
 
 }

@@ -5,6 +5,10 @@ using EasyButtons;
 using BayatGames.SaveGameFree;
 using TMPro;
 using Brinco;
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
+using UnityEngine.SocialPlatforms;
+using EasyMobile;
 public class Score_Control : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -29,6 +33,17 @@ public class Score_Control : MonoBehaviour
     [Header("UIX Juego")]
     public Animator monitorAnimator;
     public TMP_Text highScoreLocal_text;
+
+    public TMP_Text debug_text;
+
+
+     private void Awake()
+    {
+        if(!RuntimeManager.IsInitialized())
+        {
+            RuntimeManager.Init();
+        }
+    }
     void Start()
     {
        // AbrirPanelScore();
@@ -52,7 +67,7 @@ public class Score_Control : MonoBehaviour
     [Button("Abrir Cerrar Panel Score")]
     public void AbrirPanelScore()
     {
-        highScoreLocal_text.SetText(highscoreLocal.ToString());
+       // highScoreLocal_text.SetText(highscoreLocal.ToString());
 
         if(!panelScoreAbierto)
          {
@@ -104,23 +119,126 @@ public class Score_Control : MonoBehaviour
     }
     private void CompararScore()
     {
-        //en teoria highscoreLocal ya deberia estar cargado
+        //en teoria highscoreLocal ya deberia estar cargado y solamente checamos que sea mas de 0 para que
+        //valga la pena
         if(highscoreLocal > 0  )
         {   
             if(scoreRonda > highscoreLocal)
             {
                 SaveGame.Save<int>(nombreSlotHighscore,scoreRonda);
+                DesbloquearLogro();
+
+                SubirScoreGooglePlay(scoreRonda);
                 Debug.Log("Highscore :"+highscoreLocal+" superado guardano nuevo: "+scoreRonda);
             }
-        }else{
+        }else{//debe significar que no habia score y debe ser su primer juego
 
             SaveGame.Save<int>(nombreSlotHighscore,scoreRonda);
+            DesbloquearLogro();
+
+            SubirScoreGooglePlay(scoreRonda);
             Debug.Log("Primer highscore salvado:" + scoreRonda);
         }
         //para que se actualice el Highscore durante la partida
         CargarScoreLocal();
     }
     public void ToggleScoreGlobal()
+    {
+
+    }
+    public void MostrarGoogleAchievemnts() 
+    {
+        // if (PlayGamesPlatform.Instance.localUser.authenticated) {
+        //     PlayGamesPlatform.Instance.ShowAchievementsUI();
+        // }
+        // else {
+        //   Debug.Log("Cannot show Achievements, not logged in");
+        //   debug_text.text = "No se pueden mostrar los logros";
+        // }
+
+        if(GameServices.IsInitialized())
+        {
+
+            GameServices.ShowAchievementsUI();
+        }else
+        {
+            #if UNITY_ANDROID
+            GameServices.Init();    // start a new initialization process
+            #elif UNITY_IOS
+            Debug.Log("Cannot show achievements UI: The user is not logged in to Game Center.");
+            #endif
+        }
+    }
+    public void MostrarGoogleLeaderBoard()
+    {
+        // if(PlayGamesPlatform.Instance.localUser.authenticated)
+        // {
+        //     PlayGamesPlatform.Instance.ShowLeaderboardUI();
+        // }else{
+        //     debug_text.SetText("No esta conectado o no inicio sesion");
+        // }
+        if(GameServices.IsInitialized())
+        {
+            GameServices.ShowLeaderboardUI();
+        }else{
+            debug_text.text = "Fallo al mostar Leaderborad";
+        }
+    }
+
+    public void SubirScoreGooglePlay(int nuevoScore)
+    {
+         // Submit leaderboard scores, if authenticated
+            if (PlayGamesPlatform.Instance.localUser.authenticated)
+            {
+                // Note: make sure to add 'using GooglePlayGames'
+                PlayGamesPlatform.Instance.ReportScore(nuevoScore,
+                    GPGSIds.leaderboard_the_best_runner,
+                    (bool success) =>
+                    {
+                        Debug.Log("(Google) Leaderboard update success: " + success);
+                        debug_text.text = "(Google) Leaderboard update success: " + success;
+                    });
+
+				//WriteUpdatedScore();
+				
+            }
+
+            if(GameServices.IsInitialized())
+            {
+                GameServices.ReportScore(nuevoScore,EM_GPGSIds.leaderboard_the_best_runner,(bool exito)=>{
+                    debug_text.text ="Se subio el score exitosamente";
+                });
+            }
+
+    }
+
+    public void DesbloquearLogro()
+    {
+        // if(Social.localUser.authenticated)
+        // {
+        //     PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_welcome_to_the_late_shift,100.0f,
+        //     (bool success)=>{
+        //         debug_text.text = "Logro desbloqueado:"+success;
+        //     });
+        // }
+        if(PlayGamesPlatform.Instance.localUser.authenticated)
+        {
+             PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_welcome_to_the_late_shift,100.0f,
+            (bool success)=>{
+                debug_text.text = "Logro desbloqueado:"+success;
+            });
+        }
+        if(GameServices.IsInitialized())
+        {
+            GameServices.UnlockAchievement(EM_GPGSIds.achievement_welcome_to_the_late_shift,
+            (bool exito)=>
+            {
+                debug_text.text = "GS:"+exito;
+            }
+            );
+        }
+    }
+    public void GameServicesMensajes(bool escito)
     {
 
     }
@@ -163,10 +281,26 @@ public class Score_Control : MonoBehaviour
 
     public void CargarScoreLocal()
     {
-        if(SaveGame.Exists(nombreSlotHighscore))
-             highscoreLocal = SaveGame.Load<int>(nombreSlotHighscore);
-    }
+        // if(SaveGame.Exists(nombreSlotHighscore))
+        //      highscoreLocal = SaveGame.Load<int>(nombreSlotHighscore);
 
+
+        GameServices.LoadLocalUserScore(EM_GPGSIds.leaderboard_the_best_runner,OnLocalUserScoreLoaded);
+    }
+    void OnLocalUserScoreLoaded(string leaderboardname,IScore scoreCargado)
+    {
+        if(scoreCargado != null)
+        {
+            debug_text.text=$"{scoreCargado.value}";
+             highScoreLocal_text.SetText(highscoreLocal.ToString());
+
+
+        }else
+        {
+        debug_text.text=$"Problema con el escore";
+
+        }
+    }
     /// <summary>
     /// Se encarga de buscar el slot del personaje guardado, 
     /// si existe le manda el nombre del Personaje para buscarlo
