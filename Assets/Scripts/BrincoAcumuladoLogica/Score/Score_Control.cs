@@ -9,6 +9,7 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine.SocialPlatforms;
 using EasyMobile;
+
 public class Score_Control : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -36,6 +37,9 @@ public class Score_Control : MonoBehaviour
 
     public TMP_Text debug_text;
 
+    public GameObject highScore_tabla;
+    public GameObject[] scoreSlot;
+
 
      private void Awake()
     {
@@ -43,9 +47,11 @@ public class Score_Control : MonoBehaviour
         {
             RuntimeManager.Init();
         }
+
     }
     void Start()
     {
+        CargarScoreGlobal();
        // AbrirPanelScore();
        Eventos_Dispatcher.CruceObstaculo += ObstaculoCruzado;
        Eventos_Dispatcher.MonedaTomada += MonedaTomada;
@@ -84,31 +90,32 @@ public class Score_Control : MonoBehaviour
     }
     public void AbrirPanelScore_Global(bool _abrir)
     {
-        if(_abrir)
-        {
-         LeanTween.moveY(panelScore,panelScore_posGlobal.position.y,velocidadApertura).setEaseOutBounce();
-         botonAbrirGlobal.gameObject.SetActive(false);
-         botonCerrarGlobal.gameObject.SetActive(true);
-           panelGlobal.SetActive(true);
-             panelLocal.SetActive(false);
-        }
-        else if(!_abrir)
-        {
-         LeanTween.moveY(panelScore,panelScore_posAbierta.position.y,velocidadApertura).setEaseOutBounce();
-          botonAbrirGlobal.gameObject.SetActive(true);
-         botonCerrarGlobal.gameObject.SetActive(false);
-           panelGlobal.SetActive(false);
-             panelLocal.SetActive(true);
-         }
-
+        // if(_abrir)
+        // {
+        //  LeanTween.moveY(panelScore,panelScore_posGlobal.position.y,velocidadApertura).setEaseOutBounce();
+        //  botonAbrirGlobal.gameObject.SetActive(false);
+        //  botonCerrarGlobal.gameObject.SetActive(true);
+        //    panelGlobal.SetActive(true);
+        //      panelLocal.SetActive(false);
+        // }
+        // else if(!_abrir)
+        // {
+        //  LeanTween.moveY(panelScore,panelScore_posAbierta.position.y,velocidadApertura).setEaseOutBounce();
+        //   botonAbrirGlobal.gameObject.SetActive(true);
+        //  botonCerrarGlobal.gameObject.SetActive(false);
+        //    panelGlobal.SetActive(false);
+        //      panelLocal.SetActive(true);
+        //  }
+        highScore_tabla.gameObject.SetActive(_abrir);
+        if(_abrir)CargarScoreGlobal();
         
     }
     private void InicioJuego()
     {
-        if(panelScoreAbierto)
-        {
-            AbrirPanelScore();
-        }
+        // if(panelScoreAbierto)
+        // {
+        //     AbrirPanelScore();
+        // }
     }
     /// <summary>
     /// Activado por EventDispatcher cuando el jugador pierde
@@ -126,11 +133,12 @@ public class Score_Control : MonoBehaviour
             if(scoreRonda > highscoreLocal)
             {
                 SaveGame.Save<int>(nombreSlotHighscore,scoreRonda);
-                DesbloquearLogro();
 
                 SubirScoreGooglePlay(scoreRonda);
                 Debug.Log("Highscore :"+highscoreLocal+" superado guardano nuevo: "+scoreRonda);
             }
+                DesbloquearLogro();
+
         }else{//debe significar que no habia score y debe ser su primer juego
 
             SaveGame.Save<int>(nombreSlotHighscore,scoreRonda);
@@ -171,6 +179,7 @@ public class Score_Control : MonoBehaviour
     }
     public void MostrarGoogleLeaderBoard()
     {
+        return;
         // if(PlayGamesPlatform.Instance.localUser.authenticated)
         // {
         //     PlayGamesPlatform.Instance.ShowLeaderboardUI();
@@ -287,6 +296,7 @@ public class Score_Control : MonoBehaviour
 
         GameServices.LoadLocalUserScore(EM_GPGSIds.leaderboard_the_best_runner,OnLocalUserScoreLoaded);
     }
+    
     void OnLocalUserScoreLoaded(string leaderboardname,IScore scoreCargado)
     {
         if(scoreCargado != null)
@@ -297,10 +307,51 @@ public class Score_Control : MonoBehaviour
 
         }else
         {
-        debug_text.text=$"Problema con el escore";
+            debug_text.text=$"Problema con el escore";
 
         }
     }
+  
+    /// <summary>
+    /// Abre el score global de Game service asi como la nueva tabla
+    /// </summary>
+    public void CargarScoreGlobal()
+    {
+        
+        GameServices.LoadScores(EM_GPGSIds.leaderboard_the_best_runner,0,10,TimeScope.Today,UserScope.Global,OnScoresLoaded);
+    }
+  // Scores loaded callback
+    void OnScoresLoaded(string leaderboardName, IScore[] scores)
+    {
+        if(scores != null && scores.Length >0)
+        {
+            Debug.Log("Scores Globales cargados");
+            for (int i = 0; i < scores.Length; i++)
+            {
+                scoreSlot[i].transform.GetChild(0).GetComponent<TMP_Text>().text = $"{scores[i].rank}";
+                scoreSlot[i].transform.GetChild(1).GetComponent<TMP_Text>().text = scores[i].userID;
+                scoreSlot[i].transform.GetChild(2).GetComponent<TMP_Text>().text = $"{scores[i].value}";
+            }
+        }else{
+            Debug.Log("Advertencia Hubo un problema al cargar los scores globales");
+              for (int i = 0; i < scoreSlot.Length; i++)
+            {
+                scoreSlot[i].transform.GetChild(0).GetComponent<TMP_Text>().text = $"{i+1}";
+                scoreSlot[i].transform.GetChild(1).GetComponent<TMP_Text>().text = "none...";
+                scoreSlot[i].transform.GetChild(2).GetComponent<TMP_Text>().text = $"{000}";
+            }
+        }
+    }
+    [Button]
+    void Rellenar(){
+         for (int i = 0; i < scoreSlot.Length; i++)
+            {
+                scoreSlot[i].transform.GetChild(0).GetComponent<TMP_Text>().text = "none...";
+                scoreSlot[i].transform.GetChild(1).GetComponent<TMP_Text>().text = $"{000}";
+            }
+
+    }
+  
     /// <summary>
     /// Se encarga de buscar el slot del personaje guardado, 
     /// si existe le manda el nombre del Personaje para buscarlo
