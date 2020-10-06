@@ -294,7 +294,7 @@ public class Score_Control : MonoBehaviour
         //      highscoreLocal = SaveGame.Load<int>(nombreSlotHighscore);
 
 
-        GameServices.LoadLocalUserScore(EM_GPGSIds.leaderboard_the_best_runner,OnLocalUserScoreLoaded);
+        GameServices.LoadLocalUserScore(EM_GameServicesConstants.Leaderboard_Obstaculos,OnLocalUserScoreLoaded);
     }
     
     void OnLocalUserScoreLoaded(string leaderboardname,IScore scoreCargado)
@@ -307,7 +307,7 @@ public class Score_Control : MonoBehaviour
 
         }else
         {
-            debug_text.text=$"Problema con el escore";
+            debug_text.text=$"Problema cargando el score local de GooglePlay";
 
         }
     }
@@ -318,7 +318,7 @@ public class Score_Control : MonoBehaviour
     public void CargarScoreGlobal()
     {
         
-        GameServices.LoadScores(EM_GPGSIds.leaderboard_the_best_runner,0,10,TimeScope.Today,UserScope.Global,OnScoresLoaded);
+        GameServices.LoadScores(EM_GameServicesConstants.Leaderboard_Obstaculos,0,10,TimeScope.Today,UserScope.Global,OnScoresLoaded);
     }
   // Scores loaded callback
     void OnScoresLoaded(string leaderboardName, IScore[] scores)
