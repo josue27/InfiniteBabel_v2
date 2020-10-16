@@ -9406,6 +9406,7 @@ MonoBehaviour:
   multiplicadorSensibilidad: 1.2
   mousePos: {x: 0, y: 0, z: 0}
   spriteAnim: {fileID: 443373779}
+  toques: 0
 --- !u!82 &1081773776
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10669,10 +10670,10 @@ RectTransform:
   m_Father: {fileID: 597316651}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 150}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 709}
+  m_SizeDelta: {x: 608, y: 150}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1252560734
 MonoBehaviour:
@@ -16092,7 +16093,7 @@ GameObject:
   - component: {fileID: 1331872439}
   - component: {fileID: 1331872438}
   m_Layer: 5
-  m_Name: PanelNombre
+  m_Name: PanelNombrePersonaje
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20367,6 +20368,9 @@ MonoBehaviour:
     posFinal: {fileID: 891825537}
     objetoInical: []
     rateSpawn: 3
+    rateRandom: 0
+    minRate: 0
+    maxRate: 0
     sigSpawn: 0
   - elemento: {fileID: 11400000, guid: 76ff2add0f0a646b0890267c67636846, type: 2}
     nombre: paredIntermedia
@@ -20377,6 +20381,9 @@ MonoBehaviour:
     objetoInical:
     - {fileID: 1295492194}
     rateSpawn: 10
+    rateRandom: 0
+    minRate: 0
+    maxRate: 0
     sigSpawn: 0
   - elemento: {fileID: 11400000, guid: b73a13b2cb47c48da880fd4f791ff369, type: 2}
     nombre: cintaTransportadora
@@ -20394,6 +20401,9 @@ MonoBehaviour:
     - {fileID: 487322067}
     - {fileID: 290589925}
     rateSpawn: 0.45
+    rateRandom: 0
+    minRate: 0
+    maxRate: 0
     sigSpawn: 0
   elementosIniciales: []
   spawnear: 0
@@ -20403,6 +20413,9 @@ MonoBehaviour:
   spriteFondo: {fileID: 1422394828}
   spriteFondo_material: {fileID: 0}
   velocidadFondo: 0.03
+  cintaRotaSpawneada: 0
+  casosProbables: 30
+  casosFavorables: 3
 --- !u!1 &1949001690
 GameObject:
   m_ObjectHideFlags: 0
@@ -22827,6 +22840,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8eb46da2639a8448990273ba79f2cb32, type: 2}
   - {fileID: 11400000, guid: 9ded7c44223f842d293bf22506edabe8, type: 2}
   botonesSeleccion: {fileID: 1132833555}
+  panelNombrePersonaje: {fileID: 1331872436}
   nombrePersonaje_text: {fileID: 1329441545}
 --- !u!82 &2111332060
 AudioSource:
@@ -22971,6 +22985,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelSettings: {fileID: 159863510}
+  panelBotonesSuperiores: {fileID: 1252560732}
+  posPanelBotonesSuperiores_Activados: {x: 0, y: 540, z: 0}
+  posPanelBotonesSuperiores_Desactivados: {x: 0, y: 800, z: 0}
 --- !u!1 &2134740834
 GameObject:
   m_ObjectHideFlags: 0

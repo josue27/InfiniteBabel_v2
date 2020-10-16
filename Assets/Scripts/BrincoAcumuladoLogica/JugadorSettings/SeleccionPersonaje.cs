@@ -10,6 +10,7 @@ public class SeleccionPersonaje : MonoBehaviour
     public List<PersonajeScriptable> personajes = new List<PersonajeScriptable>();
     [Header("UIX")]
     public GameObject botonesSeleccion;
+    public GameObject panelNombrePersonaje;
     public TMP_Text nombrePersonaje_text;
     
      /// <summary>
@@ -28,7 +29,7 @@ public class SeleccionPersonaje : MonoBehaviour
     private void InicioJuego()
     {
         botonesSeleccion.SetActive(false);
-        nombrePersonaje_text.gameObject.SetActive(false);
+        panelNombrePersonaje.SetActive(false);
         GuardarPersonajeSeleccionado();
     }
     public void SiguientePersonaje()

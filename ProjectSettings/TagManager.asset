@@ -9,6 +9,7 @@ TagManager:
   - pared
   - moneda
   - zonaMuerte
+  - pisoRoto
   layers:
   - Default
   - TransparentFX

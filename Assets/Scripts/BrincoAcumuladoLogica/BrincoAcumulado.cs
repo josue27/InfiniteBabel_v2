@@ -70,6 +70,8 @@ public class BrincoAcumulado : MonoBehaviour
     public Vector3 mousePos;
 
     public Sprite_Animador spriteAnim;
+
+    [SerializeField] int toques = 0;
     void Start()
     {
         rigid = this.GetComponent<Rigidbody>();
@@ -111,13 +113,20 @@ public class BrincoAcumulado : MonoBehaviour
             return;
 
 #if UNITY_ANDROID
-       // Brinco_Movil();
+        // Brinco_Movil();
 #endif
 #if UNITY_EDITOR || UNITY_WEBGL
-     //   Brinco_PC();
+        //   Brinco_PC();
 
 #endif
-  
+        if (enPiso)
+        {
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+                toques++;
+            }
+        }
          
         //BrincoSwipePC();
 
@@ -212,6 +221,7 @@ public class BrincoAcumulado : MonoBehaviour
 
             //TODO: shake cam
         }
+       
         print(collision.transform.name);
 
         
@@ -353,6 +363,13 @@ public class BrincoAcumulado : MonoBehaviour
            EmpujarJugador(Vector3.up, empujeEnCruze);
          
             cruzandoApertura = true;
+        }
+        if (other.CompareTag("pisoRoto"))
+        {
+
+            Eventos_Dispatcher.eventos.JugadorPerdio();
+            ReproducirAnimacion("muerto");
+            Debug.Log("Jugador entro a piso roto:" + other.transform.name);
         }
     }
     private void OnTriggerExit(Collider other) {

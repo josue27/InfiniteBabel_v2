@@ -18,10 +18,20 @@ public class SpawnEscenario : MonoBehaviour
     public SpriteRenderer spriteFondo;
     public Material spriteFondo_material;
     public float velocidadFondo = 0.03f;
+
+
     /// <summary>
-    /// Called when the script is loaded or a value is changed in the
-    /// inspector (Called in the editor only).
+    /// Esto NO deberia estar aqui pero gueno
     /// </summary>
+    [Space(10)]
+    [Header("Obstaculo Cinta Rota")]
+    [SerializeField]bool cintaRotaSpawneada;
+    public int casosProbables = 20;
+    public int casosFavorables = 3;
+
+
+
+ 
     void OnValidate()
     {
         foreach(Elemento elementoEnLista in elementos)
@@ -117,11 +127,52 @@ public class SpawnEscenario : MonoBehaviour
                 objetoActivar.transform.position = elemenoEnLista.posInicial.position;
                 objetoActivar.gameObject.SetActive(true);
                 objetoActivar.GetComponent<ElementoEscenario_Control>().Mover(elemenoEnLista.posFinal.position,elemenoEnLista.duracionRecorrido);
+
+                if(objetoActivar.CompareTag ("piso"))
+                {
+                    if(TransportadoraRota())
+                    {
+                        objetoActivar.transform.GetChild(0).gameObject.SetActive(false);
+                        objetoActivar.transform.GetChild(2).gameObject.SetActive(true);
+                        
+                        Debug.Log("TRANSPORTADORA ROTA");
+                       
+                    }
+                }
+
+
                 elemenoEnLista.objetos.Enqueue(objetoActivar);
                 break;
             }
         }
         
+    }
+
+    /// <summary>
+    /// Regresa si debemos Spawnear una cinta transportadora rota mediante probabilidad,
+    /// tambien incluye una logica que podrai ser mejor pero consiste en que:
+    /// si se spawneo una cintaRota anteriormente 
+    ///     regresa false y ademas declaramos que ya no se spawneao una cintaRota, de esa manera hacemos un salto por lo menos de 1 vez
+    ///     Si no se spawnea una cintaRota entonces hacemos la loteria
+    ///         si sale de cierto rango Random de enteros se regresa true, de lo contrario es false
+    /// </summary>
+    /// <returns></returns>
+    bool TransportadoraRota()
+    {
+        if (cintaRotaSpawneada)
+        {
+            cintaRotaSpawneada = false;
+            return false;
+        }
+
+        int r = Random.Range(0, casosProbables);
+        if(r <= casosProbables)
+        {
+            cintaRotaSpawneada = true;
+            return true;
+        }
+
+        return false;
     }
 
     public void ActivarObjetoInicial(string nombreObjeto)
@@ -198,6 +249,8 @@ public class Elemento
     
     public GameObject[] objetoInical;
     public float rateSpawn = 3.0f;
+    public bool rateRandom;
+    public bool minRate, maxRate;
     [SerializeField]
     public float sigSpawn;
     public Queue<GameObject> objetos;

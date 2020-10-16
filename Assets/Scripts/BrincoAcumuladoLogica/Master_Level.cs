@@ -20,7 +20,7 @@ namespace Brinco
         public Button boton_reinicio;
 
         public EstadoJuego estadoJuego;
-        [Header("Pasing Niveles")]
+        [Header("Ritmo Niveles")]
         public float velocidadObstaculosInicial = 1.0f;
         public float velocidadObstaculos ;
         public float porcentajeAumento = 1.10f;
@@ -202,11 +202,11 @@ namespace Brinco
 
         public void EncenderBandaTransportadora(bool _encender)
         {
-            if(bandasTransportadoras.Length <=0)
+            if (bandasTransportadoras.Length <= 0)
                 return;
-            for(int i=0;i<bandasTransportadoras.Length;i++)
+            for (int i = 0; i < bandasTransportadoras.Length; i++)
             {
-                bandasTransportadoras[i].SetBool("corriendo",_encender);
+                bandasTransportadoras[i].SetBool("corriendo", _encender);
             }
         }
     }
