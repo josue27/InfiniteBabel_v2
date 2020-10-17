@@ -208,7 +208,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1348376150634878212
 Transform:
   m_ObjectHideFlags: 0
@@ -791,7 +791,6 @@ MonoBehaviour:
   - {fileID: 1348376152195509888}
   - {fileID: 1348376151749227971}
   - {fileID: 1348376151448764364}
-  - {fileID: 1348376150634878212}
   posicionesLibres: []
   moneda: {fileID: 2291978350772403031}
 --- !u!65 &1348376151896805655
