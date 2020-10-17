@@ -5,7 +5,9 @@ using UnityEngine;
 public class ElementoEscenario_Control : MonoBehaviour
 {
     LeanTween tween;
-    public void Mover(Vector3 aPosicion,float duracion){
+
+    public void Mover(Vector3 aPosicion,float duracion)
+    {
         LeanTween.move(this.gameObject,aPosicion,duracion).setOnComplete(()=>
         {
               //  Debug.Log(this.gameObject.name+" termino recorrido" );
@@ -13,12 +15,26 @@ public class ElementoEscenario_Control : MonoBehaviour
 
          });
     }
+
+    /// <summary>
+    /// Se utiliza para parar el movimiento tween del objeto, sobre todo cuando el jugador pierde
+    /// esta funcion es llamada desde SpawnEscenario.cs
+    /// </summary>
     public void Parar()
     {
         LeanTween.cancel(this.gameObject);
     }
+
+    /// <summary>
+    /// Llamada por mover para dar a entender que ya se cumplio totalmente su moviemineto y debe volver al Que
+    /// </summary>
     public void Reiniciar()
     {
+        if(this.transform.CompareTag("piso"))
+        {
+          transform.GetChild(0).gameObject.SetActive(true);
+          transform.GetChild(2).gameObject.SetActive(false);
+        }
         this.gameObject.SetActive(false);
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpawnEscenario : MonoBehaviour
 {
+
     //TODO: Crear scriptble object ElementoEscenario
     public List<Elemento> elementos = new List<Elemento>();
 
@@ -25,6 +26,7 @@ public class SpawnEscenario : MonoBehaviour
     /// </summary>
     [Space(10)]
     [Header("Obstaculo Cinta Rota")]
+    public bool spawnearCintasRotas;
     [SerializeField]bool cintaRotaSpawneada;
     public int casosProbables = 20;
     public int casosFavorables = 3;
@@ -128,7 +130,7 @@ public class SpawnEscenario : MonoBehaviour
                 objetoActivar.gameObject.SetActive(true);
                 objetoActivar.GetComponent<ElementoEscenario_Control>().Mover(elemenoEnLista.posFinal.position,elemenoEnLista.duracionRecorrido);
 
-                if(objetoActivar.CompareTag ("piso"))
+                if(objetoActivar.CompareTag ("piso") && spawnearCintasRotas)
                 {
                     if(TransportadoraRota())
                     {
@@ -136,8 +138,9 @@ public class SpawnEscenario : MonoBehaviour
                         objetoActivar.transform.GetChild(2).gameObject.SetActive(true);
                         
                         Debug.Log("TRANSPORTADORA ROTA");
-                       
+
                     }
+                    
                 }
 
 
@@ -166,7 +169,7 @@ public class SpawnEscenario : MonoBehaviour
         }
 
         int r = Random.Range(0, casosProbables);
-        if(r <= casosProbables)
+        if(r <= casosFavorables)
         {
             cintaRotaSpawneada = true;
             return true;

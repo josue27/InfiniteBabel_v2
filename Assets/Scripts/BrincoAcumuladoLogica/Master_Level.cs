@@ -169,7 +169,11 @@ namespace Brinco
                 SpawnObstaculos_Apertura.spawner.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
                                                                nivelesDificultad[enNivel].rateSpawn,
                                                                nivelesDificultad[enNivel].probabilidadMoneda);
-                Debug.Log("Se aumento la dificultad nivel: "+enNivel);
+
+               
+               SpawnObstaculos_Apertura.spawner.gameObject.GetComponent<SpawnEscenario>().spawnearCintasRotas = nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas;
+                
+                Debug.Log("Se aumento la dificultad nivel: "+ enNivel);
             }
 
             score_tex.SetText(obstaculosCruzados.ToString());
@@ -228,6 +232,8 @@ public class Niveles
     public int probabilidadMoneda;
     [Tooltip("Se spawnearan obstaculos extras en las orillsa(niveles mas dificiles")]
     public bool obstaculoOrilla;
+    [Tooltip("Se spawnean cintaTransportadora rota")]
+    public bool spawnearCintasTransportadorasRotas;
 }
 
 public enum EstadoJuego
