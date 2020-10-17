@@ -17508,7 +17508,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: 381be42b6aef6412386647fcc8a3f141, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -20413,6 +20413,7 @@ MonoBehaviour:
   spriteFondo: {fileID: 1422394828}
   spriteFondo_material: {fileID: 0}
   velocidadFondo: 0.03
+  spawnearCintasRotas: 0
   cintaRotaSpawneada: 0
   casosProbables: 30
   casosFavorables: 3
@@ -22721,6 +22722,7 @@ MonoBehaviour:
     rateSpawn: 5
     probabilidadMoneda: 1
     obstaculoOrilla: 0
+    spawnearCintasTransportadorasRotas: 0
   - obstaculFinal: 5
     cantidadEspacios: 3
     multiplicadorVelocidad: 1.2
@@ -22729,6 +22731,7 @@ MonoBehaviour:
     rateSpawn: 4.5
     probabilidadMoneda: 2
     obstaculoOrilla: 0
+    spawnearCintasTransportadorasRotas: 0
   - obstaculFinal: 10
     cantidadEspacios: 2
     multiplicadorVelocidad: 1.2
@@ -22737,6 +22740,7 @@ MonoBehaviour:
     rateSpawn: 4
     probabilidadMoneda: 3
     obstaculoOrilla: 0
+    spawnearCintasTransportadorasRotas: 1
   - obstaculFinal: 15
     cantidadEspacios: 2
     multiplicadorVelocidad: 1.2
@@ -22745,6 +22749,7 @@ MonoBehaviour:
     rateSpawn: 3.5
     probabilidadMoneda: 3
     obstaculoOrilla: 0
+    spawnearCintasTransportadorasRotas: 1
   obstaculosCruzados: 0
   score_tex: {fileID: 645217427}
   monedasTomadas: 0
