@@ -13,7 +13,10 @@ public class ObstaculoControl : MonoBehaviour
 
     public Moneda_Control moneda;
 
-    
+    private const string paredTag = "pared";
+    private const string paredTNTTag = "paredTNT";
+
+
     void Start()
     {
        // SetObstaculo();
@@ -71,6 +74,16 @@ public class ObstaculoControl : MonoBehaviour
         foreach(Transform posicion in posiciones)
         {
             posicion.gameObject.SetActive(true);
+            posicion.transform.GetChild(1).gameObject.SetActive(false);
+            posicion.transform.GetChild(0).gameObject.SetActive(true);
+            BoxCollider[] collidersInit = posicion.GetComponents<BoxCollider>();
+            for (int i = 0; i < collidersInit.Length; i++)
+            {
+                collidersInit[i].enabled = true;
+            }
+
+            //  posicion.transform.tag = paredTag;
+
         }
         int r = Random.Range(1,posiciones.Length);
         
@@ -78,11 +91,25 @@ public class ObstaculoControl : MonoBehaviour
         posiciones[r].gameObject.SetActive(false);
         posicionesLibres.Add(posiciones[r]);
 
-
+        //Esto es para asegurarnos de que no estamos dando un numero mas alto de las posiciones disponibles, si lo es le da el Length del array posiciones
+        //de lo contrario le permite quedarse con su valor, esta condicional es inecesaria podria ser solo un if
         numeroADescontar = numeroADescontar > posiciones.Length-1 ? posiciones.Length-1 : numeroADescontar;
+
         int posBuscada = 1;
-        for(int i = 1;i<numeroADescontar;i++)
+        //SUGERENCIA: hacer clamp en este algoritmo??
+        for(int i = 1; i < numeroADescontar;i++)
         {
+
+            //Esto es para evitar que la caja del piso desaparezca, siempre estara presente pues ej: si
+            /*
+             *  si r-i = 3 > 1
+             *      entonces podemos quitar esa caja y la guardamos a posiciones libres
+             *  si no quiere decir que el numero era 1 porque 1-0 = 1 || 1-1=0 y necesitamos que sea mayor a 1
+             *      si r+i = 4 y 4 es < posiciones.Length
+             *          entonces podemos quitar esa caja
+             * si no quiere decir que el numero era la ultima posicion de length y eso esta mal y brincamos
+             *      si r +(i-posBucada) = 1 entonces es menor a posiciones.Length   
+             */
             if((r-i)>1)
             {
                 posiciones[r-i].gameObject.SetActive(false);
@@ -112,11 +139,39 @@ public class ObstaculoControl : MonoBehaviour
               //  Debug.Log("posiciones:"+r+(r+1).ToString());
                  posBuscada++;
             }
+
+            
            
         }
 
+        //Activar dinamitas
+        
+        int posDinamita = Random.Range(0, posiciones.Length);
+
+
+        while(posiciones[posDinamita].gameObject.activeInHierarchy == false)
+        {
+            posDinamita = Random.Range(0, posiciones.Length);
+
+        }
+
+        posiciones[posDinamita].transform.GetChild(1).gameObject.SetActive(true);
+        BoxCollider[] colliders = posiciones[posDinamita].GetComponents<BoxCollider>();
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            colliders[i].enabled = false;
+        }
+         posiciones[posDinamita].transform.GetChild(0).gameObject.SetActive(false);
+        //posiciones[posDinamita].transform.tag = paredTNTTag;
+
+        Debug.Log("Dinamita en posicion: " + posiciones[posDinamita]);
+
+            
+
+       
+
         moneda.gameObject.SetActive(false);
-         velociadMovimiento = _nuevaVelocidad;
+        velociadMovimiento = _nuevaVelocidad;
     }
     public void SetObstaculo(int numEspacios)
     {

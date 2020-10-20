@@ -11,12 +11,13 @@ public class SettingsControl : MonoBehaviour
 
     [SerializeField] Vector3 posPanelBotonesSuperiores_Activados;
     [SerializeField] Vector3 posPanelBotonesSuperiores_Desactivados;
+
     private void Awake()
     {
         // posPanelBotonesSuperiores_Activados = panelBotonesSuperiores.transform.position;
          panelBotonesSuperiores.transform.localPosition = posPanelBotonesSuperiores_Desactivados;
          IntroJuego();
-        Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
+         Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
     }
    
 

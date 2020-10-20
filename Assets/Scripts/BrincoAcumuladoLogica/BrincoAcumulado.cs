@@ -353,6 +353,16 @@ public class BrincoAcumulado : MonoBehaviour
                 ReproducirAnimacion("muerto");
             }
             return;
+        }else if(other.CompareTag("paredTNT") &&!inmortal)
+        {
+            if (!cruzandoApertura)
+            {
+                EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
+                Eventos_Dispatcher.eventos.JugadorPerdio();
+                ReproducirAnimacion("muerto");
+                Debug.Log("Jugador KABOOOOMM!!!");
+            }
+            return;
         }
         if(other.CompareTag("apertura"))
         {

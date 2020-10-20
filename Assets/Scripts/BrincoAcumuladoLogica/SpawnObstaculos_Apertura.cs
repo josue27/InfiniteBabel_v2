@@ -137,7 +137,7 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
         obstaculo.GetComponent<ObstaculoControl>().SetObstaculo(cantidadCajas,velocidadObstaculos);
         if(LoteriaMoneda())
         {
-         obstaculo.GetComponent<ObstaculoControl>().ActivarMoneda();    
+           obstaculo.GetComponent<ObstaculoControl>().ActivarMoneda();    
         }
 
         obstaculosB[tag].Enqueue(obstaculo);

@@ -10,6 +10,7 @@ TagManager:
   - moneda
   - zonaMuerte
   - pisoRoto
+  - paredTNT
   layers:
   - Default
   - TransparentFX
