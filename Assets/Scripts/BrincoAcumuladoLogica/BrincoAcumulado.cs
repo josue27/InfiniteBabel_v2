@@ -360,6 +360,8 @@ public class BrincoAcumulado : MonoBehaviour
                 EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
                 Eventos_Dispatcher.eventos.JugadorPerdio();
                 ReproducirAnimacion("muerto");
+                other.gameObject.SetActive(false);
+                other.transform.parent.parent.GetComponent<ObstaculoControl>().ExplotarTNT(other.transform);
                 Debug.Log("Jugador KABOOOOMM!!!");
             }
             return;

@@ -22,6 +22,8 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
 
     [SerializeField ]private int cantidadCajas;
     [SerializeField] private float alturaPrevia;
+    [SerializeField] private bool  spawnTNT;
+
     // Start is called before the first frame update
     public int cantidadObstaculos;
     public List<ObstaculoControl> obstaculos = new List<ObstaculoControl>();
@@ -134,7 +136,7 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
         GameObject obstaculo = obstaculosB[tag].Dequeue();
         obstaculo.transform.position = this.transform.position;
         obstaculo.gameObject.SetActive(true);
-        obstaculo.GetComponent<ObstaculoControl>().SetObstaculo(cantidadCajas,velocidadObstaculos);
+        obstaculo.GetComponent<ObstaculoControl>().SetObstaculo(cantidadCajas,velocidadObstaculos,this.spawnTNT);
         if(LoteriaMoneda())
         {
            obstaculo.GetComponent<ObstaculoControl>().ActivarMoneda();    
@@ -153,13 +155,21 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
         
         
     }
-     public void SetDificultad(int _cantidadCajas, float _rateSpawn,int _probabilidadMoneda)
+    public void SetDificultad(int _cantidadCajas, float _rateSpawn,int _probabilidadMoneda)
     {
         
         cantidadCajas =_cantidadCajas;
         intervaloTiempo = _rateSpawn > 0 ? _rateSpawn : intervaloTiempo;//asgurarse que no de 0
         probabilidadMoneda = _probabilidadMoneda;
         
+    }
+    public void SetDificultad(int _cantidadCajas, float _rateSpawn, int _probabilidadMoneda, bool _spawnTNT)
+    {
+
+        cantidadCajas = _cantidadCajas;
+        intervaloTiempo = _rateSpawn > 0 ? _rateSpawn : intervaloTiempo;//asgurarse que no de 0
+        probabilidadMoneda = _probabilidadMoneda;
+        spawnTNT = _spawnTNT;
     }
 
     public void EmpezoJuego()

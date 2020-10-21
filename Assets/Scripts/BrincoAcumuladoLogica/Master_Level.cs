@@ -168,7 +168,8 @@ namespace Brinco
                 //  SpawnObstaculos_Apertura.spawner.SetDificultad(SigVelocidad(), nivelesDificultad[enNivel].cantidadEspacios);
                 SpawnObstaculos_Apertura.spawner.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
                                                                nivelesDificultad[enNivel].rateSpawn,
-                                                               nivelesDificultad[enNivel].probabilidadMoneda);
+                                                               nivelesDificultad[enNivel].probabilidadMoneda,
+                                                               nivelesDificultad[enNivel].spawnearTNT);
 
                
                SpawnObstaculos_Apertura.spawner.gameObject.GetComponent<SpawnEscenario>().spawnearCintasRotas = nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas;
@@ -234,6 +235,8 @@ public class Niveles
     public bool obstaculoOrilla;
     [Tooltip("Se spawnean cintaTransportadora rota")]
     public bool spawnearCintasTransportadorasRotas;
+    [Tooltip("Espawnear TNT?")]
+    public bool spawnearTNT;
 }
 
 public enum EstadoJuego

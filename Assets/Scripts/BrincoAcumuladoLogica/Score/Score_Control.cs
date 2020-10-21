@@ -197,20 +197,20 @@ public class Score_Control : MonoBehaviour
     public void SubirScoreGooglePlay(int nuevoScore)
     {
          // Submit leaderboard scores, if authenticated
-            if (PlayGamesPlatform.Instance.localUser.authenticated)
-            {
-                // Note: make sure to add 'using GooglePlayGames'
-                PlayGamesPlatform.Instance.ReportScore(nuevoScore,
-                    GPGSIds.leaderboard_the_best_runner,
-                    (bool success) =>
-                    {
-                        Debug.Log("(Google) Leaderboard update success: " + success);
-                        debug_text.text = "(Google) Leaderboard update success: " + success;
-                    });
+    //        if (PlayGamesPlatform.Instance.localUser.authenticated)
+    //        {
+    //            // Note: make sure to add 'using GooglePlayGames'
+    //            PlayGamesPlatform.Instance.ReportScore(nuevoScore,
+    //                GPGSIds.leaderboard_the_best_runner,
+    //                (bool success) =>
+    //                {
+    //                    Debug.Log("(Google) Leaderboard update success: " + success);
+    //                    debug_text.text = "(Google) Leaderboard update success: " + success;
+    //                });
 
-				//WriteUpdatedScore();
+				////WriteUpdatedScore();
 				
-            }
+    //        }
 
             if(GameServices.IsInitialized())
             {
@@ -230,13 +230,13 @@ public class Score_Control : MonoBehaviour
         //         debug_text.text = "Logro desbloqueado:"+success;
         //     });
         // }
-        if(PlayGamesPlatform.Instance.localUser.authenticated)
-        {
-             PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_welcome_to_the_late_shift,100.0f,
-            (bool success)=>{
-                debug_text.text = "Logro desbloqueado:"+success;
-            });
-        }
+        //if(PlayGamesPlatform.Instance.localUser.authenticated)
+        //{
+        //     PlayGamesPlatform.Instance.ReportProgress(GPGSIds.achievement_welcome_to_the_late_shift,100.0f,
+        //    (bool success)=>{
+        //        debug_text.text = "Logro desbloqueado:"+success;
+        //    });
+        //}
         if(GameServices.IsInitialized())
         {
             GameServices.UnlockAchievement(EM_GPGSIds.achievement_welcome_to_the_late_shift,

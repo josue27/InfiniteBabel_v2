@@ -7609,7 +7609,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -4.9001465, y: -121.9}
+  m_AnchoredPosition: {x: -4.9001465, y: -121.8999}
   m_SizeDelta: {x: -88.510315, y: -368.12634}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &804832744
@@ -20326,6 +20326,7 @@ MonoBehaviour:
   minY: 1
   cantidadCajas: 0
   alturaPrevia: 0
+  spawnTNT: 0
   cantidadObstaculos: 10
   obstaculos: []
   pools:
@@ -22723,6 +22724,7 @@ MonoBehaviour:
     probabilidadMoneda: 1
     obstaculoOrilla: 0
     spawnearCintasTransportadorasRotas: 0
+    spawnearTNT: 0
   - obstaculFinal: 5
     cantidadEspacios: 3
     multiplicadorVelocidad: 1.2
@@ -22731,7 +22733,8 @@ MonoBehaviour:
     rateSpawn: 4.5
     probabilidadMoneda: 2
     obstaculoOrilla: 0
-    spawnearCintasTransportadorasRotas: 0
+    spawnearCintasTransportadorasRotas: 1
+    spawnearTNT: 1
   - obstaculFinal: 10
     cantidadEspacios: 2
     multiplicadorVelocidad: 1.2
@@ -22741,6 +22744,7 @@ MonoBehaviour:
     probabilidadMoneda: 3
     obstaculoOrilla: 0
     spawnearCintasTransportadorasRotas: 1
+    spawnearTNT: 1
   - obstaculFinal: 15
     cantidadEspacios: 2
     multiplicadorVelocidad: 1.2
@@ -22750,6 +22754,7 @@ MonoBehaviour:
     probabilidadMoneda: 3
     obstaculoOrilla: 0
     spawnearCintasTransportadorasRotas: 1
+    spawnearTNT: 1
   obstaculosCruzados: 0
   score_tex: {fileID: 645217427}
   monedasTomadas: 0

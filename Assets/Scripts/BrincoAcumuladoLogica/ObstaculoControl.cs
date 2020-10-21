@@ -16,6 +16,9 @@ public class ObstaculoControl : MonoBehaviour
     private const string paredTag = "pared";
     private const string paredTNTTag = "paredTNT";
 
+    [Space(10)]
+    [Header("VFX")]
+    public GameObject explosion_vfx;
 
     void Start()
     {
@@ -68,7 +71,7 @@ public class ObstaculoControl : MonoBehaviour
         moneda.gameObject.SetActive(false);
         
     }
-    public void SetObstaculo(int numeroADescontar, float _nuevaVelocidad)
+    public void SetObstaculo(int numeroADescontar, float _nuevaVelocidad,bool spawnTNT)
     {
         posicionesLibres.Clear();
         foreach(Transform posicion in posiciones)
@@ -145,26 +148,28 @@ public class ObstaculoControl : MonoBehaviour
         }
 
         //Activar dinamitas
-        
-        int posDinamita = Random.Range(0, posiciones.Length);
-
-
-        while(posiciones[posDinamita].gameObject.activeInHierarchy == false)
+        if (spawnTNT)
         {
-            posDinamita = Random.Range(0, posiciones.Length);
+            int posDinamita = Random.Range(0, posiciones.Length);
 
+
+            while (posiciones[posDinamita].gameObject.activeInHierarchy == false)
+            {
+                posDinamita = Random.Range(0, posiciones.Length);
+
+            }
+
+            posiciones[posDinamita].transform.GetChild(1).gameObject.SetActive(true);
+            BoxCollider[] colliders = posiciones[posDinamita].GetComponents<BoxCollider>();
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                colliders[i].enabled = false;
+            }
+            posiciones[posDinamita].transform.GetChild(0).gameObject.SetActive(false);
+            //posiciones[posDinamita].transform.tag = paredTNTTag;
+
+            Debug.Log("Dinamita en posicion: " + posiciones[posDinamita]);
         }
-
-        posiciones[posDinamita].transform.GetChild(1).gameObject.SetActive(true);
-        BoxCollider[] colliders = posiciones[posDinamita].GetComponents<BoxCollider>();
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            colliders[i].enabled = false;
-        }
-         posiciones[posDinamita].transform.GetChild(0).gameObject.SetActive(false);
-        //posiciones[posDinamita].transform.tag = paredTNTTag;
-
-        Debug.Log("Dinamita en posicion: " + posiciones[posDinamita]);
 
             
 
@@ -245,5 +250,23 @@ public class ObstaculoControl : MonoBehaviour
         //  });
          
         
+    }
+
+    public void ExplotarTNT(Transform cajaTNT_pos)
+    {
+        if (!explosion_vfx)
+            return;
+
+        explosion_vfx.transform.position = cajaTNT_pos.position;
+        StartCoroutine(ExplotarTNT_Rutina());
+        
+     
+    }
+
+    IEnumerator ExplotarTNT_Rutina()
+    {
+        explosion_vfx.SetActive(true);
+        yield return new WaitForSeconds(0.4f);
+        explosion_vfx.SetActive(false);
     }
 }
