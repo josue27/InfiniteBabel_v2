@@ -17,7 +17,10 @@ namespace Brinco
         
         // Start is called before the first frame update
         public Button boton_inicio;
-        public Button boton_reinicio;
+        public GameObject panel_reinicio;
+        public TMP_Text scoreFinal;
+        public TMP_Text scoreBest;
+
 
         public EstadoJuego estadoJuego;
         [Header("Ritmo Niveles")]
@@ -84,8 +87,15 @@ namespace Brinco
          private void PerdioJuego()
         {
             estadoJuego = EstadoJuego.perdio;
+
+            if (Score_Control.instancia)
+            {
+                scoreBest.text = $"{Score_Control.instancia.HighscoreLocal}";
+                scoreFinal.text = $"{Score_Control.instancia.ScoreRonda}";
+            }
+            panel_reinicio.SetActive(true);
+
             print("GAME OVER");
-            boton_reinicio.gameObject.SetActive(true);
         }
 
         public void InicioJuego_UI()

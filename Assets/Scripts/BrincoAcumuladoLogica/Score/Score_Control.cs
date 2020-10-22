@@ -12,6 +12,7 @@ using EasyMobile;
 
 public class Score_Control : MonoBehaviour
 {
+    public static Score_Control instancia;
     // Start is called before the first frame update
     public GameObject panelScore;
     public GameObject panelGlobal,panelLocal;
@@ -27,6 +28,8 @@ public class Score_Control : MonoBehaviour
     [SerializeField]
     private int highscoreLocal;
     private int scoreRonda;
+    public int HighscoreLocal { get => highscoreLocal; set => highscoreLocal = value; }
+    public int ScoreRonda { get => scoreRonda; set => scoreRonda = value; }
 
     private string nombreSlotHighscore = "highscore";
     private string nombreSlotPersonajeUsado = "nombrePersonaje" ;
@@ -41,13 +44,13 @@ public class Score_Control : MonoBehaviour
     public GameObject[] scoreSlot;
 
 
-     private void Awake()
+    private void Awake()
     {
         if(!RuntimeManager.IsInitialized())
         {
             RuntimeManager.Init();
         }
-
+        instancia = this;
     }
     void Start()
     {
