@@ -364,10 +364,19 @@ public class BrincoAcumulado : MonoBehaviour
             case "pisoRoto":
                 if (!cruzandoApertura)
                 {
-                    Eventos_Dispatcher.eventos.JugadorPerdio();
                     ReproducirAnimacion("muerto");
+                    GetComponent<CapsuleCollider>().enabled = false;
+                    rigid.useGravity = false;
+                    Vector3 posFinalCaida = other.transform.position + new Vector3(0f, -0.2f, 0f);
+                    LeanTween.move(this.gameObject, posFinalCaida, 0.1f).setOnComplete(()=> 
+                        {
+                            StartCoroutine(HumoFX());
+                        });
+
+                    
+                    Eventos_Dispatcher.eventos.JugadorPerdio();
                     Debug.Log("Jugador entro a piso roto:" + other.transform.name);
-                    return;
+                    
                 }
                 break;
             case "apertura":
@@ -440,6 +449,7 @@ public class BrincoAcumulado : MonoBehaviour
             }
         
     }
+
     /// <summary>
     /// Logica de Brinco para App Movil con touchHold
     /// </summary>
