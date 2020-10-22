@@ -337,52 +337,54 @@ public class BrincoAcumulado : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //RaycastHit hit;
-        //if (other.Raycast(other.transform.position,other.transform.forward, out hit, 10))
-        //{
 
-        //}
         //TODO: Cambiar a un script independiento o EventDispatcher
+
+        switch (other.tag)
+        {
+            case "pared":
+                if (!cruzandoApertura)
+                {
+                    EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
+                    Eventos_Dispatcher.eventos.JugadorPerdio();
+                    ReproducirAnimacion("muerto");
+                }
+                break;
+            case "paredTNT":
+                if (!cruzandoApertura)
+                {
+                    EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
+                    Eventos_Dispatcher.eventos.JugadorPerdio();
+                    ReproducirAnimacion("muerto");
+                    other.gameObject.SetActive(false);
+                    other.transform.parent.parent.GetComponent<ObstaculoControl>().ExplotarTNT(other.transform);
+                    Debug.Log("Jugador KABOOOOMM!!!");
+                }
+                break;
+            case "pisoRoto":
+                if (!cruzandoApertura)
+                {
+                    Eventos_Dispatcher.eventos.JugadorPerdio();
+                    ReproducirAnimacion("muerto");
+                    Debug.Log("Jugador entro a piso roto:" + other.transform.name);
+                    return;
+                }
+                break;
+            case "apertura":
+                Eventos_Dispatcher.eventos.CruceObstaculo_Call();
+                EmpujarJugador(Vector3.up, empujeEnCruze);
+
+                cruzandoApertura = true;
+
+                break;
+            default:
+                Debug.Log("Colision no encontrada contra:" + other.tag);
+                break;
+        }
+
+
         
-        if (other.CompareTag("pared") && !inmortal)
-        {
-            if(!cruzandoApertura)
-             {
-                EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
-                Eventos_Dispatcher.eventos.JugadorPerdio();
-                ReproducirAnimacion("muerto");
-            }
-            return;
-        }else if(other.CompareTag("paredTNT") &&!inmortal)
-        {
-            if (!cruzandoApertura)
-            {
-                EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
-                Eventos_Dispatcher.eventos.JugadorPerdio();
-                ReproducirAnimacion("muerto");
-                other.gameObject.SetActive(false);
-                other.transform.parent.parent.GetComponent<ObstaculoControl>().ExplotarTNT(other.transform);
-                Debug.Log("Jugador KABOOOOMM!!!");
-            }
-            return;
-        }
-        if(other.CompareTag("apertura"))
-        {
 
-           // this.GetComponent<BoxCollider>().enabled = false;
-           // aperturas++;
-           Eventos_Dispatcher.eventos.CruceObstaculo_Call();
-           EmpujarJugador(Vector3.up, empujeEnCruze);
-         
-            cruzandoApertura = true;
-        }
-        if (other.CompareTag("pisoRoto"))
-        {
-
-            Eventos_Dispatcher.eventos.JugadorPerdio();
-            ReproducirAnimacion("muerto");
-            Debug.Log("Jugador entro a piso roto:" + other.transform.name);
-        }
     }
     private void OnTriggerExit(Collider other) {
         if(other.transform.tag == "apertura")
@@ -391,7 +393,7 @@ public class BrincoAcumulado : MonoBehaviour
             
 
             }
-        }
+     }
     ///
    
   
