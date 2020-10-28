@@ -262,7 +262,14 @@ PlayerSettings:
   androidGamepadSupportLevel: 0
   AndroidValidateAppBundleSize: 1
   AndroidAppBundleSizeToValidate: 100
-  m_BuildTargetIcons: []
+  m_BuildTargetIcons:
+  - m_BuildTarget: 
+    m_Icons:
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 41c0c7589d1bc8345af4fc59ade481ba, type: 3}
+      m_Width: 128
+      m_Height: 128
+      m_Kind: 0
   m_BuildTargetPlatformIcons:
   - m_BuildTarget: Android
     m_Icons:
@@ -270,75 +277,77 @@ PlayerSettings:
       - {fileID: 0}
       m_Width: 192
       m_Height: 192
-      m_Kind: 1
+      m_Kind: 0
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 144
       m_Height: 144
-      m_Kind: 1
+      m_Kind: 0
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 96
       m_Height: 96
-      m_Kind: 1
+      m_Kind: 0
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 72
       m_Height: 72
-      m_Kind: 1
+      m_Kind: 0
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 48
       m_Height: 48
-      m_Kind: 1
+      m_Kind: 0
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 36
       m_Height: 36
-      m_Kind: 1
+      m_Kind: 0
       m_SubKind: 
     - m_Textures:
-      - {fileID: 0}
+      - {fileID: 2800000, guid: 41c0c7589d1bc8345af4fc59ade481ba, type: 3}
       m_Width: 192
       m_Height: 192
-      m_Kind: 0
+      m_Kind: 1
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 144
       m_Height: 144
-      m_Kind: 0
+      m_Kind: 1
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 96
       m_Height: 96
-      m_Kind: 0
+      m_Kind: 1
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 72
       m_Height: 72
-      m_Kind: 0
+      m_Kind: 1
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 48
       m_Height: 48
-      m_Kind: 0
+      m_Kind: 1
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
       m_Width: 36
       m_Height: 36
-      m_Kind: 0
+      m_Kind: 1
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 2800000, guid: 41c0c7589d1bc8345af4fc59ade481ba, type: 3}
+      - {fileID: 2800000, guid: 41c0c7589d1bc8345af4fc59ade481ba, type: 3}
       m_Width: 432
       m_Height: 432
       m_Kind: 2
@@ -678,17 +687,17 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLWasmStreaming: 1
   scriptingDefineSymbols:
-    1: EASY_MOBILE;EASY_MOBILE_PRO
-    4: EASY_MOBILE;EASY_MOBILE_PRO;NO_GPGS
-    7: EASY_MOBILE;EASY_MOBILE_PRO;EM_GPGS
-    13: EASY_MOBILE;EASY_MOBILE_PRO
-    14: EASY_MOBILE;EASY_MOBILE_PRO
-    19: EASY_MOBILE;EASY_MOBILE_PRO
-    21: EASY_MOBILE;EASY_MOBILE_PRO
-    25: EASY_MOBILE;EASY_MOBILE_PRO
-    27: EASY_MOBILE;EASY_MOBILE_PRO
-    28: EASY_MOBILE;EASY_MOBILE_PRO
-    29: EASY_MOBILE;EASY_MOBILE_PRO
+    1: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP
+    4: EASY_MOBILE;EASY_MOBILE_PRO;NO_GPGS;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP
+    7: EASY_MOBILE;EASY_MOBILE_PRO;EM_GPGS;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP
+    13: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP
+    14: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP
+    19: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP
+    21: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP
+    25: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP
+    27: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP
+    28: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP
+    29: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP
   platformArchitecture: {}
   scriptingBackend:
     Android: 1
@@ -776,10 +785,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: 2e36b96c-6203-4c91-b36b-e965212243d5
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: Late Shift
+  organizationId: josue-374575
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

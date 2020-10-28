@@ -18,12 +18,12 @@ MonoBehaviour:
     mAdLoadingInterval: 20
     mIosDefaultAdNetworks:
       bannerAdNetwork: 0
-      interstitialAdNetwork: 0
-      rewardedAdNetwork: 0
+      interstitialAdNetwork: 10
+      rewardedAdNetwork: 10
     mAndroidDefaultAdNetworks:
       bannerAdNetwork: 0
-      interstitialAdNetwork: 0
-      rewardedAdNetwork: 0
+      interstitialAdNetwork: 10
+      rewardedAdNetwork: 10
     mAdColony:
       mEnable: 0
       mAppId:
@@ -195,10 +195,10 @@ MonoBehaviour:
         keys: []
         values: []
     mUnityAds:
-      mEnable: 0
+      mEnable: 1
       mAppId:
-        mIosId: 
-        mAndroidId: 
+        mIosId: 3875546
+        mAndroidId: 3875547
       mDefaultBannerAdId:
         mIosId: 
         mAndroidId: 
@@ -217,7 +217,7 @@ MonoBehaviour:
       mCustomRewardedAdIds:
         keys: []
         values: []
-      mEnableTestMode: 0
+      mEnableTestMode: 1
   mGameServiceSettings:
     mAutoInit: 1
     mAutoInitDelay: 0
@@ -243,7 +243,7 @@ MonoBehaviour:
       translatable=\"false\">CgkIsfDXnPEcEAIQAw</string>\n  <!-- leaderboard The
       Best Runner -->\n  <string name=\"leaderboard_the_best_runner\" translatable=\"false\">CgkIsfDXnPEcEAIQAQ</string>\n</resources>\n"
     mEnableMultiplayer: 0
-    mEnableSavedGames: 0
+    mEnableSavedGames: 1
     mAutoConflictResolutionStrategy: 0
     mGpgsDataSource: 0
   mInAppPurchaseSettings:
@@ -252,9 +252,16 @@ MonoBehaviour:
     mSimulateAppleAskToBuy: 0
     mInterceptApplePromotionalPurchases: 0
     mEnableAmazonSandboxTesting: 0
-    mValidateAppleReceipt: 1
+    mValidateAppleReceipt: 0
     mValidateGooglePlayReceipt: 1
-    mProducts: []
+    mProducts:
+    - _name: Overtime pay
+      _type: 0
+      _id: _overtimepay
+      _price: $2.99
+      _description: Great work!! buy you something pretty
+      _storeSpecificIds: []
+      _isEditingAdvanced: 1
   mNotificationSettings:
     mAutoInit: 1
     mAutoInitDelay: 0
@@ -346,10 +353,10 @@ MonoBehaviour:
       mIOSInfoPlistKeys:
       - mKey: NSContactsUsageDescription
         mValue: '[Your usage description]'
-  mIsAdModuleEnable: 0
-  mIsIAPModuleEnable: 0
+  mIsAdModuleEnable: 1
+  mIsIAPModuleEnable: 1
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
   mIsSharingModuleEnable: 0
-  mActiveModuleIndex: 1
+  mActiveModuleIndex: 3
   mIsSelectingModule: 0
