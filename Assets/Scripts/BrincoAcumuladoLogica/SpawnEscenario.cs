@@ -19,6 +19,10 @@ public class SpawnEscenario : MonoBehaviour
     public SpriteRenderer spriteFondo;
     public Material spriteFondo_material;
     public float velocidadFondo = 0.03f;
+    [Header("Sprite Lamparas")]
+    public SpriteRenderer spriteLampara;
+    public Material spriteLampara_material;
+    public float velocidadLampara = 0.23f;
 
 
     /// <summary>
@@ -51,6 +55,8 @@ public class SpawnEscenario : MonoBehaviour
             spritePiso_material = spritePiso.material;
         if(spriteFondo)
             spriteFondo_material = spriteFondo.material;
+        if (spriteLampara)
+            spriteLampara_material = spriteLampara.material;
     }
  
     void Update()
@@ -78,6 +84,7 @@ public class SpawnEscenario : MonoBehaviour
         ActivarObjetoInicial("cintaTransportadora");
         spritePiso_material.SetFloat("_Velocidad",velocidadPiso);
         spriteFondo_material.SetFloat("_Velocidad",velocidadFondo);
+        spriteLampara_material.SetFloat("_Velocidad",velocidadLampara);
 
         spawnear = true;
     }
@@ -232,6 +239,7 @@ public class SpawnEscenario : MonoBehaviour
         }
         spritePiso_material.SetFloat("_Velocidad",0f);
         spriteFondo_material.SetFloat("_Velocidad",0f);
+        spriteLampara_material.SetFloat("_Velocidad",0f);
 
     }
 

@@ -182,7 +182,7 @@ public class Score_Control : MonoBehaviour
     }
     public void MostrarGoogleLeaderBoard()
     {
-        return;
+        
         // if(PlayGamesPlatform.Instance.localUser.authenticated)
         // {
         //     PlayGamesPlatform.Instance.ShowLeaderboardUI();
@@ -345,6 +345,7 @@ public class Score_Control : MonoBehaviour
             }
         }
     }
+
     [Button]
     void Rellenar(){
          for (int i = 0; i < scoreSlot.Length; i++)

@@ -86,6 +86,7 @@ public class Compras_Control : MonoBehaviour
             if(_producto.botonCompra == boton)
             {
                 InAppPurchasing.Purchase(_producto.nombreID);
+                break;
 
             }
         }

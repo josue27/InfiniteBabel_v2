@@ -262,6 +262,13 @@ MonoBehaviour:
       _description: Great work!! buy you something pretty
       _storeSpecificIds: []
       _isEditingAdvanced: 1
+    - _name: Cambio
+      _type: 0
+      _id: monedas1
+      _price: $1.49
+      _description: Great work!! buy you something pretty
+      _storeSpecificIds: []
+      _isEditingAdvanced: 1
   mNotificationSettings:
     mAutoInit: 1
     mAutoInitDelay: 0
