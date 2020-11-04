@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: coffeedude
   nombreUI: Coffe Guy
-  precio: 10
+  precio: 30
   sprites_idle:
   - {fileID: 6046956157892424168, guid: 501aefcced99e44469a193e659dd06c4, type: 3}
   - {fileID: -710574314188483639, guid: 501aefcced99e44469a193e659dd06c4, type: 3}

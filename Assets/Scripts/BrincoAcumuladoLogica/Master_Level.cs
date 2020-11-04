@@ -90,7 +90,7 @@ namespace Brinco
 
             if (Score_Control.instancia)
             {
-                scoreBest.text = $"{Score_Control.instancia.HighscoreLocal}";
+                scoreBest.text = $"{Score_Control.instancia.HighscoreUsuario}";
                 scoreFinal.text = $"{Score_Control.instancia.ScoreRonda}";
             }
             panel_reinicio.SetActive(true);

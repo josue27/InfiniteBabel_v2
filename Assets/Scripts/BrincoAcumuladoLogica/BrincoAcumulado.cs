@@ -264,7 +264,7 @@ public class BrincoAcumulado : MonoBehaviour
             //Solo queremos saber la distancia en Y
             // distanciaMouse = Vector3.Distance( mousePosFinal , mousePosInit ) * multiplicadorSensibilidad;
             distanciaMouse = ( mousePosInit.y - mousePosFinal.y) * multiplicadorSensibilidad;
-            Debug.Log("Distancia dedo: "+ distanciaMouse);
+           // Debug.Log("Distancia dedo: "+ distanciaMouse);
             //trazoDedo.SetPosition(0,dedo.StartScreenPosition);
             StartCoroutine(DesctivarTrail());
             trazoDedo.transform.position = dedo.GetWorldPosition(1,Camera.main);

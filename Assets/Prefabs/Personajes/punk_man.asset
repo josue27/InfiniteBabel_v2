@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: punkman
   nombreUI: Punk man
-  precio: 10
+  precio: 60
   sprites_idle:
   - {fileID: 5492780272649404610, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
   - {fileID: 7215996922070432026, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}

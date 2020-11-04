@@ -135,7 +135,7 @@ namespace Brinco
         private void Advertising_RewardedAdCompleted(RewardedAdNetwork arg1, AdPlacement arg2)
         {
             Debug.Log("Ad Reward mostrado");
-
+            Score_Control.instancia.SumarMonedas(10);
         }
         #endregion 
 

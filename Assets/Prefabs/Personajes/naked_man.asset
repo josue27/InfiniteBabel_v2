@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombre: naked_man
   nombreUI: Naked Man
-  precio: 10
+  precio: 50
   sprites_idle:
   - {fileID: 7488625582086559195, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}
   - {fileID: -6596457080614018026, guid: b22476f9c8bee476d969ae27ca5c0013, type: 3}

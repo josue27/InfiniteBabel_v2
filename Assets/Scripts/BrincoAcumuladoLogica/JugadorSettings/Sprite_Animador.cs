@@ -101,7 +101,7 @@ public class Sprite_Animador : MonoBehaviour
         }
 
 
-        Debug.Log("se cambio sprite: "+tipoAnimacion);
+       // Debug.Log("se cambio sprite: "+tipoAnimacion);
         currentFrame = 0;
 
         
