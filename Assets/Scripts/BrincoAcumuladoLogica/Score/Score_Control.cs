@@ -25,6 +25,7 @@ public class Score_Control : MonoBehaviour
     public GameObject botonCerrarGlobal;
     public float velocidadApertura = 1.0f;
     public bool panelScoreAbierto;
+
     [Header("Scores")]
     [SerializeField]
     private int highScoreUsuario;
@@ -38,11 +39,29 @@ public class Score_Control : MonoBehaviour
     //Monedas
     private int monedasTotales;
     private int monedasPartida = 0;
-    public int MonedasTotales { get => monedasTotales; private set => monedasTotales = value; }
-    public int MonedasPartida { get => monedasPartida; private set => monedasPartida = value; }
-   [Header("UIX Monedas")]
+   
+
+    [Header("UIX Monedas")]
     public TMP_Text monedasPartidas_txt;
     public TMP_Text monedasTotales_txt;
+
+    public int MonedasTotales
+    {
+        get => monedasTotales;
+        private set
+        {
+            monedasTotales = value;
+            monedasTotales_txt.text = monedasTotales.ToString("0000");
+        }
+    }
+
+    public int MonedasPartida {
+        get => monedasPartida;
+        private set {
+            monedasPartida = value;
+            monedasPartidas_txt.text = MonedasPartida.ToString("0000");
+        }
+    }
 
     [Header("UIX Juego")]
     public Animator monitorAnimator;
@@ -78,12 +97,17 @@ public class Score_Control : MonoBehaviour
 
         panelScore.transform.position = panelScore_posCerrada.position;
 
-        if (SaveGame.Exists(nombreSlotHighscore)) {
+        if (SaveGame.Exists(nombreSlotHighscore))
+        {
             CargarScoreUsuario();
-            AbrirPanelScore();
-            CargarPersonajeGuardado();
             CargarMonedas();
-        } else {
+            CargarPersonajeGuardado();
+           // AbrirPanelScore();//Pasamos esta funcion a CargarScoreUsuario() para que muestre score despues de calcular
+
+
+        }
+        else
+        {
             Debug.Log("No hay scores, debe ser primeriso");
         }
 
@@ -107,7 +131,10 @@ public class Score_Control : MonoBehaviour
         // }
 
         LeanTween.moveLocal(monitorHighScore_inicial, new Vector3(-600.0f, 0f, 0f), 0.5f).setEaseInOutSine();
+
+        MonedasPartida = MonedasTotales;
     }
+
     /// <summary>
     /// Activado por EventDispatcher cuando el jugador pierde
     /// </summary>
@@ -135,7 +162,7 @@ public class Score_Control : MonoBehaviour
 
         } else {//debe significar que no habia score y debe ser su primer juego
 
-
+            ///Desbloqueamos logro de primera vez
             DesbloquearLogro();
 
             SubirScoreGooglePlay(scoreRonda);
@@ -286,9 +313,9 @@ public class Score_Control : MonoBehaviour
     {
         monitorAnimator.SetTrigger(trigger);
     }
-    public void MonitorAnimar(string nombreParametro, bool estado) {
+    //public void MonitorAnimar(string nombreParametro, bool estado) {
 
-    }
+    //}
   
    
 
@@ -342,11 +369,9 @@ public class Score_Control : MonoBehaviour
         }
         highScoreUsuario_text.SetText(HighscoreUsuario.ToString());
 
+        AbrirPanelScore();
+
     }
-
-
-
-
 
 
     /// <summary>
@@ -418,6 +443,9 @@ public class Score_Control : MonoBehaviour
 
     #region  Monedas
 
+    /// <summary>
+    /// Llamado por EventDispatcher cuando el jugador toma una moneda
+    /// </summary>
     public void MonedaTomada()
     {
         if (Master_Level._masterBrinco.estadoJuego == EstadoJuego.perdio)
@@ -432,33 +460,50 @@ public class Score_Control : MonoBehaviour
     /// </summary>
     public void CargarMonedas()
     {
-        OpenSavedGame();
+        OpenSavedGame("leer");
     }
     private void SalvarMonedas()
     {
-       SumarMonedas(MonedasPartida);
+        //Se supone que MonedasPartida es > MonedasTotales etnonces deberia dar positivo
+        int totalPartida = Mathf.Abs( MonedasPartida - MonedasTotales);
+        SumarMonedas(totalPartida);
     
     }
-
-    public void GuardarMonedas()
-    {
-        byte[] datos = {2 };
-        datos[0] = Convert.ToByte(MonedasTotales);
-        GuardarMonedasCloud(juegoSalvado, datos);
-    }
-
     public void SumarMonedas(int cantidad)
     {
         MonedasTotales += cantidad;
         GuardarMonedas();
     }
-    
 
-    // Open a saved game with automatic conflict resolution
-    void OpenSavedGame()
+    //FIXED-TEST:Cuando guardamos la nueva cantidad de monedas al parecer no estamos abriendo el archivo que nos pide y no estamos guardando
+    public void GuardarMonedas()
     {
+        OpenSavedGame("guardar");
+    }
+
+
+
+    /// <summary>
+    /// Open a saved game with automatic conflict resolution
+    /// Tienes que indicar que quieres hacer depues de abrir el archivo
+    /// </summary>
+    /// <param name="caso">leer, guardar</param>
+    void OpenSavedGame(string caso)
+    {
+        switch (caso)
+        {
+            case "leer":
+                GameServices.SavedGames.OpenWithAutomaticConflictResolution("SaveMonedas_01", OpenSavedGameCallback);
+                break;
+            case "guardar":
+                GameServices.SavedGames.OpenWithAutomaticConflictResolution("SaveMonedas_01",GuardarMonedasCloud);
+                break;
+            default:
+                Debug.Log("Error no se encontro" + caso + " como comando para abrir slot guardado");
+                break;
+        }
         // Open a saved game named "My_Saved_Game" and resolve conflicts automatically if any.
-        GameServices.SavedGames.OpenWithAutomaticConflictResolution("SaveMonedas_01", OpenSavedGameCallback);
+        
 
     }
 
@@ -476,6 +521,7 @@ public class Score_Control : MonoBehaviour
             Debug.Log("Error al carga salvado de juego: " + error);
         }
     }
+    
 
     // Retrieves the binary data associated with the specified saved game
     void ReadSavedGame(SavedGame savedGame)
@@ -488,6 +534,7 @@ public class Score_Control : MonoBehaviour
                 savedGame,
                 (SavedGame game, byte[] data, string error) =>
                 {
+                    //si error esta vacio o no existe o sea todo fue correcto
                     if (string.IsNullOrEmpty(error))
                     {
                         Debug.Log("Saved game data has been retrieved successfully!");
@@ -496,12 +543,19 @@ public class Score_Control : MonoBehaviour
                         {
                             // Data processing
                             Debug.Log("Cloud save-monedas:" + data);
-                            MonedasTotales = BitConverter.ToInt32(data,0);
+                            //MonedasTotales = BitConverter.ToInt32(data,0);
+
+                            for (int i = 0; i < data.Length; i++)
+                            {
+                                Debug.Log("byte array:" + data[i]);
+                            }
+                            MonedasTotales = data[0];
                         }
                         else
                         {
                             Debug.Log("The saved game has no data!");
                         }
+
                     }
                     else
                     {
@@ -520,8 +574,32 @@ public class Score_Control : MonoBehaviour
     }
 
 
-    // Updates the given binary data to the specified saved game
-    void GuardarMonedasCloud(SavedGame savedGame, byte[] data)
+    /// <summary>
+    /// Callback despues de abrir el juego guardado en nube si se encuentra el archivo,
+    /// Despues llama a EscribirJuegoSalvado, pasandole el juegosalvado encontrado
+    /// </summary>
+    /// <param name="savedGame">objeto tipo SavedGame</param>
+    /// <param name="error">objeto tipo string que recibe errores</param>
+    void GuardarMonedasCloud(SavedGame savedGame, string error)
+    {
+        if (string.IsNullOrEmpty(error))
+        {
+            Debug.Log("Saved game opened successfully!");
+            juegoSalvado = savedGame;        // keep a reference for later operations   
+
+            byte[] datos = new byte[2];
+            datos[0] = Convert.ToByte(MonedasTotales);
+            //GuardarMonedasCloud(juegoSalvado, datos);
+
+            EscribirJuegoSalvado(juegoSalvado,datos);
+        }
+        else
+        {
+            Debug.Log("Error al carga salvado de juego: " + error);
+        }
+    }
+
+    void EscribirJuegoSalvado(SavedGame savedGame, byte[] data)
     {
         if (savedGame.IsOpen)
         {
@@ -540,7 +618,7 @@ public class Score_Control : MonoBehaviour
                         Debug.Log("Writing saved game data failed with error: " + error);
                     }
                 }
-    
+
             );
         }
         else

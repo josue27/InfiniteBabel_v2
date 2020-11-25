@@ -44,6 +44,11 @@ public class Compras_Control : MonoBehaviour
             Debug.Log($"Se compro dinero: {producto.Name}");
             //Acumular Monedas;
         }
+        else if(producto.Name == EM_IAPConstants.Product_Cambio)
+        {
+            Debug.Log($"Se compro dinero: {producto.Name}");
+            Score_Control.instancia.SumarMonedas(20);
+        }
         else
         {
             Debug.Log($"Se compro personaje: {producto.Name}");
