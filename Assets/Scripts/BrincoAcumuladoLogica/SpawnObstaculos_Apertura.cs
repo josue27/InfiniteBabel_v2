@@ -207,8 +207,8 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
 
         int r = Random.Range(0,10);
 
-        // si r > 70 la probabilidad de que r sea mayor es del 30%?
-        // si r < 70 la probabilidad de que r sea mayor es del 70%?
+        // si r > 7 la probabilidad de que r sea mayor es del 30%?
+        // si r < 7 la probabilidad de que r sea mayor es del 70%?
 
         if(r > 10-probabilidadMoneda)// %50?    
         {

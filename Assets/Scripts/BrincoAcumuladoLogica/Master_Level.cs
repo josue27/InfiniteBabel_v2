@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-
+using EasyMobile;
 //TODO: Desuscribir a todos cuando el juego pierda o ver como se hace
 namespace Brinco
 {
@@ -51,7 +51,7 @@ namespace Brinco
         [Header("BandaTransportadora")]
         public Animator[] bandasTransportadoras;
 
-
+        
         void Start()
         {
             _masterBrinco = this;
@@ -106,10 +106,33 @@ namespace Brinco
         
         public void Reiniciar()
         {
+            if (estadoJuego == EstadoJuego.reiniciando)
+                return;
+
+            estadoJuego = EstadoJuego.reiniciando;
             Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
             Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
-            SceneManager.LoadScene(0);
+            //StartCoroutine(SecuenciaReinicio());
+            Score_Control.instancia.GuardarMonedas();
+
+            
         }
+        /// <summary>
+        /// Llamado por Score_Control Si se guardaron las monedas exitosamente o no
+        /// </summary>
+        public void Reiniciar_Callback()
+        {
+            Debug.Log("Reiniciando...");
+            SceneManager.LoadScene(1);
+
+        }
+        IEnumerator SecuenciaReinicio()
+        {
+            Score_Control.instancia.GuardarMonedas();
+            yield return new WaitForSeconds(0.5f);
+            SceneManager.LoadScene(1);
+        }
+
         private void OnDestroy()
         {
             Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
@@ -142,7 +165,7 @@ namespace Brinco
             if(estadoJuego == EstadoJuego.perdio)
                 return;
             monedasTomadas++;
-            monedas_txt.SetText(monedasTomadas.ToString("000"));
+           // monedas_txt.SetText(monedasTomadas.ToString("000"));
 
         }
          ///<sumary>
@@ -239,7 +262,7 @@ public class Niveles
 
     public float rateSpawn;
 
-    [Tooltip("Probabilidad que aparezca una moneda(int)")]
+    [Tooltip("Probabilidad que aparezca una moneda(int) r > 10-probabilidadMoneda")]
     public int probabilidadMoneda;
     [Tooltip("Se spawnearan obstaculos extras en las orillsa(niveles mas dificiles")]
     public bool obstaculoOrilla;
@@ -253,5 +276,6 @@ public enum EstadoJuego
 {
     jugando,
     perdio,
-    inicio
+    inicio,
+    reiniciando
 }

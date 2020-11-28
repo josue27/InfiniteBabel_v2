@@ -76,7 +76,7 @@ public class BrincoAcumulado : MonoBehaviour
     {
         rigid = this.GetComponent<Rigidbody>();
 
-        Eventos_Dispatcher.eventos.JugadorPerdio += PerdioJuego;
+       // Eventos_Dispatcher.eventos.JugadorPerdio += PerdioJuego;
         Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
 
         LeanTouch.OnFingerDown+= DedoDown;
@@ -339,14 +339,15 @@ public class BrincoAcumulado : MonoBehaviour
     {
 
         //TODO: Cambiar a un script independiento o EventDispatcher
-
+        //BUG:no esta detectando las TNT
         switch (other.tag)
         {
             case "pared":
                 if (!cruzandoApertura)
                 {
                     EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
-                    Eventos_Dispatcher.eventos.JugadorPerdio();
+                    //Eventos_Dispatcher.eventos.JugadorPerdio();
+                    PerdioJuego();
                     ReproducirAnimacion("muerto");
                 }
                 break;
@@ -354,7 +355,9 @@ public class BrincoAcumulado : MonoBehaviour
                 if (!cruzandoApertura)
                 {
                     EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
-                    Eventos_Dispatcher.eventos.JugadorPerdio();
+                    //Eventos_Dispatcher.eventos.JugadorPerdio();
+                    PerdioJuego();
+
                     ReproducirAnimacion("muerto");
                     other.gameObject.SetActive(false);
                     other.transform.parent.parent.GetComponent<ObstaculoControl>().ExplotarTNT(other.transform);
@@ -373,8 +376,10 @@ public class BrincoAcumulado : MonoBehaviour
                             StartCoroutine(HumoFX());
                         });
 
-                    
-                    Eventos_Dispatcher.eventos.JugadorPerdio();
+
+                    //Eventos_Dispatcher.eventos.JugadorPerdio();
+                    PerdioJuego();
+
                     Debug.Log("Jugador entro a piso roto:" + other.transform.name);
                     
                 }
@@ -497,6 +502,8 @@ public class BrincoAcumulado : MonoBehaviour
 
     }
 
+    
+
     private void PerdioJuego()
     {
         jugando = false;
@@ -505,7 +512,15 @@ public class BrincoAcumulado : MonoBehaviour
         //this.rigid.isKinematic = true;
         ReproducirSonido_Jugador("caidaPerdio");
         muerto = true;
+        StartCoroutine(PerdioJuego_Rutina());
     }
+    private IEnumerator PerdioJuego_Rutina()
+    {
+        yield return new WaitForSeconds(1.0f);
+        Eventos_Dispatcher.eventos.JugadorPerdio();
+
+    }
+
     /// <summary>
     /// Activa un trigger dentro del animator del personaje
     /// </summary>
@@ -563,7 +578,7 @@ public class BrincoAcumulado : MonoBehaviour
     }
     private void OnDestroy()
     {
-        Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
+        //Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
         Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
         LeanTouch.OnFingerDown -= DedoDown;
         LeanTouch.OnFingerUp -= DedoArriba;

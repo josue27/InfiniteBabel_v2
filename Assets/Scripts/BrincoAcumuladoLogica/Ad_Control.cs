@@ -19,9 +19,8 @@ namespace Brinco
         public int casosProbables_AdReward = 3;
         public int casosFavorables_AdReward = 1;
         public GameObject panelAdReward;
-
-
-
+        public bool mostrandoAdReward;
+        
         private void OnEnable()
         {
             Advertising.InterstitialAdCompleted += Advertising_InterstitialAdCompleted;
@@ -120,9 +119,11 @@ namespace Brinco
         {
             MostrarPanelAdReward(false);
             bool estaListo = Advertising.IsRewardedAdReady();
-            if(estaListo)
+            if(estaListo && !mostrandoAdReward)
             {
+                mostrandoAdReward = true;
                 Advertising.ShowRewardedAd();
+
             }
         }
 

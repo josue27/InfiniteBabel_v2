@@ -11,6 +11,7 @@ using UnityEngine.SocialPlatforms;
 using EasyMobile;
 using System;
 
+
 public class Score_Control : MonoBehaviour
 {
     public static Score_Control instancia;
@@ -77,6 +78,7 @@ public class Score_Control : MonoBehaviour
 
     private SavedGame juegoSalvado;
 
+    private string saveFilePath;
     private void Awake()
     {
         if (!RuntimeManager.IsInitialized())
@@ -84,6 +86,7 @@ public class Score_Control : MonoBehaviour
             RuntimeManager.Init();
         }
         instancia = this;
+        saveFilePath = Application.persistentDataPath + "/save.data";
     }
     void Start()
     {
@@ -141,7 +144,7 @@ public class Score_Control : MonoBehaviour
     private void FinJuego()
     {
         CompararScore();
-        SalvarMonedas();
+        IngresarMonedasPartida();
     }
 
     
@@ -430,8 +433,13 @@ public class Score_Control : MonoBehaviour
         {
             string p = SaveGame.Load<string>(nombreSlotPersonajeUsado);
             SeleccionPersonaje._seleccionPersonaje?.BuscarPersonaje(p);
+            Debug.Log("Se mando cambio de personaje guardado");
         }
-        Debug.Log("Se mando cambio de personaje guardado");
+        else
+        {
+            Debug.Log("No se encontro Skin Personaje guardado");
+        }
+        
     }
 
     private void GuardarPersonajeSeleccionado(string _nombrePersonaje)
@@ -462,23 +470,41 @@ public class Score_Control : MonoBehaviour
     {
         OpenSavedGame("leer");
     }
-    private void SalvarMonedas()
+
+    /// <summary>
+    /// Llamado cuando acaba el juego, se encarga de sumar las monedas ganadas
+    /// </summary>
+    private void IngresarMonedasPartida()
     {
-        //Se supone que MonedasPartida es > MonedasTotales etnonces deberia dar positivo
+        //Se supone que MonedasPartida es > MonedasTotales etnonces deberia dar positivo , haces esto para dar el efecto de ganancia?
+        if (MonedasPartida <= 0)
+        {
+            Debug.Log("No hay monedas para guardar saltando...");
+            return;
+        }
         int totalPartida = Mathf.Abs( MonedasPartida - MonedasTotales);
         SumarMonedas(totalPartida);
     
     }
+
+    //BUG: NO SE ESTAN GUARDANDO LAS MONEDAS DADAS POR REWARD
     public void SumarMonedas(int cantidad)
     {
         MonedasTotales += cantidad;
-        GuardarMonedas();
+        //GuardarMonedas();
     }
 
-    //FIXED-TEST:Cuando guardamos la nueva cantidad de monedas al parecer no estamos abriendo el archivo que nos pide y no estamos guardando
+    //BUG:Algo pasa que las monedas de Recompensa no se guardan
     public void GuardarMonedas()
     {
-        OpenSavedGame("guardar");
+        if (RuntimeManager.IsInitialized())
+        {
+            OpenSavedGame("guardar");
+        }
+        else
+        {
+            Master_Level._masterBrinco.Reiniciar_Callback();
+        }
     }
 
 
@@ -512,7 +538,7 @@ public class Score_Control : MonoBehaviour
     {
         if (string.IsNullOrEmpty(error))
         {
-            Debug.Log("Saved game opened successfully!");
+            Debug.Log("Se recupero juego guardado, leyendo...!");
             juegoSalvado = savedGame;        // keep a reference for later operations   
             ReadSavedGame(juegoSalvado);
         }
@@ -542,14 +568,10 @@ public class Score_Control : MonoBehaviour
                         if (data.Length > 0)
                         {
                             // Data processing
-                            Debug.Log("Cloud save-monedas:" + data);
-                            //MonedasTotales = BitConverter.ToInt32(data,0);
+                            //Debug.Log("Cloud save-monedas:" + data);
 
-                            for (int i = 0; i < data.Length; i++)
-                            {
-                                Debug.Log("byte array:" + data[i]);
-                            }
-                            MonedasTotales = data[0];
+                            Score_Save juegoRecuperado = ByteArra_Deserealizar(data);
+                            MonedasTotales = juegoRecuperado.monedas;
                         }
                         else
                         {
@@ -573,6 +595,9 @@ public class Score_Control : MonoBehaviour
         }
     }
 
+    //TODO-BUG: hay un problema en el byte pues este n puede guardar mas de 255, entonces necesitamos ver como podemos guardar una estructura mas larga
+
+    //SERIALIZAR Y DESERIALIZAR
 
     /// <summary>
     /// Callback despues de abrir el juego guardado en nube si se encuentra el archivo,
@@ -584,21 +609,32 @@ public class Score_Control : MonoBehaviour
     {
         if (string.IsNullOrEmpty(error))
         {
-            Debug.Log("Saved game opened successfully!");
-            juegoSalvado = savedGame;        // keep a reference for later operations   
+            Debug.Log("Juego Salvado preparado para guardar monedas...");
+            juegoSalvado = savedGame;// keep a reference for later operations   
+            
+           
+            //Aqui declaramo un objeto , al crearlo este se llena automaticamente con los datos de la partida
+            Score_Save saveJuego = NuevoSavedGame();
 
-            byte[] datos = new byte[2];
-            datos[0] = Convert.ToByte(MonedasTotales);
-            //GuardarMonedasCloud(juegoSalvado, datos);
+            byte[] datos = SavedGameDataToByteArray(saveJuego);
+        
 
             EscribirJuegoSalvado(juegoSalvado,datos);
         }
         else
         {
-            Debug.Log("Error al carga salvado de juego: " + error);
+            Debug.Log("Error al carga slot salvado de juego: " + error);
+            Master_Level._masterBrinco.Reiniciar_Callback();
+
         }
+
     }
 
+    /// <summary>
+    /// Escribe los datos a guardar
+    /// </summary>
+    /// <param name="savedGame">la instancia tipo SavedGame</param>
+    /// <param name="data">los datos ya serializados a byteArray</param>
     void EscribirJuegoSalvado(SavedGame savedGame, byte[] data)
     {
         if (savedGame.IsOpen)
@@ -611,11 +647,15 @@ public class Score_Control : MonoBehaviour
                 {
                     if (string.IsNullOrEmpty(error))
                     {
-                        Debug.Log("Saved game data has been written successfully!");
+                        Debug.Log($"Se guardaron {MonedasTotales} monedas en la nube exitosamente");
+                        Master_Level._masterBrinco.Reiniciar_Callback();
+
                     }
                     else
                     {
-                        Debug.Log("Writing saved game data failed with error: " + error);
+                        Debug.Log("NO se pudieron guardar las monedas en la nube" + error);
+                        Master_Level._masterBrinco.Reiniciar_Callback();
+
                     }
                 }
 
@@ -625,7 +665,65 @@ public class Score_Control : MonoBehaviour
         {
             // The saved game is not open. You can optionally open it here and repeat the process.
             Debug.Log("You must open the saved game before writing to it.");
+            Master_Level._masterBrinco.Reiniciar_Callback();
+
         }
+
+
+      
+    }
+
+    /// <summary>
+    /// Convierte en Json y seraliza un objeto de clase Score_Save
+    /// </summary>
+    /// <param name="dataObj"> variable de tipo Score_Save</param>
+    /// <returns></returns>
+    byte[] SavedGameDataToByteArray(Score_Save dataObj)
+    {
+        if (dataObj != null)
+        {
+            // Convert to json string
+            string jsonStr = JsonUtility.ToJson(dataObj);
+
+            // Json string to byte[]
+            return System.Text.Encoding.UTF8.GetBytes(jsonStr);
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Deserealiza y convierte los datos a tipo Score_Save
+    /// </summary>
+    /// <param name="data">byte array que hay que pasar</param>
+    /// <returns></returns>
+    private Score_Save ByteArra_Deserealizar(byte[] data)
+    {
+        if(data != null)
+        {
+            string jsonStr = System.Text.Encoding.UTF8.GetString(data);
+
+            Score_Save saveRecuperado = JsonUtility.FromJson<Score_Save>(jsonStr);
+
+            return saveRecuperado;
+        }
+        return null;
+    }
+    /// <summary>
+    /// Funcion que regresa un tipo Score_Save ya con los datos ingresados;
+    /// </summary>
+    /// <returns></returns>
+    private Score_Save NuevoSavedGame()
+    {
+
+        Score_Save save = new Score_Save();
+
+        save.monedas = MonedasTotales;
+        save.score = scoreRonda > highScoreUsuario ? scoreRonda : highScoreUsuario;
+
+
+        return save;
+
     }
     #endregion
 }
