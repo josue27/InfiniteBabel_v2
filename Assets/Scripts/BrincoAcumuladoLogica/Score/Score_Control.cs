@@ -424,7 +424,7 @@ public class Score_Control : MonoBehaviour
 
     #region Skin Personaje
     /// <summary>
-    /// Se encarga de buscar el slot del personaje guardado, 
+    /// Se encarga de buscar el slot del personaje guardado localelmente, 
     /// si existe le manda el nombre del Personaje para buscarlo
     /// </summary>
     public void CargarPersonajeGuardado()
@@ -442,6 +442,10 @@ public class Score_Control : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Guarda el personaje que el Usuario selecciono de manera local
+    /// </summary>
+    /// <param name="_nombrePersonaje"></param>
     private void GuardarPersonajeSeleccionado(string _nombrePersonaje)
     {
         SaveGame.Save(nombreSlotPersonajeUsado, _nombrePersonaje);
@@ -487,14 +491,18 @@ public class Score_Control : MonoBehaviour
     
     }
 
-    //BUG: NO SE ESTAN GUARDANDO LAS MONEDAS DADAS POR REWARD
+    
     public void SumarMonedas(int cantidad)
     {
         MonedasTotales += cantidad;
         //GuardarMonedas();
     }
+    public void RestarMonedas(int cantidad)
+    {
+        MonedasTotales -= cantidad;
+    }
 
-    //BUG:Algo pasa que las monedas de Recompensa no se guardan
+ 
     public void GuardarMonedas()
     {
         if (RuntimeManager.IsInitialized())

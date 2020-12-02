@@ -255,17 +255,17 @@ MonoBehaviour:
     mValidateAppleReceipt: 0
     mValidateGooglePlayReceipt: 1
     mProducts:
-    - _name: Overtime pay
-      _type: 0
-      _id: _overtimepay
-      _price: $2.99
-      _description: Great work!! buy you something pretty
-      _storeSpecificIds: []
-      _isEditingAdvanced: 1
     - _name: Cambio
       _type: 0
       _id: monedas1
       _price: $1.49
+      _description: Great work!! buy you something pretty
+      _storeSpecificIds: []
+      _isEditingAdvanced: 1
+    - _name: RemoverAds
+      _type: 0
+      _id: remover_ad
+      _price: $3.99
       _description: Great work!! buy you something pretty
       _storeSpecificIds: []
       _isEditingAdvanced: 1
@@ -372,5 +372,5 @@ MonoBehaviour:
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
   mIsSharingModuleEnable: 0
-  mActiveModuleIndex: 4
-  mIsSelectingModule: 1
+  mActiveModuleIndex: 3
+  mIsSelectingModule: 0

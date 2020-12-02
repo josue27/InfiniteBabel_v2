@@ -9,7 +9,7 @@ namespace EasyMobile
 	public static class EM_IAPConstants
 	{
 		public const string Product_Cambio = "Cambio";
-		public const string Product_Overtime_pay = "Overtime pay";
+		public const string Product_RemoverAds = "RemoverAds";
 
 	}
 }

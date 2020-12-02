@@ -121,16 +121,16 @@ public class Sprite_Animador : MonoBehaviour
         CambioAnimacion(tipoAnimacion);
     }
 
-    public void CambiarSprites(PersonajeScriptable personaje_sprites)
+    public void CambiarSprites(PersonajesEnJuego personaje_sprites)
     {
-        sprites_idle = personaje_sprites.sprites_idle;
-        sprites_corriendo = personaje_sprites.sprites_corriendo;
-        sprites_brinco  = personaje_sprites.sprites_brinco;
-        sprites_caida = personaje_sprites.sprites_caida;
-        sprites_golpe = personaje_sprites.sprites_muerte;
+        sprites_idle = personaje_sprites.personaje.sprites_idle;
+        sprites_corriendo = personaje_sprites.personaje.sprites_corriendo;
+        sprites_brinco  = personaje_sprites.personaje.sprites_brinco;
+        sprites_caida = personaje_sprites.personaje.sprites_caida;
+        sprites_golpe = personaje_sprites.personaje.sprites_muerte;
 
         CambioAnimacion("idle");
 
-        Debug.Log("Se cambiaron a sprites de:"+personaje_sprites.nombre);
+        Debug.Log("Se cambiaron a sprites de:"+personaje_sprites.personaje.nombre);
     }
 }

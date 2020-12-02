@@ -51,7 +51,14 @@ namespace Brinco
         [Header("BandaTransportadora")]
         public Animator[] bandasTransportadoras;
 
-        
+        [Space(10)]
+        [Header("PantallaReinicio")]
+        public GameObject pantallNegro;
+
+        private void OnValidate()
+        {
+            Debug.Log( pantallNegro.transform.position);
+        }
         void Start()
         {
             _masterBrinco = this;
@@ -63,7 +70,8 @@ namespace Brinco
             velocidadObstaculos = velocidadObstaculosInicial;
             pasarASigVelocidadEn = RandomSigCambio();
             estadoJuego = EstadoJuego.inicio;
-            
+
+            PantallaNegra("out");
           //  boton_inicio. += InicioJuego_UI;
         }
 
@@ -114,7 +122,7 @@ namespace Brinco
             Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
             //StartCoroutine(SecuenciaReinicio());
             Score_Control.instancia.GuardarMonedas();
-
+            PantallaNegra("in");
             
         }
         /// <summary>
@@ -222,6 +230,7 @@ namespace Brinco
 
             //Eventos_Dispatcher.eventos.CambioVelocidad_Call(SigVelocidad());
         }
+
         ///<sumary>
         ///Elige entre 2 numeros enteros en que obstaculo el jugador pasa a la siguienteVelocidad y se vuelve a sumar
         ///</sumary>
@@ -245,6 +254,28 @@ namespace Brinco
             for (int i = 0; i < bandasTransportadoras.Length; i++)
             {
                 bandasTransportadoras[i].SetBool("corriendo", _encender);
+            }
+        }
+        
+
+        /// <summary>
+        /// Anima la pantalla para sacar o entrar, utilizada principalmente
+        /// cuando reiniciamos el juego
+        /// </summary>
+        /// <param name="inout">se espera string: in o out</param>
+        void PantallaNegra(string inout)
+        {
+            if(inout == "in")
+            {
+                pantallNegro.transform.position = new Vector3(2400f,1400f,0f);
+
+                LeanTween.moveLocalX(pantallNegro, 0f, 0.5f).setEaseInOutSine();
+
+            }else if(inout =="out")
+            {
+                //pantallNegro.transform.position = new Vector3(900f,450f,0f);
+                LeanTween.moveLocalX(pantallNegro, -900f, 0.5f).setEaseInOutSine();
+
             }
         }
     }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59ec5667fe40a4251a99f948a2629797, type: 3}
   m_Name: coffeedude
   m_EditorClassIdentifier: 
-  nombre: coffeedude
+  nombre: coffeeguy
   nombreUI: Coffe Guy
   precio: 30
   sprites_idle:
