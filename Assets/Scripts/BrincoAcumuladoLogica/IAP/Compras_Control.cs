@@ -48,6 +48,7 @@ namespace Brinco
             {
                 Debug.Log($"Se compro dinero: {producto.Name}");
                 Score_Control.instancia.SumarMonedas(20);
+
             } else if (producto.Name == EM_IAPConstants.Product_RemoverAds)
             {
                 this.GetComponent<Ad_Control>().noAdIntermedio = true;
@@ -109,6 +110,8 @@ namespace Brinco
         public void ComprarPersonaje()
         {
             //PersonajeScriptable personaje = this.GetComponent<SeleccionPersonaje>().BuscarDataPersonaje();
+            this.GetComponent<SeleccionPersonaje>().DesbloquearPersonaje();
+
         }
         public void AbrirTienda()
         {

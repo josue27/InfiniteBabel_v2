@@ -68,7 +68,7 @@ public class SeleccionPersonaje : MonoBehaviour
             precioPersonaje_text.SetText($"{personajes[enPersonaje].personaje.precio} x");
         }
         candado_img.SetActive(!personajes[enPersonaje].comprado);
-        Debug.Log("Se cambio personaje...mandando sprites");
+        //Debug.Log("Se cambio personaje...mandando sprites");
     }
 
 
@@ -143,6 +143,10 @@ public class SeleccionPersonaje : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Llamado por Compras_Control.cs, se encarga de evaluar si se puede comprar el personaje o no
+    /// </summary>
     public void DesbloquearPersonaje()
     {
         if(personajes[enPersonaje].comprado)
@@ -156,14 +160,41 @@ public class SeleccionPersonaje : MonoBehaviour
             personajes[enPersonaje].comprado = true;
             Score_Control.instancia.RestarMonedas(personajes[enPersonaje].personaje.precio);
             CambiarPersonaje();
+            ///Tenemos que guardar en la nube y local que ya se compro el mono
+            Score_Control.instancia.Guardar_MonedasYPersonajes();
         }
         else
         {
             Debug.Log("Sin monedas suficientes");
-            //TODO: Agregar SFX incorrecto
+            //TODO: Agregar SFX incorrecto y animacion candado
 
         }
 
+    }
+
+    /// <summary>
+    /// Llamado para desbloquear personajes si el jugador los compro en base a los datos guardados(nube o local)
+    /// </summary>
+    /// <param name="personajesEnNube"></param>
+    public void VerificarPersonajesComprados(List<PersonajeSalvado> personajesEnNube)
+    {
+        if(personajesEnNube.Count <=0)
+        {
+            Debug.Log("No habia personajes guardados en nube");
+            return;
+        }
+        foreach(PersonajeSalvado personajeEN in personajesEnNube)
+        {
+            foreach(PersonajesEnJuego personajeEJ in personajes)
+            {
+                if(personajeEJ.personaje.nombre == personajeEN.nombreID)
+                {
+                    personajeEJ.comprado = personajeEN.comprado;
+                    break;
+                }
+            }
+        }
+        Debug.Log("Personajes estatus recuperados");
     }
 }
 
