@@ -354,6 +354,7 @@ public class Score_Control : MonoBehaviour
         if (scoreCargado != null)
         {
             debug_text.text = $"Score Google Play:{scoreCargado.value}";
+            Debug.Log($"Score Google Play:{scoreCargado.value}");
             HighscoreUsuario = int.Parse(scoreCargado.formattedValue);
 
             //Verificamos si el Score de la Nube es diferente al Local
@@ -405,6 +406,7 @@ public class Score_Control : MonoBehaviour
 
         GameServices.LoadScores(EM_GameServicesConstants.Leaderboard_Obstaculos, 0, 10, TimeScope.Today, UserScope.Global, OnScoresLoaded);
     }
+   
     // Scores loaded callback
     void OnScoresLoaded(string leaderboardName, IScore[] scores)
     {
@@ -530,7 +532,7 @@ public class Score_Control : MonoBehaviour
         }
         else
         {
-            Master_Level._masterBrinco.Reiniciar_Callback();
+            //Master_Level._masterBrinco.Reiniciar_Callback();
         }
     }
 
@@ -574,16 +576,25 @@ public class Score_Control : MonoBehaviour
     {
         if (string.IsNullOrEmpty(error))
         {
-            Debug.Log("Se recupero juego guardado, leyendo...!");
+            Debug.Log("Se recupero juego guardado Nube, leyendo...!");
             juegoSalvadoNube = savedGame;        // keep a reference for later operations   
             ReadSavedGame(juegoSalvadoNube);
         }
         else
         {
-            Debug.Log("Error al cargar juego guardado: " + error);
+            Debug.Log("Error al cargar juego guardado Nube: " + error);
 
-            if (SaveGame.Exists(juegoSalvadoLocal_ID)) ;
-            juegoSalvadoLocal = SaveGame.Load<Saved_Data>(juegoSalvadoLocal_ID);
+            if (SaveGame.Exists(juegoSalvadoLocal_ID))
+            {
+                juegoSalvadoLocal = SaveGame.Load<Saved_Data>(juegoSalvadoLocal_ID);
+                Debug.Log("Se cargo juego local");
+                if (juegoSalvadoLocal != null)
+                {
+                    MonedasTotales = juegoSalvadoLocal.monedas;
+                    GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoSalvadoLocal.personajes);
+
+                }
+            }
         }
     }
     
@@ -602,7 +613,7 @@ public class Score_Control : MonoBehaviour
                     //si error esta vacio o no existe o sea todo fue correcto
                     if (string.IsNullOrEmpty(error))
                     {
-                        Debug.Log("Saved game data has been retrieved successfully!");
+                        Debug.Log("Juego Salvado de Nube leido con exito!");
                         // Here you can process the data as you wish.
                         if (data.Length > 0)
                         {
@@ -610,18 +621,37 @@ public class Score_Control : MonoBehaviour
                             //Debug.Log("Cloud save-monedas:" + data);
 
                             Saved_Data juegoRecuperado = ByteArra_Deserealizar(data);
-                            MonedasTotales = juegoRecuperado.monedas;
+
+                            //Resolver conflicto de monedas
+                            if (juegoSalvadoLocal != null)
+                            {
+                                if(juegoSalvadoLocal.monedas > juegoRecuperado.monedas)
+                                {
+                                    MonedasTotales = juegoSalvadoLocal.monedas;
+                                    Debug.Log($"Conflicto Cloud y Local, las monedas en local           ({juegoSalvadoLocal.monedas}) es > a las de nube({juegoRecuperado.monedas}) se tomara en cuenta monedas Locales");
+                                }
+                                else
+                                {
+                                    MonedasTotales = juegoRecuperado.monedas;
+                                    Debug.Log($"Conflicto Cloud y Local, las monedas en local           ({juegoSalvadoLocal.monedas}) es < a las de nube({juegoRecuperado.monedas}) se tomaran en cuenta monedas Nube");
+                                }
+                            }
+                            else
+                            {
+                                MonedasTotales = juegoRecuperado.monedas;
+                            }
+                            //Enviar monitos comprados a SeleccionPersonaje
                             GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoRecuperado.personajes);
                         }
                         else
                         {
-                            Debug.Log("EL  juego guardado se recupero pero esta vacio!");
+                            Debug.Log("EL  juego guardado Nube se recupero pero esta vacio!");
                         }
 
                     }
                     else
                     {
-                        Debug.Log("Error al leer el archivo guardado: " + error);
+                        Debug.Log("Error al leer el archivo guardado de NUBE: " + error);
                     }
                 }
 
@@ -658,7 +688,7 @@ public class Score_Control : MonoBehaviour
 
         if (string.IsNullOrEmpty(error))
         {
-            Debug.Log("Juego Salvado preparado para guardar monedas...");
+            Debug.Log("Juego Salvado preparado para guardar  en la nube...");
             juegoSalvadoNube = savedGame;  
             
 
@@ -676,11 +706,12 @@ public class Score_Control : MonoBehaviour
             GuardarJuego_Local();
 
             Debug.Log("Error al carga slot salvado de juego: " + error);
-            Master_Level._masterBrinco.Reiniciar_Callback();
+            //Master_Level._masterBrinco.Reiniciar_Callback();
         }
 
     }
     
+
     /// <summary>
     /// Llamado cuando para guardar el juego en un archivo local
     /// </summary>
@@ -720,7 +751,8 @@ public class Score_Control : MonoBehaviour
                 {
                     if (string.IsNullOrEmpty(error))
                     {
-                        Debug.Log($"Se guardaron {MonedasTotales} monedas en la nube exitosamente");
+                        Debug.Log($"Se guardo juego en Nube con exito[{MonedasTotales} monedas] ");
+                        
                        
 
                     }
@@ -745,7 +777,7 @@ public class Score_Control : MonoBehaviour
         }
 
 
-        Master_Level._masterBrinco.Reiniciar_Callback();
+       // Master_Level._masterBrinco.Reiniciar_Callback();
 
     }
 
@@ -782,7 +814,7 @@ public class Score_Control : MonoBehaviour
         if(data != null)
         {
             string jsonStr = System.Text.Encoding.UTF8.GetString(data);
-
+            Debug.Log("Informaicon deserealizada de nube" + jsonStr);
             Saved_Data saveRecuperado = JsonUtility.FromJson<Saved_Data>(jsonStr);
 
             return saveRecuperado;
@@ -807,10 +839,13 @@ public class Score_Control : MonoBehaviour
 
         foreach(PersonajesEnJuego personaje in SeleccionPersonaje._seleccionPersonaje.personajes)
         {
-            PersonajeSalvado _personaje = new PersonajeSalvado();
-            _personaje.comprado = personaje.comprado;
-            _personaje.nombreID = personaje.personaje.nombre;
+            PersonajeSalvado _personaje = new PersonajeSalvado
+            {
+                comprado = personaje.comprado,
+                nombre = personaje.personaje.nombre
+            };
             personajesAGuardar.Add(_personaje);
+            Debug.Log($"Personaje:{personaje.personaje.nombre} comprado:{personaje.comprado} y agregado para guardar ");
         }
 
         save.personajes = personajesAGuardar;
@@ -819,4 +854,26 @@ public class Score_Control : MonoBehaviour
 
     }
     #endregion
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if(focus)
+        {
+            Guardar_MonedasYPersonajes();
+
+        }
+    }
+    private void OnApplicationPause(bool pause)
+    {
+        if(pause)
+        {
+            Guardar_MonedasYPersonajes();
+
+        }
+    }
 }
+/*
+ opcion 1 subimos la que tiene mas monedas y/o score
+ opcion 2 obtener las 2 y comparar
+ 
+ */

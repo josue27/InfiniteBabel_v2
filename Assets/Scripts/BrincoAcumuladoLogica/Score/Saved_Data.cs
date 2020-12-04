@@ -2,28 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Saved_Data 
+namespace Brinco
 {
-    public int score;
-    public int monedas;
-    public List<PersonajeSalvado> personajes = new List<PersonajeSalvado>();
-
-
-    public string ToJson()
+    [System.Serializable]
+    public class Saved_Data
     {
-        return JsonUtility.ToJson(this);
+        public int score;
+        public int monedas;
+        public List<PersonajeSalvado> personajes = new List<PersonajeSalvado>();
+
+
+        public string ToJson()
+        {
+            return JsonUtility.ToJson(this);
+        }
+        public void LoadFromJson(string a_Json)
+        {
+            JsonUtility.FromJsonOverwrite(a_Json, this);
+        }
     }
-    public void LoadFromJson(string a_Json)
+
+
+    [System.Serializable]
+    public class PersonajeSalvado
     {
-        JsonUtility.FromJsonOverwrite(a_Json, this);
+        public string nombre;
+        public bool comprado;
     }
-}
-
-
-[System.Serializable]
-public class PersonajeSalvado
-{
-    public string nombreID;
-    public bool comprado;
 }

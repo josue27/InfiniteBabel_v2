@@ -120,9 +120,9 @@ namespace Brinco
             estadoJuego = EstadoJuego.reiniciando;
             Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
             Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
-            //StartCoroutine(SecuenciaReinicio());
-            Score_Control.instancia.GuardarMonedas();
-            PantallaNegra("in");
+            StartCoroutine(SecuenciaReinicio());
+            //Score_Control.instancia.GuardarMonedas();
+            //PantallaNegra("in");
             
         }
         /// <summary>
@@ -137,7 +137,9 @@ namespace Brinco
         IEnumerator SecuenciaReinicio()
         {
             Score_Control.instancia.GuardarMonedas();
-            yield return new WaitForSeconds(0.5f);
+            PantallaNegra("in");
+
+            yield return new WaitForSeconds(1.0f);
             SceneManager.LoadScene(1);
         }
 
