@@ -54,15 +54,15 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
     }
      private void Update()
     {
-        if(puedeSpawnear)
-        {
-            if(Time.time >= sigSpawn)
-            {
-                sigSpawn = Time.time + intervaloTiempo;
-                ActivarObstaculo("obstaculoA");
+        //if(puedeSpawnear)
+        //{
+        //    if(Time.time >= sigSpawn)
+        //    {
+        //        sigSpawn = Time.time + intervaloTiempo;
+        //        ActivarObstaculo("obstaculoA");
                 
-            }
-        }
+        //    }
+        //}
 
         
     }
