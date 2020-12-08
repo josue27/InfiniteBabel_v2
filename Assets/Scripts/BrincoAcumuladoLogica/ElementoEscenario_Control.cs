@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ElementoEscenario_Control : MonoBehaviour
 {
-    LeanTween tween;
-
+  
+    public ObstaculoControl obstaculo;
     public void Mover(Vector3 aPosicion,float duracion)
     {
         LeanTween.move(this.gameObject,aPosicion,duracion).setOnComplete(()=>
@@ -36,5 +36,13 @@ public class ElementoEscenario_Control : MonoBehaviour
           transform.GetChild(2).gameObject.SetActive(false);
         }
         this.gameObject.SetActive(false);
+    }
+
+    public void ActivarObstaculo(int _cantidadCajas,bool _spawnTNT, bool _moneda)
+    {
+        obstaculo.gameObject.SetActive(true);
+        obstaculo.SetObstaculo(_cantidadCajas,0,_spawnTNT);
+        if (_moneda)
+            obstaculo.ActivarMoneda();
     }
 }

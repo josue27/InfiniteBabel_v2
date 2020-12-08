@@ -5,6 +5,8 @@ using UnityEngine;
 public class SpawnEscenario : MonoBehaviour
 {
 
+    public static SpawnEscenario instancia;
+
     //TODO: Crear scriptble object ElementoEscenario
     public List<Elemento> elementos = new List<Elemento>();
 
@@ -35,9 +37,18 @@ public class SpawnEscenario : MonoBehaviour
     public int casosProbables = 20;
     public int casosFavorables = 3;
 
-
-
- 
+    [Space(10)]
+    [Header("Obstaculos Caja")]
+    public float intervaloTiempo = 3.0f;
+    public int probabilidadMoneda = 5;
+    [SerializeField] private int cantidadCajas;
+    [SerializeField] private float alturaPrevia;
+    [SerializeField] private bool spawnTNT;
+    [SerializeField] private int sigObstaculo;
+    [SerializeField] private int cintasPasadas;
+    public int minSigObstaculo = 3;
+    public int maxSigObstaculo = 6;
+        
     void OnValidate()
     {
         foreach(Elemento elementoEnLista in elementos)
@@ -47,6 +58,7 @@ public class SpawnEscenario : MonoBehaviour
     }
     public void Start()
     {
+        instancia = this;
         SpawnElementos();
         Eventos_Dispatcher.eventos.InicioJuego +=   InicioJuego; 
         Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
@@ -137,21 +149,23 @@ public class SpawnEscenario : MonoBehaviour
                 objetoActivar.gameObject.SetActive(true);
                 objetoActivar.GetComponent<ElementoEscenario_Control>().Mover(elemenoEnLista.posFinal.position,elemenoEnLista.duracionRecorrido);
 
-                if(objetoActivar.CompareTag ("piso") && spawnearCintasRotas)
-                {
-                    if(TransportadoraRota())
-                    {
-                        objetoActivar.transform.GetChild(0).gameObject.SetActive(false);
-                        objetoActivar.transform.GetChild(2).gameObject.SetActive(true);
-                        
-                        Debug.Log("TRANSPORTADORA ROTA");
 
-                    }
-                    
+                ///Spawn de cintra rota
+                if(objetoActivar.CompareTag ("piso"))
+                {
+                    if (cintasPasadas == sigObstaculo)
+                    {
+                        ActivarObstaculo(objetoActivar);
+                        sigObstaculo = Random.Range(minSigObstaculo, maxSigObstaculo);
+                        cintasPasadas = 0;
+                    }else
+                        cintasPasadas++;
+
                 }
 
 
                 elemenoEnLista.objetos.Enqueue(objetoActivar);
+               
                 break;
             }
         }
@@ -242,6 +256,57 @@ public class SpawnEscenario : MonoBehaviour
         spriteLampara_material.SetFloat("_Velocidad",0f);
 
     }
+
+
+
+    #region Obstaculos
+
+    public void ActivarObstaculo(GameObject objetoActivar)
+    {
+
+        if(spawnearCintasRotas && TransportadoraRota())
+        {
+            objetoActivar.transform.GetChild(0).gameObject.SetActive(false);
+            objetoActivar.transform.GetChild(2).gameObject.SetActive(true);
+            Debug.Log("TRANSPORTADORA ROTA");
+        }
+        else
+        {
+            objetoActivar.GetComponent<ElementoEscenario_Control>().ActivarObstaculo(cantidadCajas,spawnTNT,LoteriaMoneda());
+            Debug.Log("OBSTACULO SPAWNEADO");
+        }
+       
+    }
+
+    public void SetDificultad(int _cantidadCajas, float _rateSpawn, int _probabilidadMoneda, bool _spawnTNT,bool _spawnCintaRota)
+    {
+
+        cantidadCajas = _cantidadCajas;
+        intervaloTiempo = _rateSpawn > 0 ? _rateSpawn : intervaloTiempo;//asgurarse que no de 0
+        probabilidadMoneda = _probabilidadMoneda;
+        spawnTNT = _spawnTNT;
+        spawnearCintasRotas = _spawnCintaRota;
+    }
+
+    public bool LoteriaMoneda()
+    {
+        bool spawnearMoneda = false;
+
+        int r = Random.Range(0, 10);
+
+        // si r > 7 la probabilidad de que r sea mayor es del 30%?
+        // si r < 7 la probabilidad de que r sea mayor es del 70%?
+
+        if (r > 10 - probabilidadMoneda)// %50?    
+        {
+            spawnearMoneda = true;
+            Debug.Log("Spaneando moneda");
+        }
+        return spawnearMoneda;
+    }
+
+
+    #endregion
 
 
 }

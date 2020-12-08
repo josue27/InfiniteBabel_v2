@@ -20,6 +20,7 @@ public class ObstaculoControl : MonoBehaviour
     [Header("VFX")]
     public GameObject explosion_vfx;
 
+  
     void Start()
     {
        // SetObstaculo();
@@ -38,7 +39,7 @@ public class ObstaculoControl : MonoBehaviour
         }
         #endif
 
-        this.transform.Translate(Vector3.back * (Time.deltaTime * velociadMovimiento));
+      //  this.transform.Translate(Vector3.back * (Time.deltaTime * velociadMovimiento));
 
     }
 

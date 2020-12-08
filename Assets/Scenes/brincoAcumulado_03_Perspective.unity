@@ -25125,7 +25125,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1912224391}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f4db50d0076ac7498fc035d7e1aa6a1, type: 3}
   m_Name: 
@@ -25235,10 +25235,19 @@ MonoBehaviour:
   spriteLampara: {fileID: 1037771832}
   spriteLampara_material: {fileID: 0}
   velocidadLampara: 0.23
-  spawnearCintasRotas: 0
+  spawnearCintasRotas: 1
   cintaRotaSpawneada: 0
   casosProbables: 30
   casosFavorables: 3
+  intervaloTiempo: 3
+  probabilidadMoneda: 5
+  cantidadCajas: 0
+  alturaPrevia: 0
+  spawnTNT: 0
+  sigObstaculo: 0
+  cintasPasadas: 0
+  minSigObstaculo: 3
+  maxSigObstaculo: 6
 --- !u!1 &1936018686
 GameObject:
   m_ObjectHideFlags: 0
@@ -27931,7 +27940,7 @@ MonoBehaviour:
     rateSpawn: 5
     probabilidadMoneda: 8
     obstaculoOrilla: 0
-    spawnearCintasTransportadorasRotas: 0
+    spawnearCintasTransportadorasRotas: 1
     spawnearTNT: 0
   - obstaculFinal: 5
     cantidadEspacios: 3
@@ -28582,7 +28591,7 @@ PrefabInstance:
     - target: {fileID: 1348376151896805673, guid: 5e91748b6e8d747d0814ecdfd7c82f61,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.68
+      value: 12.66
       objectReference: {fileID: 0}
     - target: {fileID: 1348376151896805673, guid: 5e91748b6e8d747d0814ecdfd7c82f61,
         type: 3}

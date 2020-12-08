@@ -160,6 +160,12 @@ namespace Brinco
             SpawnObstaculos_Apertura.spawner.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
                                                            nivelesDificultad[enNivel].rateSpawn,
                                                            nivelesDificultad[enNivel].probabilidadMoneda);
+
+            SpawnEscenario.instancia.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
+                                                           nivelesDificultad[enNivel].rateSpawn,
+                                                           nivelesDificultad[enNivel].probabilidadMoneda,
+                                                           nivelesDificultad[enNivel].spawnearTNT,
+                                                           nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas);
             yield return new WaitForSeconds(0.5f);
            // EncenderBandaTransportadora(true);
             SpawnObstaculos_Apertura.spawner.EmpezoJuego();
@@ -214,8 +220,12 @@ namespace Brinco
                                                                nivelesDificultad[enNivel].probabilidadMoneda,
                                                                nivelesDificultad[enNivel].spawnearTNT);
 
-               
-               SpawnObstaculos_Apertura.spawner.gameObject.GetComponent<SpawnEscenario>().spawnearCintasRotas = nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas;
+                SpawnEscenario.instancia.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
+                                                           nivelesDificultad[enNivel].rateSpawn,
+                                                           nivelesDificultad[enNivel].probabilidadMoneda,
+                                                           nivelesDificultad[enNivel].spawnearTNT,
+                                                           nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas);
+                //SpawnObstaculos_Apertura.spawner.gameObject.GetComponent<SpawnEscenario>().spawnearCintasRotas = nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas;
                 
                 Debug.Log("Se aumento la dificultad nivel: "+ enNivel);
             }
