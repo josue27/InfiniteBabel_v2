@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using EasyMobile;
+using BayatGames.SaveGameFree;
+
 //TODO: Desuscribir a todos cuando el juego pierda o ver como se hace
 namespace Brinco
 {
@@ -55,9 +57,14 @@ namespace Brinco
         [Header("PantallaReinicio")]
         public GameObject pantallNegro;
 
+        public bool tutorialCompletado;
+
+        public GameObject instruccionesBrinco;
+        public GameObject instruccionesRegreso;
+        public BrincoAcumulado jugador;
         private void OnValidate()
         {
-            Debug.Log( pantallNegro.transform.position);
+           // Debug.Log( pantallNegro.transform.position);
         }
         void Start()
         {
@@ -72,6 +79,9 @@ namespace Brinco
             estadoJuego = EstadoJuego.inicio;
 
             PantallaNegra("out");
+
+
+            tutorialCompletado = SaveGame.Load<bool>("tutorialCompletado");
           //  boton_inicio. += InicioJuego_UI;
         }
 
@@ -87,8 +97,17 @@ namespace Brinco
         private void InicioJuego()
         {
             print("Se inicio Juego");
-            estadoJuego = EstadoJuego.jugando;
-            StartCoroutine(InicioJuego_Rutina());
+
+            if (!tutorialCompletado)
+            {
+                StartCoroutine(InicioTutorial_Rutina());
+                estadoJuego = EstadoJuego.tutorial;
+            }
+            else
+            {
+                estadoJuego = EstadoJuego.jugando;
+                StartCoroutine(InicioJuego_Rutina());
+            }
             
             
         }
@@ -106,6 +125,10 @@ namespace Brinco
             print("GAME OVER");
         }
 
+
+        /// <summary>
+        /// Llamado con el boton play de parte del jugador
+        /// </summary>
         public void InicioJuego_UI()
         {
             Eventos_Dispatcher.eventos.InicioJuego_llamada();
@@ -149,23 +172,61 @@ namespace Brinco
             Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
         }
 
+
+        IEnumerator InicioTutorial_Rutina()
+        {
+            boton_inicio.gameObject.SetActive(false);
+            yield return new WaitForSeconds(3.0f);
+            instruccionesBrinco.SetActive(true);
+            jugador.puedeBrincar = true;
+
+        }
+
+        /// <summary>
+        /// Llamado para pasar a la siguiente instruccion, por el momento por BrincoAcumulado.cs
+        /// </summary>
+        /// <param name="nombre">brinco,regreso</param>
+        public void InstruccionesCompletada(string nombre)
+        {
+            if(nombre =="brinco")
+            {
+                instruccionesBrinco.SetActive(false);
+                instruccionesRegreso.SetActive(true);
+                LeanTween.value(1.0f, 0.5f, 0.5f).setOnUpdate((float val)=>{
+                    Time.timeScale = val;
+                });
+
+            }else if(nombre == "regreso")
+            {
+                instruccionesRegreso.SetActive(false);
+                Time.timeScale = 1.0f;
+                estadoJuego = EstadoJuego.jugando;
+                StartCoroutine(InicioJuego_Rutina());
+            }
+        }
+
         /// <summary>
         /// Secuencia de como inicia el juego despues de presionar PLAY
         /// </summary>
         /// <returns></returns>
         IEnumerator InicioJuego_Rutina()
         {
+            yield return new WaitForSeconds(1.0f);
             boton_inicio.gameObject.SetActive(false);
+            jugador.puedeBrincar = true;
+
             // SpawnObstaculos_Apertura.spawner.SetDificultad(this.velocidadObstaculos,nivelesDificultad[enNivel].cantidadEspacios);
-            SpawnObstaculos_Apertura.spawner.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
-                                                           nivelesDificultad[enNivel].rateSpawn,
-                                                           nivelesDificultad[enNivel].probabilidadMoneda);
+            //SpawnObstaculos_Apertura.spawner.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
+            //                                               nivelesDificultad[enNivel].rateSpawn,
+            //                                               nivelesDificultad[enNivel].probabilidadMoneda);
 
             SpawnEscenario.instancia.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
                                                            nivelesDificultad[enNivel].rateSpawn,
                                                            nivelesDificultad[enNivel].probabilidadMoneda,
                                                            nivelesDificultad[enNivel].spawnearTNT,
-                                                           nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas);
+                                                           nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas,
+                                                           nivelesDificultad[enNivel].minSigObstaculo,
+                                                           nivelesDificultad[enNivel].maxSigObstaculo);
             yield return new WaitForSeconds(0.5f);
            // EncenderBandaTransportadora(true);
             SpawnObstaculos_Apertura.spawner.EmpezoJuego();
@@ -224,7 +285,9 @@ namespace Brinco
                                                            nivelesDificultad[enNivel].rateSpawn,
                                                            nivelesDificultad[enNivel].probabilidadMoneda,
                                                            nivelesDificultad[enNivel].spawnearTNT,
-                                                           nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas);
+                                                           nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas,
+                                                           nivelesDificultad[enNivel].minSigObstaculo,
+                                                           nivelesDificultad[enNivel].maxSigObstaculo);
                 //SpawnObstaculos_Apertura.spawner.gameObject.GetComponent<SpawnEscenario>().spawnearCintasRotas = nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas;
                 
                 Debug.Log("Se aumento la dificultad nivel: "+ enNivel);
@@ -305,6 +368,9 @@ public class Niveles
 
     public float rateSpawn;
 
+    public int minSigObstaculo;
+    public int maxSigObstaculo;
+
     [Tooltip("Probabilidad que aparezca una moneda(int) r > 10-probabilidadMoneda")]
     public int probabilidadMoneda;
     [Tooltip("Se spawnearan obstaculos extras en las orillsa(niveles mas dificiles")]
@@ -320,5 +386,6 @@ public enum EstadoJuego
     jugando,
     perdio,
     inicio,
-    reiniciando
+    reiniciando,
+    tutorial
 }

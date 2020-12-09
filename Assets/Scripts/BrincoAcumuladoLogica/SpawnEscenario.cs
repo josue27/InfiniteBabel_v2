@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Brinco;
 public class SpawnEscenario : MonoBehaviour
 {
 
@@ -151,7 +151,7 @@ public class SpawnEscenario : MonoBehaviour
 
 
                 ///Spawn de cintra rota
-                if(objetoActivar.CompareTag ("piso"))
+                if(objetoActivar.CompareTag ("piso") && Master_Level._masterBrinco.estadoJuego != EstadoJuego.tutorial)
                 {
                     if (cintasPasadas == sigObstaculo)
                     {
@@ -278,7 +278,7 @@ public class SpawnEscenario : MonoBehaviour
        
     }
 
-    public void SetDificultad(int _cantidadCajas, float _rateSpawn, int _probabilidadMoneda, bool _spawnTNT,bool _spawnCintaRota)
+    public void SetDificultad(int _cantidadCajas, float _rateSpawn, int _probabilidadMoneda, bool _spawnTNT,bool _spawnCintaRota,int _minSigObstaculo,int _maxSigObstaculo)
     {
 
         cantidadCajas = _cantidadCajas;
@@ -286,6 +286,9 @@ public class SpawnEscenario : MonoBehaviour
         probabilidadMoneda = _probabilidadMoneda;
         spawnTNT = _spawnTNT;
         spawnearCintasRotas = _spawnCintaRota;
+
+        minSigObstaculo = _minSigObstaculo;
+        maxSigObstaculo= _maxSigObstaculo;
     }
 
     public bool LoteriaMoneda()

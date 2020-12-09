@@ -71,6 +71,7 @@ public class BrincoAcumulado : MonoBehaviour
 
     public Sprite_Animador spriteAnim;
 
+    public bool puedeBrincar;
     [SerializeField] int toques = 0;
     void Start()
     {
@@ -238,7 +239,8 @@ public class BrincoAcumulado : MonoBehaviour
     }
     public void DedoDown(LeanFinger dedo)
     {
-        if(Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)
+        if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.inicio || Master_Level._masterBrinco.estadoJuego == EstadoJuego.perdio ||
+            !puedeBrincar)
             return;
        // Debug.Log("Dedo abajo: "+dedo.GetWorldPosition(10,Camera.main));
         mousePosInit = dedo.GetWorldPosition(10,Camera.main);
@@ -252,11 +254,13 @@ public class BrincoAcumulado : MonoBehaviour
     }
     public void DedoArriba(LeanFinger dedo)
     {
-        if(Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)
-         return;
+        //if(Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)
+        // return;
+        if (Master_Level._masterBrinco.estadoJuego == EstadoJuego.inicio || Master_Level._masterBrinco.estadoJuego == EstadoJuego.perdio ||
+            !puedeBrincar)
+            return;
 
-
-        if(enPiso)
+        if (enPiso)
         { 
             // Debug.Log("Dedo arriba: "+dedo.GetWorldPosition(10,Camera.main));
             
@@ -279,6 +283,10 @@ public class BrincoAcumulado : MonoBehaviour
             //print("Fuerza:" + acumulacionFuerza);
             acumulacionFuerza = 0;
             this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.tutorial)
+            {
+                Master_Level._masterBrinco.InstruccionesCompletada("brinco");
+            }
 
         }else if(!enPiso)
         {
@@ -298,7 +306,10 @@ public class BrincoAcumulado : MonoBehaviour
             //print("Fuerza:" + acumulacionFuerza);
             acumulacionFuerza = 0;
             this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-
+            if (Master_Level._masterBrinco.estadoJuego == EstadoJuego.tutorial)
+            {
+                Master_Level._masterBrinco.InstruccionesCompletada("regreso");
+            }
 
         }
        
