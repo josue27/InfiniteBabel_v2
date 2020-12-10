@@ -176,9 +176,17 @@ namespace Brinco
         IEnumerator InicioTutorial_Rutina()
         {
             boton_inicio.gameObject.SetActive(false);
-            yield return new WaitForSeconds(3.0f);
+            yield return new WaitForSeconds(1.5f);
             instruccionesBrinco.SetActive(true);
             jugador.puedeBrincar = true;
+
+            SpawnEscenario.instancia.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
+                                                           nivelesDificultad[enNivel].rateSpawn,
+                                                           nivelesDificultad[enNivel].probabilidadMoneda,
+                                                           nivelesDificultad[enNivel].spawnearTNT,
+                                                           nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas,
+                                                           nivelesDificultad[enNivel].minSigObstaculo,
+                                                           nivelesDificultad[enNivel].maxSigObstaculo);
 
         }
 

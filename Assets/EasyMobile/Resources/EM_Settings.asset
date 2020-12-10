@@ -263,7 +263,7 @@ MonoBehaviour:
       _storeSpecificIds: []
       _isEditingAdvanced: 1
     - _name: RemoverAds
-      _type: 0
+      _type: 1
       _id: remover_ad
       _price: $3.99
       _description: Great work!! buy you something pretty

@@ -70,7 +70,7 @@ public class BrincoAcumulado : MonoBehaviour
     public Vector3 mousePos;
 
     public Sprite_Animador spriteAnim;
-
+    public GameObject spritePersonaje;
     public bool puedeBrincar;
     [SerializeField] int toques = 0;
     void Start()
@@ -359,7 +359,9 @@ public class BrincoAcumulado : MonoBehaviour
                     EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
                     //Eventos_Dispatcher.eventos.JugadorPerdio();
                     PerdioJuego();
+                    RotarSprite();
                     ReproducirAnimacion("muerto");
+
                 }
                 break;
             case "paredTNT":
@@ -370,6 +372,7 @@ public class BrincoAcumulado : MonoBehaviour
                     PerdioJuego();
 
                     ReproducirAnimacion("muerto");
+                    RotarSprite();
                     other.gameObject.SetActive(false);
                     other.transform.parent.parent.GetComponent<ObstaculoControl>().ExplotarTNT(other.transform);
                     Debug.Log("Jugador KABOOOOMM!!!");
@@ -422,88 +425,91 @@ public class BrincoAcumulado : MonoBehaviour
     ///
    
   
-    /// <summary>
-    /// Logica de Brinco para PC con tecla
-    /// </summary>
-    private void Brinco_PC()
-    {
+    /////// <summary>
+    /////// Logica de Brinco para PC con tecla
+    /////// </summary>
+    ////private void Brinco_PC()
+    ////{
        
-            if (enPiso)
-            {
+    ////        if (enPiso)
+    ////        {
 
-                if (Input.GetKey(teclaSalto))
-                {
-                    print("Saltando");
-                    if(acumulacionFuerza < maxFuerza/2)
-                    {
-                        stepAcumulacion = stepAcumulacionMax;
-                    }else if(acumulacionFuerza > maxFuerza/2)
-                    {
-                        stepAcumulacion = stepAcumulacionMin;
+    ////            if (Input.GetKey(teclaSalto))
+    ////            {
+    ////                print("Saltando");
+    ////                if(acumulacionFuerza < maxFuerza/2)
+    ////                {
+    ////                    stepAcumulacion = stepAcumulacionMax;
+    ////                }else if(acumulacionFuerza > maxFuerza/2)
+    ////                {
+    ////                    stepAcumulacion = stepAcumulacionMin;
 
-                    }
-                    acumulacionFuerza += stepAcumulacion;
-                    acumulacionFuerza = Mathf.Clamp(acumulacionFuerza, 0, maxFuerza);
+    ////                }
+    ////                acumulacionFuerza += stepAcumulacion;
+    ////                acumulacionFuerza = Mathf.Clamp(acumulacionFuerza, 0, maxFuerza);
 
-                    //TODO: podriamos hacer que
-                    /*
-                     * El este de acumulacion sea mayor al principio y menor casi al final
-                     * o
-                     * Al reves que sea menor al principio y se acelere hacia el final
-                     */
-                    float sizeY = Mathf.Clamp((acumulacionFuerza * 0.1f), 0.1f, 0.8f);
-                    this.transform.localScale = new Vector3(1.0f, 1.0f - sizeY, 1.0f);
-                }
-                else if (Input.GetKeyUp(teclaSalto))
-                {
-                    rigid.velocity = Vector3.up * acumulacionFuerza;
-                    //print("Fuerza:" + acumulacionFuerza);
-                    acumulacionFuerza = 0;
-                    this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+    ////                //TODO: podriamos hacer que
+    ////                /*
+    ////                 * El este de acumulacion sea mayor al principio y menor casi al final
+    ////                 * o
+    ////                 * Al reves que sea menor al principio y se acelere hacia el final
+    ////                 */
+    ////                float sizeY = Mathf.Clamp((acumulacionFuerza * 0.1f), 0.1f, 0.8f);
+    ////                this.transform.localScale = new Vector3(1.0f, 1.0f - sizeY, 1.0f);
+    ////            }
+    ////            else if (Input.GetKeyUp(teclaSalto))
+    ////            {
+    ////                rigid.velocity = Vector3.up * acumulacionFuerza;
+    ////                //print("Fuerza:" + acumulacionFuerza);
+    ////                acumulacionFuerza = 0;
+    ////                this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-                }
-            }
+    ////            }
+    ////        }
         
-    }
+    ////}
 
-    /// <summary>
-    /// Logica de Brinco para App Movil con touchHold
-    /// </summary>
-    private void Brinco_Movil()
-    {
-        if (Input.touchCount > 0)
-        {
+    /////// <summary>
+    /////// Logica de Brinco para App Movil con touchHold
+    /////// </summary>
+    ////private void Brinco_Movil()
+    ////{
+    ////    if (Input.touchCount > 0)
+    ////    {
 
-            Touch touch = Input.GetTouch(0);
-            if (enPiso)
-            {
+    ////        Touch touch = Input.GetTouch(0);
+    ////        if (enPiso)
+    ////        {
 
-                if (touch.phase == TouchPhase.Stationary)
-                {
-                    print("Saltando");
-                    acumulacionFuerza += stepAcumulacion;
-                    acumulacionFuerza = Mathf.Clamp(acumulacionFuerza, 0, maxFuerza);
+    ////            if (touch.phase == TouchPhase.Stationary)
+    ////            {
+    ////                print("Saltando");
+    ////                acumulacionFuerza += stepAcumulacion;
+    ////                acumulacionFuerza = Mathf.Clamp(acumulacionFuerza, 0, maxFuerza);
 
-                    //TODO: podriamos hacer que
-                    /*
-                     * El este de acumulacion sea mayor al principio y menor casi al final
-                     * o
-                     * Al reves que sea menor al principio y se acelere hacia el final
-                     */
-                    float sizeY = Mathf.Clamp((acumulacionFuerza * 0.1f), 0.1f, 0.8f);
-                    this.transform.localScale = new Vector3(1.0f, 1.0f - sizeY, 1.0f);
-                }
-                else if (touch.phase == TouchPhase.Ended)
-                {
-                    rigid.velocity = Vector3.up * acumulacionFuerza;
-                    print("Fuerza:" + acumulacionFuerza);
-                    acumulacionFuerza = 0;
-                    this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+    ////                //TODO: podriamos hacer que
+    ////                /*
+    ////                 * El este de acumulacion sea mayor al principio y menor casi al final
+    ////                 * o
+    ////                 * Al reves que sea menor al principio y se acelere hacia el final
+    ////                 */
+    ////                float sizeY = Mathf.Clamp((acumulacionFuerza * 0.1f), 0.1f, 0.8f);
+    ////                this.transform.localScale = new Vector3(1.0f, 1.0f - sizeY, 1.0f);
+    ////            }
+    ////            else if (touch.phase == TouchPhase.Ended)
+    ////            {
+    ////                rigid.velocity = Vector3.up * acumulacionFuerza;
+    ////                print("Fuerza:" + acumulacionFuerza);
+    ////                acumulacionFuerza = 0;
+    ////                this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-                }
-            }
-        }
-    }
+    ////            }
+    ////        }
+    ////    }
+    ////}
+
+
+
 
     private void InicioJuego()
     {
@@ -578,6 +584,11 @@ public class BrincoAcumulado : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void RotarSprite()
+    {
+        LeanTween.rotateZ(spritePersonaje, 359, 0.5f);
     }
 
     private IEnumerator HumoFX(){

@@ -48,7 +48,7 @@ public class Score_Control : MonoBehaviour
     public TMP_Text monedasTotales_txt;
 
 
-
+    private Saved_Data datosDescargados;
 
     public int MonedasTotales
     {
@@ -622,18 +622,20 @@ public class Score_Control : MonoBehaviour
 
                             Saved_Data juegoRecuperado = ByteArra_Deserealizar(data);
 
+                            //Guardamos los datos descargados para futura comparacion
+                            datosDescargados = juegoRecuperado;
                             //Resolver conflicto de monedas
                             if (juegoSalvadoLocal != null)
                             {
                                 if(juegoSalvadoLocal.monedas > juegoRecuperado.monedas)
                                 {
                                     MonedasTotales = juegoSalvadoLocal.monedas;
-                                    Debug.Log($"Conflicto Cloud y Local, las monedas en local           ({juegoSalvadoLocal.monedas}) es > a las de nube({juegoRecuperado.monedas}) se tomara en cuenta monedas Locales");
+                                    Debug.Log($"Conflicto Cloud y Local, las monedas en local({juegoSalvadoLocal.monedas}) es > a las de nube({juegoRecuperado.monedas}) se tomara en cuenta monedas Locales");
                                 }
                                 else
                                 {
                                     MonedasTotales = juegoRecuperado.monedas;
-                                    Debug.Log($"Conflicto Cloud y Local, las monedas en local           ({juegoSalvadoLocal.monedas}) es < a las de nube({juegoRecuperado.monedas}) se tomaran en cuenta monedas Nube");
+                                    Debug.Log($"Conflicto Cloud y Local, las monedas en local({juegoSalvadoLocal.monedas}) es < a las de nube({juegoRecuperado.monedas}) se tomaran en cuenta monedas Nube");
                                 }
                             }
                             else
@@ -689,6 +691,7 @@ public class Score_Control : MonoBehaviour
         if (string.IsNullOrEmpty(error))
         {
             Debug.Log("Juego Salvado preparado para guardar  en la nube...");
+
             juegoSalvadoNube = savedGame;  
             
 
@@ -834,6 +837,11 @@ public class Score_Control : MonoBehaviour
 
         save.monedas = MonedasTotales;
         save.score = scoreRonda > HighscoreUsuario ? scoreRonda : HighscoreUsuario;
+
+
+        //esto en teoria deberia evitar el error de que suba un personaje como no comprado que en la nube
+        //si este comprado
+        GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(datosDescargados.personajes);
 
         List<PersonajeSalvado> personajesAGuardar = new List<PersonajeSalvado>();
 

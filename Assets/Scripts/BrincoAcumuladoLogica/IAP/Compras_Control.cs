@@ -39,6 +39,7 @@ namespace Brinco
         private void PurchaseFailedHandler(IAPProduct producto)
         {
             Debug.Log($"No se pudo procesar la compra de : {producto.Name}");
+            NativeUI.Alert("Error al comprar",$"La compra de{producto.Name} no se pudo completar");
 
         }
 
@@ -110,7 +111,8 @@ namespace Brinco
         public void ComprarPersonaje()
         {
             //PersonajeScriptable personaje = this.GetComponent<SeleccionPersonaje>().BuscarDataPersonaje();
-            this.GetComponent<SeleccionPersonaje>().DesbloquearPersonaje();
+            if(RuntimeManager.IsInitialized())
+                 this.GetComponent<SeleccionPersonaje>().DesbloquearPersonaje();
 
         }
         public void AbrirTienda()

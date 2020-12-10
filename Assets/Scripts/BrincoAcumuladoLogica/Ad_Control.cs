@@ -20,7 +20,7 @@ namespace Brinco
         public int casosFavorables_AdReward = 1;
         public GameObject panelAdReward;
         public bool mostrandoAdReward;
-
+        public bool mostrandoAdIntermedio;
         [Tooltip("TRUE si el jugador compro este articulo")]
         public bool noAdIntermedio;
         private void OnEnable()
@@ -86,6 +86,9 @@ namespace Brinco
         /// </summary>
         void MostarAdIntermedio()
         {
+            if (mostrandoAdIntermedio)
+                return;
+
             if (noAdIntermedio)
             {
                 Debug.Log("El jugador compra NO ADS, descartando...");
@@ -97,6 +100,7 @@ namespace Brinco
             if (estaListo)
             {
                 Advertising.ShowInterstitialAd();
+                mostrandoAdIntermedio = true;
             }
         }
 
