@@ -52,7 +52,7 @@ namespace Brinco
 
             } else if (producto.Name == EM_IAPConstants.Product_RemoverAds)
             {
-                this.GetComponent<Ad_Control>().noAdIntermedio = true;
+                this.GetComponent<Ad_Control>().removerAdIntermedio = true;
                 Debug.Log("se removieron los ads");
             }
             else
@@ -91,8 +91,18 @@ namespace Brinco
             //    Debug.Log("Producto: " + producto.Name);
             //}
             BuscarProductoLocalized();
+            SeComproNoAds();
         }
 
+        //Reviza si el usuario compro el producto de remover ads intermedios y se lo manda a Ad_Control.cs
+        public void SeComproNoAds()
+        {
+            if(!isInitialized)
+            {
+                bool remover = InAppPurchasing.IsProductOwned(EM_IAPConstants.Product_RemoverAds);
+                GetComponent<Ad_Control>().RemoverAds(remover);
+            }
+        }
         public void ComprarObjeto(Button boton)
         {
             foreach (Producto _producto in productos)
@@ -111,15 +121,21 @@ namespace Brinco
         public void ComprarPersonaje()
         {
             //PersonajeScriptable personaje = this.GetComponent<SeleccionPersonaje>().BuscarDataPersonaje();
-            if(RuntimeManager.IsInitialized())
-                 this.GetComponent<SeleccionPersonaje>().DesbloquearPersonaje();
-
+            if (RuntimeManager.IsInitialized())
+            {
+                this.GetComponent<SeleccionPersonaje>().DesbloquearPersonaje();
+            }
+            else
+            {
+                NativeUI.Alert("Error", "No hay conexion a la tienda ");
+            }
         }
         public void AbrirTienda()
         {
             if (!isInitialized)
             {
                 Debug.Log("Compras Control: GPS no inicializado");
+                NativeUI.Alert("Error","No hay conexion a la red");
                 return;
             }
             if (!panelTienda)

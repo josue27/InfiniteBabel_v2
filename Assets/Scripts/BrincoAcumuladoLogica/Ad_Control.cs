@@ -22,7 +22,7 @@ namespace Brinco
         public bool mostrandoAdReward;
         public bool mostrandoAdIntermedio;
         [Tooltip("TRUE si el jugador compro este articulo")]
-        public bool noAdIntermedio;
+        public bool removerAdIntermedio;
         private void OnEnable()
         {
             Advertising.InterstitialAdCompleted += Advertising_InterstitialAdCompleted;
@@ -89,7 +89,7 @@ namespace Brinco
             if (mostrandoAdIntermedio)
                 return;
 
-            if (noAdIntermedio)
+            if (removerAdIntermedio)
             {
                 Debug.Log("El jugador compra NO ADS, descartando...");
                 return;
@@ -151,7 +151,10 @@ namespace Brinco
         }
         #endregion 
 
-
+        public void RemoverAds(bool remover)
+        {
+            removerAdIntermedio = remover;
+        }
 
         private void OnDisable()
         {

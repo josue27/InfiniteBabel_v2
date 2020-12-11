@@ -59,9 +59,11 @@ namespace Brinco
 
         public bool tutorialCompletado;
 
-        public GameObject instruccionesBrinco;
-        public GameObject instruccionesRegreso;
+       
+        public GameObject panelTutorial;//params:tutorialRegreso;
+
         public BrincoAcumulado jugador;
+        
         private void OnValidate()
         {
            // Debug.Log( pantallNegro.transform.position);
@@ -176,8 +178,9 @@ namespace Brinco
         IEnumerator InicioTutorial_Rutina()
         {
             boton_inicio.gameObject.SetActive(false);
+            jugador.spriteAnim.CambioAnimacion("corriendo",true);
             yield return new WaitForSeconds(1.5f);
-            instruccionesBrinco.SetActive(true);
+            panelTutorial.SetActive(true);
             jugador.puedeBrincar = true;
 
             SpawnEscenario.instancia.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
@@ -198,15 +201,15 @@ namespace Brinco
         {
             if(nombre =="brinco")
             {
-                instruccionesBrinco.SetActive(false);
-                instruccionesRegreso.SetActive(true);
+
+                panelTutorial.GetComponent<Animator>().SetBool("tutorialRegreso", true);
                 LeanTween.value(1.0f, 0.5f, 0.5f).setOnUpdate((float val)=>{
                     Time.timeScale = val;
                 });
 
             }else if(nombre == "regreso")
             {
-                instruccionesRegreso.SetActive(false);
+                panelTutorial.gameObject.SetActive(false);
                 Time.timeScale = 1.0f;
                 estadoJuego = EstadoJuego.jugando;
                 StartCoroutine(InicioJuego_Rutina());

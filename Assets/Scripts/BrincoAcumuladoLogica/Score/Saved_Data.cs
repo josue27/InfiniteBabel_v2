@@ -10,7 +10,7 @@ namespace Brinco
         public int score;
         public int monedas;
         public List<PersonajeSalvado> personajes = new List<PersonajeSalvado>();
-
+        public bool removeAds;
 
         public string ToJson()
         {

@@ -644,6 +644,7 @@ public class Score_Control : MonoBehaviour
                             }
                             //Enviar monitos comprados a SeleccionPersonaje
                             GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoRecuperado.personajes);
+                           
                         }
                         else
                         {
@@ -669,7 +670,7 @@ public class Score_Control : MonoBehaviour
             {
                 MonedasTotales = juegoSalvadoLocal.monedas;
                 GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoSalvadoLocal.personajes);
-
+                GetComponent<Ad_Control>().RemoverAds(juegoSalvadoLocal.removeAds);
             }
 
         }
@@ -838,7 +839,7 @@ public class Score_Control : MonoBehaviour
         save.monedas = MonedasTotales;
         save.score = scoreRonda > HighscoreUsuario ? scoreRonda : HighscoreUsuario;
 
-
+        save.removeAds = GetComponent<Ad_Control>().removerAdIntermedio;
         //esto en teoria deberia evitar el error de que suba un personaje como no comprado que en la nube
         //si este comprado
         GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(datosDescargados.personajes);

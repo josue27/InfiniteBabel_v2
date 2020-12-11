@@ -193,7 +193,10 @@ namespace Brinco
                 {
                     if (personajeEJ.personaje.nombre == personajeEN.nombre)
                     {
-                        personajeEJ.comprado = personajeEN.comprado;
+                        //si el personajeEnJuego esta comprado entonces es verdad
+                        //si es false, entonces checamos el estatus del personaje en la nube porque puede ser que si este comprado
+                        //Esto es para que el sistema de guardado no se confunda
+                        personajeEJ.comprado = personajeEJ.comprado ? true : personajeEN.comprado;
                         Debug.Log($"Personaje{personajeEJ.personaje.nombre} comprado: {personajeEJ.comprado}");
                     }
                 }
