@@ -44,7 +44,7 @@ public class BrincoAcumulado : MonoBehaviour
     public float distanciaMouse;
 
     public Animator sprite_anim;
-
+    public GameObject sprite_golpe;
 
     public LineRenderer trazoDedo;
 
@@ -69,7 +69,7 @@ public class BrincoAcumulado : MonoBehaviour
 
     public Vector3 mousePos;
 
-    public Sprite_Animador spriteAnim;
+   public Sprite_Animador spriteAnim;
     public GameObject spritePersonaje;
     public bool puedeBrincar;
     [SerializeField] int toques = 0;
@@ -84,6 +84,8 @@ public class BrincoAcumulado : MonoBehaviour
         LeanTouch.OnFingerUp +=DedoArriba;
 
         spriteAnim?.CambioAnimacion("idle",true);
+
+
     }
 
     // Update is called once per frame
@@ -361,13 +363,13 @@ public class BrincoAcumulado : MonoBehaviour
                     PerdioJuego();
                     RotarSprite();
                     ReproducirAnimacion("muerto");
-
+                    
                 }
                 break;
             case "paredTNT":
                 if (!cruzandoApertura)
                 {
-                    EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
+                    EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 150.0f);
                     //Eventos_Dispatcher.eventos.JugadorPerdio();
                     PerdioJuego();
 
@@ -544,10 +546,12 @@ public class BrincoAcumulado : MonoBehaviour
     /// <param name="trigger">idle,muerto,caida,brinco,corriendo</param>
     private void ReproducirAnimacion(string trigger)
     {
+        sprite_golpe.SetActive(true);
         
         sprite_anim.SetTrigger(trigger);
         spriteAnim.CambioAnimacion(trigger);
     }
+  
     /// <summary>
     /// Activa un bool dentro del animator del personaje
     /// </summary>
@@ -588,7 +592,8 @@ public class BrincoAcumulado : MonoBehaviour
 
     public void RotarSprite()
     {
-        LeanTween.rotateZ(spritePersonaje, 359, 0.5f);
+        //LeanTween.rotateZ(spritePersonaje, 359, 0.5f);
+        LeanTween.rotateAroundLocal(spritePersonaje, Vector3.forward , -360f, 0.5f);
     }
 
     private IEnumerator HumoFX(){
