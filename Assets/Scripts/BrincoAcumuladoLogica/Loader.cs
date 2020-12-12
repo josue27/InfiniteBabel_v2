@@ -10,7 +10,7 @@ public class Loader : MonoBehaviour
     public string scenaJuego = "brincoAcumulado_03_Perspective";
     // Start is called before the first frame update
     public Image fillImagen;
-
+    public Slider sliderPorcentaje;
     private void Awake()
     {
         if (!RuntimeManager.IsInitialized())
@@ -28,10 +28,11 @@ public class Loader : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         AsyncOperation loader = SceneManager.LoadSceneAsync(scenaJuego);
        // loader.allowSceneActivation = false;
-        while (loader.isDone)
+        while (!loader.isDone)
         {
-            fillImagen.fillAmount = loader.progress / 100.0f;
-            Debug.Log($"Cargando: {loader.progress / 100.0f}");
+            //sliderPorcentaje.value = loader.progress;
+            fillImagen.fillAmount = loader.progress;
+            Debug.Log($"Cargando: {loader.progress}");
             yield return null;
         }
         //loader.allowSceneActivation = true;
