@@ -213,6 +213,8 @@ namespace Brinco
                 Time.timeScale = 1.0f;
                 estadoJuego = EstadoJuego.jugando;
                 StartCoroutine(InicioJuego_Rutina());
+                tutorialCompletado = true;
+                SaveGame.Save("tutorialCompletado", tutorialCompletado);
             }
         }
 

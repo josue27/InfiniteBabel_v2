@@ -32,7 +32,7 @@ public class Score_Control : MonoBehaviour
     [SerializeField]
     private int highScoreUsuario;
     private int scoreRonda;
-    public int HighscoreUsuario { get => highScoreUsuario; set => highScoreUsuario = value; }
+   
     public int ScoreRonda { get => scoreRonda; set => scoreRonda = value; }
 
     private string nombreSlotHighscore = "highscore";
@@ -87,7 +87,13 @@ public class Score_Control : MonoBehaviour
     private Saved_Data juegoSalvadoLocal;
     public static string juegoSalvadoLocal_ID = "SaveLocal";
     #endregion
-
+     public int HighscoreUsuario {
+        get => highScoreUsuario; 
+        set { 
+            highScoreUsuario = value;
+            highScoreUsuario_text.text = highScoreUsuario.ToString();
+             }
+    }
     private void Awake()
     {
         if (!RuntimeManager.IsInitialized())
@@ -124,7 +130,7 @@ public class Score_Control : MonoBehaviour
             Debug.Log("No hay scores, debe ser primeriso");
         }
 
-
+        AbrirPanelScore("mostrar");
 
     }
 
@@ -138,12 +144,8 @@ public class Score_Control : MonoBehaviour
 
     private void InicioJuego()
     {
-        // if(panelScoreAbierto)
-        // {
-        //     AbrirPanelScore();
-        // }
 
-        LeanTween.moveLocal(monitorHighScore_inicial, new Vector3(-600.0f, 0f, 0f), 0.5f).setEaseInOutSine();
+        AbrirPanelScore("ocultar");
 
         MonedasPartida = MonedasTotales;
     }
@@ -190,22 +192,43 @@ public class Score_Control : MonoBehaviour
     public void AbrirPanelScore()
     {
         //Abirr monitor de score inicial
-        LeanTween.moveLocal(monitorHighScore_inicial, new Vector3(0f, 0f, 0f), 0.5f).setEaseInOutSine();       // highScoreLocal_text.SetText(highscoreLocal.ToString());
+        LeanTween.moveLocalY(monitorHighScore_inicial, 0f, 0.5f).setEaseInOutSine();       //highScoreLocal_text.SetText(highscoreLocal.ToString());
 
-        if (!panelScoreAbierto)
+        //No se esta usando este panel
+        //if (!panelScoreAbierto)
+        //{
+        //    LeanTween.moveY(panelScore, panelScore_posAbierta.position.y, velocidadApertura).setEaseOutBounce();
+        //    panelScoreAbierto = true;
+
+
+        //}
+        //else
+        //{
+        //    LeanTween.moveY(panelScore, panelScore_posCerrada.position.y, velocidadApertura).setEaseInBounce();
+        //    panelScoreAbierto = false;
+
+        //}
+
+    }
+    
+
+    /// <summary>
+    /// Abre o cierra el panel ocn el score mas alto del jugador
+    /// </summary>
+    /// <param name="estado">mostrar,ocultar</param>
+    public void AbrirPanelScore(string estado)
+    {
+        if (estado == "mostrar")
         {
-            LeanTween.moveY(panelScore, panelScore_posAbierta.position.y, velocidadApertura).setEaseOutBounce();
-            panelScoreAbierto = true;
-
+            LeanTween.moveLocalY(monitorHighScore_inicial, 0f, 0.5f).setEaseInOutSine();
+        }
+        else if (estado == "ocultar")
+        {
+            LeanTween.moveLocalY(monitorHighScore_inicial, 600f, 0.5f).setEaseInOutSine();
 
         }
         else
-        {
-            LeanTween.moveY(panelScore, panelScore_posCerrada.position.y, velocidadApertura).setEaseInBounce();
-            panelScoreAbierto = false;
-
-        }
-
+            Debug.Log("Error no se encontro el estado");
     }
 
     public void AbrirPanelScore_Global(bool _abrir)
@@ -338,9 +361,13 @@ public class Score_Control : MonoBehaviour
     {
         // if(SaveGame.Exists(nombreSlotHighscore))
         //      highscoreLocal = SaveGame.Load<int>(nombreSlotHighscore);
-
+       // AbrirPanelScore();
 
         GameServices.LoadLocalUserScore(EM_GameServicesConstants.Leaderboard_Obstaculos, OnLocalUserScoreLoaded);
+        
+       
+
+
     }
 
     /// <summary>
@@ -391,9 +418,12 @@ public class Score_Control : MonoBehaviour
             //if (Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)
             //    CargarScoreUsuario();
         }
+
+
+
         highScoreUsuario_text.SetText(HighscoreUsuario.ToString());
 
-        AbrirPanelScore();
+       
 
     }
 

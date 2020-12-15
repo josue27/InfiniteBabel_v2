@@ -4,6 +4,7 @@ using UnityEngine;
 using Brinco;
 public class Sonido_Control : MonoBehaviour
 {
+    public static Sonido_Control sonidos;
     public AudioSource ui_AudioSource;
     public AudioSource musicaBackground_AudioSource;
     public AudioSource moneda_sfx;
@@ -18,6 +19,7 @@ public class Sonido_Control : MonoBehaviour
     /// </summary>
     void Start()
     {
+        sonidos = this;
         Eventos_Dispatcher.MonedaTomada +=ReproducirMoneda;
         Eventos_Dispatcher.CruceObstaculo += ReproducirObstaculoPasado;
     }

@@ -121,13 +121,15 @@ namespace Brinco
         public void ComprarPersonaje()
         {
             //PersonajeScriptable personaje = this.GetComponent<SeleccionPersonaje>().BuscarDataPersonaje();
-            if (RuntimeManager.IsInitialized())
+            if (isInitialized)
             {
                 this.GetComponent<SeleccionPersonaje>().DesbloquearPersonaje();
             }
             else
             {
                 NativeUI.Alert("Error", "No hay conexion a la tienda ");
+                Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
+
             }
         }
         public void AbrirTienda()
@@ -136,6 +138,7 @@ namespace Brinco
             {
                 Debug.Log("Compras Control: GPS no inicializado");
                 NativeUI.Alert("Error","No hay conexion a la red");
+                Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
                 return;
             }
             if (!panelTienda)
