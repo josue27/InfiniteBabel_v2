@@ -220,7 +220,7 @@ public class Score_Control : MonoBehaviour
     {
         if (estado == "mostrar")
         {
-            LeanTween.moveLocalY(monitorHighScore_inicial, 0f, 0.5f).setEaseInOutSine();
+            LeanTween.moveLocalY(monitorHighScore_inicial, 150f, 0.5f).setEaseInOutSine();
         }
         else if (estado == "ocultar")
         {
@@ -872,7 +872,8 @@ public class Score_Control : MonoBehaviour
         save.removeAds = GetComponent<Ad_Control>().removerAdIntermedio;
         //esto en teoria deberia evitar el error de que suba un personaje como no comprado que en la nube
         //si este comprado
-        GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(datosDescargados.personajes);
+        if(datosDescargados != null)
+            GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(datosDescargados.personajes);
 
         List<PersonajeSalvado> personajesAGuardar = new List<PersonajeSalvado>();
 

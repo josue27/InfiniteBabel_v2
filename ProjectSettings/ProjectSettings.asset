@@ -170,8 +170,8 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.ParallelsGames.Late_Shift
   buildNumber: {}
-  AndroidBundleVersionCode: 10
-  AndroidMinSdkVersion: 28
+  AndroidBundleVersionCode: 11
+  AndroidMinSdkVersion: 26
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
   aotOptions: 

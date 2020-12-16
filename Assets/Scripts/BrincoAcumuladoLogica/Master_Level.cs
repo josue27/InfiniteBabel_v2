@@ -110,8 +110,16 @@ namespace Brinco
                 estadoJuego = EstadoJuego.jugando;
                 StartCoroutine(InicioJuego_Rutina());
             }
-            
-            
+
+            SpawnEscenario.instancia.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
+                                                          nivelesDificultad[enNivel].rateSpawn,
+                                                          nivelesDificultad[enNivel].probabilidadMoneda,
+                                                          nivelesDificultad[enNivel].spawnearTNT,
+                                                          nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas,
+                                                          nivelesDificultad[enNivel].minSigObstaculo,
+                                                          nivelesDificultad[enNivel].maxSigObstaculo);
+
+
         }
          private void PerdioJuego()
         {
@@ -183,13 +191,7 @@ namespace Brinco
             panelTutorial.SetActive(true);
             jugador.puedeBrincar = true;
 
-            SpawnEscenario.instancia.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
-                                                           nivelesDificultad[enNivel].rateSpawn,
-                                                           nivelesDificultad[enNivel].probabilidadMoneda,
-                                                           nivelesDificultad[enNivel].spawnearTNT,
-                                                           nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas,
-                                                           nivelesDificultad[enNivel].minSigObstaculo,
-                                                           nivelesDificultad[enNivel].maxSigObstaculo);
+           
 
         }
 

@@ -8,6 +8,7 @@ public class SettingsControl : MonoBehaviour
     public GameObject panelSettings;
 
     public GameObject panelBotonesSuperiores;
+    public GameObject panelIdiomas;
 
     [SerializeField] Vector3 posPanelBotonesSuperiores_Activados;
     [SerializeField] Vector3 posPanelBotonesSuperiores_Desactivados;
@@ -37,6 +38,16 @@ public class SettingsControl : MonoBehaviour
 
         panelSettings.SetActive(!panelSettings.activeInHierarchy);
     }
-        
+    
+    public void Toggle_PanelIdiomas()
+    {
+        if (!panelIdiomas)
+        {
+            Debug.Log("No hay panel idiomas");
+            return;
+        }
+
+        panelIdiomas.SetActive(!panelIdiomas.activeInHierarchy);
+    }
      
 }
