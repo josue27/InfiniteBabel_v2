@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ec5667fe40a4251a99f948a2629797, type: 3}
+  m_Name: madScientist
+  m_EditorClassIdentifier: 
+  nombre: madScientist
+  nombreUI: Mad Scientist
+  precio: 50
+  sprites_idle:
+  - {fileID: 3098147920941617604, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  - {fileID: -6955504685305328363, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  - {fileID: 4631256070914909174, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  - {fileID: 4401632160723956245, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  sprites_corriendo:
+  - {fileID: 6839963361656254849, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  - {fileID: 8884602906748815628, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  - {fileID: 1204148175321178454, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  - {fileID: 6839963361656254849, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  - {fileID: 6302695652892058917, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  - {fileID: 8480386769817876398, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  sprites_brinco:
+  - {fileID: 2493188047728106726, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  - {fileID: -9196391038115565702, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  sprites_caida:
+  - {fileID: -4708514746424900069, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}
+  sprites_muerte:
+  - {fileID: -2526480991794235754, guid: 0a09bfb9058ffd2419b670d55afc5a40, type: 3}

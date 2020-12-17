@@ -31950,6 +31950,18 @@ MonoBehaviour:
     comprado: 0
   - personaje: {fileID: 11400000, guid: 8eb46da2639a8448990273ba79f2cb32, type: 2}
     comprado: 0
+  - personaje: {fileID: 11400000, guid: 159e251cf2668bc4db813197910b4c78, type: 2}
+    comprado: 0
+  - personaje: {fileID: 11400000, guid: e5fbb7d0d6ccc6647b686c1c22e91f16, type: 2}
+    comprado: 0
+  - personaje: {fileID: 11400000, guid: c2ce41bc085957e4abc2ebda25bd2afc, type: 2}
+    comprado: 0
+  - personaje: {fileID: 11400000, guid: 44a11ebc91842ae4c9bc1bc81b926332, type: 2}
+    comprado: 0
+  - personaje: {fileID: 11400000, guid: fce77c9ac3c743444b9350f3b34dc758, type: 2}
+    comprado: 1
+  - personaje: {fileID: 11400000, guid: a46f68c02bc11804395bff488bf09bc2, type: 2}
+    comprado: 0
   botonesSeleccion: {fileID: 1132833555}
   panelNombrePersonaje: {fileID: 1331872436}
   nombrePersonaje_text: {fileID: 1329441545}

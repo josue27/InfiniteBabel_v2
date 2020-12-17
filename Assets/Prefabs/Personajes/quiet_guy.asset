@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ec5667fe40a4251a99f948a2629797, type: 3}
+  m_Name: quiet_guy
+  m_EditorClassIdentifier: 
+  nombre: quietGuy
+  nombreUI: Quiet Guy
+  precio: 20
+  sprites_idle:
+  - {fileID: -456849490331212515, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  - {fileID: 6804139790042950536, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  - {fileID: 6792343043058654554, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  - {fileID: 2224408889589677063, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  sprites_corriendo:
+  - {fileID: -526965085926239076, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  - {fileID: -5272146132079287364, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  - {fileID: 5917526114769480216, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  - {fileID: -526965085926239076, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  - {fileID: -418147525752696763, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  - {fileID: -418147525752696763, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  sprites_brinco:
+  - {fileID: -6454669550082027031, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  - {fileID: 3893900758188680156, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  sprites_caida:
+  - {fileID: -2975928534370620225, guid: d2783dfbc5d15584885b579d04361235, type: 3}
+  sprites_muerte:
+  - {fileID: -2681552035100263088, guid: d2783dfbc5d15584885b579d04361235, type: 3}

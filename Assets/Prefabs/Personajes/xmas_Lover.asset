@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ec5667fe40a4251a99f948a2629797, type: 3}
+  m_Name: xmas_Lover
+  m_EditorClassIdentifier: 
+  nombre: xmasLover
+  nombreUI: Xmas Lover
+  precio: 40
+  sprites_idle:
+  - {fileID: -4860643674118191098, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  - {fileID: 4639503688618846982, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  - {fileID: -7547468305127537840, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  - {fileID: 1030692305652188638, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  sprites_corriendo:
+  - {fileID: -4811426216011966591, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  - {fileID: 8140837896303566892, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  - {fileID: 533616761421426782, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  - {fileID: 6792027358964909052, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  - {fileID: 1805340706455514515, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  - {fileID: 6402670397992716252, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  sprites_brinco:
+  - {fileID: -1005041298051236367, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  - {fileID: 3485106409359564390, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  sprites_caida:
+  - {fileID: 8733767392042664834, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
+  sprites_muerte:
+  - {fileID: -2839915100234110614, guid: c01c8065618bbd04cbf7a319a1f1e759, type: 3}
