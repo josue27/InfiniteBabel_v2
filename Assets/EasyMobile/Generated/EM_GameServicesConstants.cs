@@ -8,8 +8,16 @@ namespace EasyMobile
 {
 	public static class EM_GameServicesConstants
 	{
-		public const string Achievement_FirstRun = "FirstRun";
+		public const string Achievement_Senior_Moves = "Senior_Moves";
 		public const string Leaderboard_Obstaculos = "Obstaculos";
+		public const string Achievement_No_Quitters = "No_Quitters";
+		public const string Achievement_DownTheSystem = "DownTheSystem";
+		public const string Achievement_WorkWithStyle = "WorkWithStyle";
+		public const string Achievement_Looking_Promotion = "Looking_Promotion";
+		public const string Achievement_NoShame = "NoShame";
+		public const string Achievement_MoreCoffee = "MoreCoffee";
+		public const string Achievement_Rookie_moves = "Rookie_moves";
+		public const string Achievement_FirstRun = "FirstRun";
 
 	}
 }

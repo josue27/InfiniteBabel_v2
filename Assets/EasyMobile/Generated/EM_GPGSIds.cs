@@ -24,8 +24,17 @@
 
 public static class EM_GPGSIds
 {
+        public const string achievement_work_with_style = "CgkIsfDXnPEcEAIQBA"; // <GPGSID>
+        public const string achievement_no_shame = "CgkIsfDXnPEcEAIQCw"; // <GPGSID>
         public const string achievement_welcome_to_the_late_shift = "CgkIsfDXnPEcEAIQAw"; // <GPGSID>
         public const string leaderboard_the_best_runner = "CgkIsfDXnPEcEAIQAQ"; // <GPGSID>
+        public const string achievement_looking_that_promotion = "CgkIsfDXnPEcEAIQBg"; // <GPGSID>
+        public const string achievement_rookie_moves = "CgkIsfDXnPEcEAIQBw"; // <GPGSID>
+        public const string achievement_down_the_system = "CgkIsfDXnPEcEAIQCg"; // <GPGSID>
+        public const string achievement_make_it_rain = "CgkIsfDXnPEcEAIQDA"; // <GPGSID>
+        public const string achievement_senior_moves = "CgkIsfDXnPEcEAIQCA"; // <GPGSID>
+        public const string achievement_more_coffee_please = "CgkIsfDXnPEcEAIQCQ"; // <GPGSID>
+        public const string achievement_no_quitters = "CgkIsfDXnPEcEAIQBQ"; // <GPGSID>
 
 }
 

@@ -107,6 +107,7 @@ namespace Brinco
         private void Advertising_InterstitialAdCompleted(InterstitialAdNetwork arg1, AdPlacement arg2)
         {
             Debug.Log("Ad Intermedio mostrado");
+            Logros_Control.instancia.LogroIncremental(EM_GPGSIds.achievement_no_quitters, 1);
         }
 
         #region AdReward

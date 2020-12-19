@@ -143,6 +143,17 @@ namespace Brinco
             {
                 GuardarPersonajeSeleccionado();
 
+                if (personajes[enPersonaje].personaje.nombre == "coffeeguy")
+                {
+                    Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_more_coffee_please);
+                }else if(personajes[enPersonaje].personaje.nombre == "punkman")
+                {
+                    Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_down_the_system);
+                }
+                else if(personajes[enPersonaje].personaje.nombre == "naked_man")
+                {
+                    Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_no_shame);
+                }
             }
         }
 
@@ -166,6 +177,7 @@ namespace Brinco
                 ///Tenemos que guardar en la nube y local que ya se compro el mono
                 ///EN teoria no, porque ya implementamos salvado si quita o se va
                 // Score_Control.instancia.Guardar_MonedasYPersonajes();
+                Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_work_with_style);
             }
             else
             {

@@ -216,7 +216,7 @@ TextureImporter:
       name: interngirl_anime_sheet_2
       rect:
         serializedVersion: 2
-        x: 42
+        x: 43
         y: 65
         width: 18
         height: 19
@@ -237,9 +237,9 @@ TextureImporter:
       name: interngirl_anime_sheet_3
       rect:
         serializedVersion: 2
-        x: 62
+        x: 64
         y: 65
-        width: 18
+        width: 16
         height: 19
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -258,7 +258,7 @@ TextureImporter:
       name: interngirl_anime_sheet_4
       rect:
         serializedVersion: 2
-        x: 2
+        x: 3
         y: 44
         width: 18
         height: 19
@@ -279,7 +279,7 @@ TextureImporter:
       name: interngirl_anime_sheet_6
       rect:
         serializedVersion: 2
-        x: 42
+        x: 43
         y: 44
         width: 18
         height: 19
@@ -321,7 +321,7 @@ TextureImporter:
       name: interngirl_anime_sheet_8
       rect:
         serializedVersion: 2
-        x: 2
+        x: 3
         y: 23
         width: 18
         height: 19
@@ -363,7 +363,7 @@ TextureImporter:
       name: interngirl_anime_sheet_10
       rect:
         serializedVersion: 2
-        x: 42
+        x: 43
         y: 23
         width: 18
         height: 19
@@ -405,7 +405,7 @@ TextureImporter:
       name: interngirl_anime_sheet_12
       rect:
         serializedVersion: 2
-        x: 2
+        x: 3
         y: 2
         width: 18
         height: 19
@@ -447,7 +447,7 @@ TextureImporter:
       name: interngirl_anime_sheet_14
       rect:
         serializedVersion: 2
-        x: 42
+        x: 43
         y: 2
         width: 18
         height: 19

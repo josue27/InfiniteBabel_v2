@@ -185,6 +185,17 @@ public class Score_Control : MonoBehaviour
         }
         //para que se actualice el Highscore durante la partida
         CargarScoreUsuario();
+
+        if(scoreRonda >=5)
+        {
+            Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_rookie_moves);
+        }else if(scoreRonda >= 10)
+        {
+            Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_looking_that_promotion);
+        }else if(scoreRonda >=30)
+        {
+            Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_senior_moves);
+        }
     }
     
 
@@ -239,33 +250,7 @@ public class Score_Control : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Llamado por UI por el usuario, muestra el tablero de Logros de Google
-    /// </summary>
-    public void MostrarGoogleAchievemnts()
-    {
-        // if (PlayGamesPlatform.Instance.localUser.authenticated) {
-        //     PlayGamesPlatform.Instance.ShowAchievementsUI();
-        // }
-        // else {
-        //   Debug.Log("Cannot show Achievements, not logged in");
-        //   debug_text.text = "No se pueden mostrar los logros";
-        // }
-
-        if (GameServices.IsInitialized())
-        {
-
-            GameServices.ShowAchievementsUI();
-        } else
-        {
-#if UNITY_ANDROID
-            GameServices.Init();    // start a new initialization process
-#elif UNITY_IOS
-            Debug.Log("Cannot show achievements UI: The user is not logged in to Game Center.");
-#endif
-        }
-    }
-
+  
     /// <summary>
     /// Llamado por UI por el usuario, muestra el tablero nativo de Score de Google
     /// </summary>
@@ -311,21 +296,16 @@ public class Score_Control : MonoBehaviour
 
     }
 
+    #region Logros
     public void DesbloquearLogro()
     {
 
-        if (GameServices.IsInitialized())
-        {
-            GameServices.UnlockAchievement(EM_GPGSIds.achievement_welcome_to_the_late_shift,
-            (bool exito) =>
-            {
-                debug_text.text = "GS:" + exito;
-            }
-            );
-        }
-    }
+        Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_welcome_to_the_late_shift);
 
+       
+    }
     
+
 
     /// <summary>
     /// Lleva la cuenta de los obstaculos cruzados, ojo Master_Level.cs tambien lleva la cuenta pero
@@ -338,6 +318,7 @@ public class Score_Control : MonoBehaviour
 
         MonitorAnimar("obstaculo");
         scoreRonda++;
+
     }
     
     /// <summary>
@@ -911,9 +892,5 @@ public class Score_Control : MonoBehaviour
 
         }
     }
+    #endregion
 }
-/*
- opcion 1 subimos la que tiene mas monedas y/o score
- opcion 2 obtener las 2 y comparar
- 
- */

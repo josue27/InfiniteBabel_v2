@@ -49,6 +49,7 @@ namespace Brinco
             {
                 Debug.Log($"Se compro dinero: {producto.Name}");
                 Score_Control.instancia.SumarMonedas(20);
+                Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_make_it_rain);
 
             } else if (producto.Name == EM_IAPConstants.Product_RemoverAds)
             {

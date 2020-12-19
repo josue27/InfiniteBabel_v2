@@ -33,7 +33,7 @@ Material:
     - PixelSnap: 0
     - Vector1_BF93CA0B: 0.305
     - _EnableExternalAlpha: 0
-    - _Velocidad: 0.22
+    - _Velocidad: 0
     m_Colors:
     - Color_F13570BD: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
