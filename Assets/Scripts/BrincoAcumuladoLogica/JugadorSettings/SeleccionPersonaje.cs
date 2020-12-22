@@ -11,6 +11,7 @@ namespace Brinco
         public Sprite_Animador spriteAnimacion;
         public int enPersonaje;
         public List<PersonajesEnJuego> personajes = new List<PersonajesEnJuego>();
+        [SerializeField] private List<PersonajeSalvado> personajesEnNube;
         [Header("UIX")]
         public GameObject botonesSeleccion;
         public GameObject panelNombrePersonaje;
@@ -80,7 +81,7 @@ namespace Brinco
         /// 
         /// /// </summary>
         /// <param name="nombreBuscado">nombre del personaje</param>
-        public void BuscarPersonaje(string nombreBuscado)
+        public void SetPersonaje(string nombreBuscado)
         {
 
 
@@ -179,6 +180,7 @@ namespace Brinco
                 // Score_Control.instancia.Guardar_MonedasYPersonajes();
                 Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_work_with_style);
             }
+
             else
             {
                 Debug.Log("Sin monedas suficientes");
@@ -189,7 +191,7 @@ namespace Brinco
         }
 
         /// <summary>
-        /// Llamado para desbloquear personajes si el jugador los compro en base a los datos guardados(nube o local)
+        /// Llamado para desbloquear personajes si el jugador los compro en base a los datos guardados(nube )//por el momento no tratar de poner los personajes guardados en local
         /// </summary>
         /// <param name="personajesEnNube"></param>
         public void VerificarPersonajesComprados(List<PersonajeSalvado> personajesEnNube)
@@ -199,22 +201,29 @@ namespace Brinco
                 Debug.Log("No habia personajes guardados en nube o local");
                 return;
             }
-            foreach (PersonajeSalvado personajeEN in personajesEnNube)
+            foreach (PersonajeSalvado personajeEnNube in personajesEnNube)
             {
-                foreach (PersonajesEnJuego personajeEJ in personajes)
+                foreach (PersonajesEnJuego personajeEnJuego in personajes)
                 {
-                    if (personajeEJ.personaje.nombre == personajeEN.nombre)
+                    if (personajeEnJuego.personaje.nombre == personajeEnNube.nombre)
                     {
                         //si el personajeEnJuego esta comprado entonces es verdad
                         //si es false, entonces checamos el estatus del personaje en la nube porque puede ser que si este comprado
                         //Esto es para que el sistema de guardado no se confunda
-                        personajeEJ.comprado = personajeEJ.comprado ? true : personajeEN.comprado;
-                        Debug.Log($"Personaje{personajeEJ.personaje.nombre} comprado: {personajeEJ.comprado}");
+                        personajeEnJuego.comprado = personajeEnNube.comprado;
+                        //personajeEnJuego.comprado = personajeEnJuego.comprado ? true : personajeEnNube.comprado;
+                        Debug.Log($"Personaje{personajeEnJuego.personaje.nombre} comprado: {personajeEnJuego.comprado}");
                     }
                 }
             }
             CambiarPersonaje();
             Debug.Log("Personajes estatus compra recuperados");
+        }
+
+
+        public void SetPersonajesEnNube(List<PersonajeSalvado> _personajesEnNube)
+        {
+            personajesEnNube = _personajesEnNube;
         }
     }
 

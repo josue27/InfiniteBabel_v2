@@ -19,11 +19,15 @@ public class Logros_Control : MonoBehaviour
             Debug.Log("No se inicializo gameservices");
             return;
         }
-        GameServices.UnlockAchievement(logro, (bool exito )=> 
+        if (logro == EM_GPGSIds.achievement_work_with_style)
         {
-            Debug.Log("Logor desbloqueado:"+exito);
+            GameServices.UnlockAchievement(EM_GPGSIds.achievement_work_with_style, (bool exito) =>
+            {
+                Debug.Log("Logor desbloqueado:" + exito);
 
-        });
+            });
+        }
+
 
     }
 

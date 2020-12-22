@@ -169,10 +169,11 @@ namespace Brinco
         }
         IEnumerator SecuenciaReinicio()
         {
-            Score_Control.instancia.GuardarMonedas();
+            Save_Control.instancia.GuardarJuego();
+            //DEPRECATED//Score_Control.instancia.GuardarMonedas();
             PantallaNegra("in");
 
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(1.3f);
             SceneManager.LoadScene(1);
         }
 

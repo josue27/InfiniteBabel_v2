@@ -141,7 +141,7 @@ namespace Brinco
 
             CambioAnimacion("idle");
 
-            Debug.Log("Se cambiaron a sprites de:" + personaje_sprites.personaje.nombre);
+           // Debug.Log("Se cambiaron a sprites de:" + personaje_sprites.personaje.nombre);
         }
     }
 }

@@ -31328,6 +31328,7 @@ GameObject:
   - component: {fileID: 2111332064}
   - component: {fileID: 2111332065}
   - component: {fileID: 2111332066}
+  - component: {fileID: 2111332067}
   m_Layer: 0
   m_Name: ---Master
   m_TagString: Untagged
@@ -31510,7 +31511,7 @@ MonoBehaviour:
   - personaje: {fileID: 11400000, guid: 65ebedf7325c649dc98bcbd44460ebe6, type: 2}
     comprado: 1
   - personaje: {fileID: 11400000, guid: fce77c9ac3c743444b9350f3b34dc758, type: 2}
-    comprado: 0
+    comprado: 1
   - personaje: {fileID: 11400000, guid: e5e9bfcc577ee49b08364c5f7b90ab11, type: 2}
     comprado: 0
   - personaje: {fileID: 11400000, guid: 8eb46da2639a8448990273ba79f2cb32, type: 2}
@@ -31527,6 +31528,7 @@ MonoBehaviour:
     comprado: 0
   - personaje: {fileID: 11400000, guid: a46f68c02bc11804395bff488bf09bc2, type: 2}
     comprado: 0
+  personajesEnNube: []
   botonesSeleccion: {fileID: 1132833555}
   panelNombrePersonaje: {fileID: 1331872436}
   nombrePersonaje_text: {fileID: 1329441545}
@@ -31763,6 +31765,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adf5cf3541c02354a983f56f6ec18c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2111332067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111332054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f8543789ad0cc41a2a8fd035a680c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2134740834
