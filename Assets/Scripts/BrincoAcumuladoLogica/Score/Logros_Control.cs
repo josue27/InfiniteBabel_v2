@@ -12,6 +12,7 @@ public class Logros_Control : MonoBehaviour
         instancia = this; 
     }
 
+    
     public void DesbloquearLogro(string logro)
     {
         if(!GameServices.IsInitialized())
@@ -19,15 +20,78 @@ public class Logros_Control : MonoBehaviour
             Debug.Log("No se inicializo gameservices");
             return;
         }
-        if (logro == EM_GPGSIds.achievement_work_with_style)
+        
+       
+        switch (logro)
         {
-            GameServices.UnlockAchievement(EM_GPGSIds.achievement_work_with_style, (bool exito) =>
-            {
-                Debug.Log("Logor desbloqueado:" + exito);
+            case EM_GPGSIds.achievement_work_with_style:
+                GameServices.UnlockAchievement(EM_GPGSIds.achievement_work_with_style, (bool exito) =>
+                {
+                    Debug.Log("Logor desbloqueado:" + exito);
 
-            });
+                });
+                break;
+            case EM_GPGSIds.achievement_down_the_system:
+                GameServices.UnlockAchievement(EM_GPGSIds.achievement_down_the_system, (bool exito) =>
+                {
+                    Debug.Log("Logor desbloqueado:" + exito);
+
+                });
+                break;
+            case EM_GPGSIds.achievement_looking_that_promotion:
+                GameServices.UnlockAchievement(EM_GPGSIds.achievement_looking_that_promotion, (bool exito) =>
+                {
+                    Debug.Log("Logor desbloqueado:" + exito);
+
+                });
+                break;
+            case EM_GPGSIds.achievement_make_it_rain:
+                GameServices.UnlockAchievement(EM_GPGSIds.achievement_make_it_rain, (bool exito) =>
+                {
+                    Debug.Log("Logor desbloqueado:" + exito);
+
+                });
+                break;
+            case EM_GPGSIds.achievement_more_coffee_please:
+                GameServices.UnlockAchievement(EM_GPGSIds.achievement_more_coffee_please, (bool exito) =>
+                {
+                    Debug.Log("Logor desbloqueado:" + exito);
+
+                });
+                break;
+           
+            case EM_GPGSIds.achievement_no_shame:
+                GameServices.UnlockAchievement(EM_GPGSIds.achievement_no_shame, (bool exito) =>
+                {
+                    Debug.Log("Logor desbloqueado:" + exito);
+
+                });
+                break;
+            case EM_GPGSIds.achievement_rookie_moves:
+                GameServices.UnlockAchievement(EM_GPGSIds.achievement_rookie_moves, (bool exito) =>
+                {
+                    Debug.Log("Logor desbloqueado:" + exito);
+
+                });
+                break;
+            case EM_GPGSIds.achievement_senior_moves:
+                GameServices.UnlockAchievement(EM_GPGSIds.achievement_senior_moves, (bool exito) =>
+                {
+                    Debug.Log("Logor desbloqueado:" + exito);
+
+                });
+                break;
+            case EM_GPGSIds.achievement_welcome_to_the_late_shift:
+                GameServices.UnlockAchievement(EM_GPGSIds.achievement_welcome_to_the_late_shift, (bool exito) =>
+                {
+                    Debug.Log("Logor desbloqueado:" + exito);
+
+                });
+                break;
+            default:
+                Debug.Log("No se encontro logro");
+                break;
         }
-
 
     }
 
@@ -44,11 +108,15 @@ public class Logros_Control : MonoBehaviour
             return;
         }
 
-        GameServices.ReportAchievementProgress(logro, cantidad, (exito) =>
+        if (logro == EM_GPGSIds.achievement_no_quitters)
         {
+            GameServices.ReportAchievementProgress(EM_GPGSIds.achievement_no_quitters, cantidad, (exito) =>
+            {
 
-            Debug.Log("Logro incrementado:" + exito);
-        });
+                Debug.Log("Logro incrementado:" + exito);
+            });
+        }
+
     }
     
 
