@@ -21,8 +21,10 @@ namespace Brinco
         public GameObject panelAdReward;
         public bool mostrandoAdReward;
         public bool mostrandoAdIntermedio;
+        public int monedasRecompensa = 10;
         [Tooltip("TRUE si el jugador compro este articulo")]
         public bool removerAdIntermedio;
+
         private void OnEnable()
         {
             Advertising.InterstitialAdCompleted += Advertising_InterstitialAdCompleted;
@@ -148,7 +150,7 @@ namespace Brinco
         private void Advertising_RewardedAdCompleted(RewardedAdNetwork arg1, AdPlacement arg2)
         {
             Debug.Log("Ad Reward mostrado");
-            Score_Control.instancia.SumarMonedas(10);
+            Score_Control.instancia.SumarMonedas(monedasRecompensa);
         }
         #endregion 
 

@@ -12935,7 +12935,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1048654424
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13374,7 +13374,6 @@ MonoBehaviour:
   mousePosInit: {x: 0, y: 0}
   mousePosFinal: {x: 0, y: 0}
   distanciaMouse: 0
-  sprite_anim: {fileID: 0}
   sprite_golpe: {fileID: 1839933294}
   trazoDedo: {fileID: 1339219795}
   posicionMuerte: {fileID: 1268943709}
@@ -13394,7 +13393,7 @@ MonoBehaviour:
   shadow_fx: {fileID: 1327597704}
   imagenDebug: {fileID: 0}
   inmortal: 0
-  multiplicadorSensibilidad: 1.2
+  multiplicadorSensibilidad: 1.5
   mousePos: {x: 0, y: 0, z: 0}
   spriteAnim: {fileID: 443373779}
   spritePersonaje: {fileID: 443373775}
@@ -31348,7 +31347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d99cdb20fb97024984608ef90712c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boton_inicio: {fileID: 2002287984}
+  boton_jugar: {fileID: 2002287984}
   panel_reinicio: {fileID: 455746577}
   scoreFinal: {fileID: 1313978729}
   scoreBest: {fileID: 1815436176}
@@ -31385,7 +31384,7 @@ MonoBehaviour:
     probabilidadMoneda: 2
     obstaculoOrilla: 0
     spawnearCintasTransportadorasRotas: 0
-    spawnearTNT: 1
+    spawnearTNT: 0
   - obstaculFinal: 10
     cantidadEspacios: 2
     multiplicadorVelocidad: 1.2
@@ -31396,7 +31395,7 @@ MonoBehaviour:
     maxSigObstaculo: 5
     probabilidadMoneda: 3
     obstaculoOrilla: 0
-    spawnearCintasTransportadorasRotas: 1
+    spawnearCintasTransportadorasRotas: 0
     spawnearTNT: 1
   - obstaculFinal: 15
     cantidadEspacios: 2
@@ -31520,9 +31519,9 @@ MonoBehaviour:
     comprado: 0
   - personaje: {fileID: 11400000, guid: e5fbb7d0d6ccc6647b686c1c22e91f16, type: 2}
     comprado: 0
-  - personaje: {fileID: 11400000, guid: c2ce41bc085957e4abc2ebda25bd2afc, type: 2}
-    comprado: 0
   - personaje: {fileID: 11400000, guid: 44a11ebc91842ae4c9bc1bc81b926332, type: 2}
+    comprado: 0
+  - personaje: {fileID: 11400000, guid: c2ce41bc085957e4abc2ebda25bd2afc, type: 2}
     comprado: 0
   - personaje: {fileID: 11400000, guid: 9ded7c44223f842d293bf22506edabe8, type: 2}
     comprado: 0
@@ -31694,12 +31693,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   casosProbables: 5
-  casosFavorables: 5
+  casosFavorables: 3
   casosProbables_AdReward: 3
   casosFavorables_AdReward: 1
   panelAdReward: {fileID: 957197210}
   mostrandoAdReward: 0
   mostrandoAdIntermedio: 0
+  monedasRecompensa: 10
   removerAdIntermedio: 0
 --- !u!114 &2111332065
 MonoBehaviour:

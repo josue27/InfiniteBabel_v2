@@ -18,7 +18,7 @@ namespace Brinco
         public static Master_Level _masterBrinco;
         
         // Start is called before the first frame update
-        public Button boton_inicio;
+        public Button boton_jugar;
         public GameObject panel_reinicio;
         public TMP_Text scoreFinal;
         public TMP_Text scoreBest;
@@ -142,6 +142,7 @@ namespace Brinco
         public void InicioJuego_UI()
         {
             Eventos_Dispatcher.eventos.InicioJuego_llamada();
+            LeanTween.moveLocalY(boton_jugar.gameObject, -800.0f, 0.5f).setEaseInOutSine();
 
         }
         
@@ -186,7 +187,7 @@ namespace Brinco
 
         IEnumerator InicioTutorial_Rutina()
         {
-            boton_inicio.gameObject.SetActive(false);
+            boton_jugar.gameObject.SetActive(false);
             jugador.spriteAnim.CambioAnimacion("corriendo",true);
             yield return new WaitForSeconds(1.5f);
             panelTutorial.SetActive(true);
@@ -228,7 +229,7 @@ namespace Brinco
         IEnumerator InicioJuego_Rutina()
         {
             yield return new WaitForSeconds(1.0f);
-            boton_inicio.gameObject.SetActive(false);
+            boton_jugar.gameObject.SetActive(false);
             jugador.puedeBrincar = true;
 
             // SpawnObstaculos_Apertura.spawner.SetDificultad(this.velocidadObstaculos,nivelesDificultad[enNivel].cantidadEspacios);

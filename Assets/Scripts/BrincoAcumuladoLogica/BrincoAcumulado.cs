@@ -43,7 +43,7 @@ public class BrincoAcumulado : MonoBehaviour
     public Vector2 mousePosFinal = Vector2.zero;
     public float distanciaMouse;
 
-    public Animator sprite_anim;
+   // public Animator sprite_anim;
     public GameObject sprite_golpe;
 
     public LineRenderer trazoDedo;
@@ -548,7 +548,7 @@ public class BrincoAcumulado : MonoBehaviour
     {
         sprite_golpe.SetActive(true);
         
-        sprite_anim.SetTrigger(trigger);
+       // sprite_anim.SetTrigger(trigger);
         spriteAnim.CambioAnimacion(trigger);
     }
   
@@ -559,7 +559,7 @@ public class BrincoAcumulado : MonoBehaviour
     /// <param name="estado">true/false</param>
     private void ReproducirAnimacion(string nombre,bool estado)
     {
-        sprite_anim.SetBool(nombre,estado);
+        //sprite_anim.SetBool(nombre,estado);
         spriteAnim.CambioAnimacion(nombre);
 
     }

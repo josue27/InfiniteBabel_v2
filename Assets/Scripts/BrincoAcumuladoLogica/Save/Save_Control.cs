@@ -204,6 +204,8 @@ namespace Brinco
                                 //Enviar monitos comprados a SeleccionPersonaje
                                 GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoSalvadoNube.personajes);
 
+                                Score_Control.instancia.MonedasTotales = JuegoSalvadoNube.monedas;
+
                                 //Resolver conflicto de monedas
                                 //if (juegoSalvadoLocal != null)
                                 //{
@@ -364,6 +366,7 @@ namespace Brinco
             Saved_Data save = new Saved_Data();
 
             save.monedas = Score_Control.instancia.MonedasTotales;
+            Debug.Log(Score_Control.instancia.MonedasTotales);
             save.score = Score_Control.instancia.ScoreFinal();
 
             save.removeAds = GetComponent<Ad_Control>().removerAdIntermedio;
