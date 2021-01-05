@@ -38,10 +38,16 @@ MonoBehaviour:
       mDefaultRewardedAdId:
         mIosId: 
         mAndroidId: 
+      mDefaultBannerAdId:
+        mIosId: 
+        mAndroidId: 
       mCustomInterstitialAdIds:
         keys: []
         values: []
       mCustomRewardedAdIds:
+        keys: []
+        values: []
+      mCustomBannerAdIds:
         keys: []
         values: []
     mAdMob:
@@ -218,8 +224,45 @@ MonoBehaviour:
         keys: []
         values: []
       mEnableTestMode: 1
+    mVungleAds:
+      mEnable: 0
+      mAppId:
+        mIosId: 
+        mAndroidId: 
+      mDefaultInterstitialAdId:
+        mIosId: 
+        mAndroidId: 
+      mDefaultRewardedAdId:
+        mIosId: 
+        mAndroidId: 
+      mDefaultBannerAdId:
+        mIosId: 
+        mAndroidId: 
+      mCustomInterstitialAdIds:
+        keys: []
+        values: []
+      mCustomRewardedAdIds:
+        keys: []
+        values: []
+      mCustomBannerAdIds:
+        keys: []
+        values: []
+      mUseAdvancedSetting: 0
+      mAdvancedSettings:
+        adOrientation: 6
+        prematureAdClosePopup:
+          alertTitle: Alert!!!
+          alertText: You are about to close this ad. If this is a rewarded ad, you
+            might not receive the reward.
+          closeText: Close
+          continueText: Continue
+        enableAdSound: 1
+        minimumDiskSpaceForInitialization: 51000000
+        minimumDiskSpaceForAds: 50000000
+        disableHardwareId: 0
   mGameServiceSettings:
     mAutoInit: 1
+    mAutoInitAfterUserLogout: 0
     mAutoInitDelay: 0
     mAndroidMaxLoginRequests: 3
     mGpgsDebugLogEnabled: 0
@@ -303,6 +346,20 @@ MonoBehaviour:
     - _name: RemoverAds
       _type: 1
       _id: remover_ad
+      _price: $3.99
+      _description: Great work!! buy you something pretty
+      _storeSpecificIds: []
+      _isEditingAdvanced: 1
+    - _name: Overtimepay
+      _type: 0
+      _id: monedas2
+      _price: $3.99
+      _description: Great work!! buy you something pretty
+      _storeSpecificIds: []
+      _isEditingAdvanced: 1
+    - _name: Promovido
+      _type: 0
+      _id: monedas3
       _price: $3.99
       _description: Great work!! buy you something pretty
       _storeSpecificIds: []
@@ -405,10 +462,11 @@ MonoBehaviour:
       mIOSInfoPlistKeys:
       - mKey: NSContactsUsageDescription
         mValue: '[Your usage description]'
+  mRuntimeAutoInitialization: 1
   mIsAdModuleEnable: 1
   mIsIAPModuleEnable: 1
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
   mIsSharingModuleEnable: 0
-  mActiveModuleIndex: 1
+  mActiveModuleIndex: 3
   mIsSelectingModule: 0

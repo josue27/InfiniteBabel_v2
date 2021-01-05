@@ -56,6 +56,7 @@ namespace EasyMobile
         // Rating Request (Store Review) belongs to Utilities module.
         public static RatingRequestSettings RatingRequest { get { return Instance.mRatingRequestSettings; } }
 
+        public static bool IsRuntimeAutoInitializationEnabled { get { return Instance.mRuntimeAutoInitialization; } }
         public static bool IsAdModuleEnable { get { return Instance.mIsAdModuleEnable; } }
 
         public static bool IsIAPModuleEnable { get { return Instance.mIsIAPModuleEnable; } }
@@ -148,6 +149,8 @@ namespace EasyMobile
         private NativeApisSettings mNativeApisSettings = null;
         #endif
 
+        [SerializeField] 
+        private bool mRuntimeAutoInitialization = true;
         [SerializeField]
         private bool mIsAdModuleEnable = false;
         [SerializeField]
@@ -159,7 +162,7 @@ namespace EasyMobile
         [SerializeField]
         private bool mIsSharingModuleEnable = false;
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
 
         // These fields are only used as a SerializedProperty in the editor scripts, hence the warning suppression.
         #pragma warning disable 0414

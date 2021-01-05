@@ -26,6 +26,8 @@ namespace EasyMobile.Editor
         #endregion
 
         #region Target properties
+        //Runtime auto initialization
+        SerializedProperty autoInitializationProperty;
 
         // Module toggles
         SerializedProperty isAdModuleEnable;
@@ -69,6 +71,7 @@ namespace EasyMobile.Editor
             public static SerializedProperty mopubSettings;
             public static SerializedProperty tapjoySettings;
             public static SerializedProperty unityAdsSettings;
+            public static SerializedProperty vungleAdsSettings;
 
             // Auto ad-loading settings.
             public static EMProperty autoLoadAdsMode = new EMProperty(null, new GUIContent("Auto Ad-Loading Mode"));
@@ -87,8 +90,10 @@ namespace EasyMobile.Editor
             public static EMProperty adColonyEnableRewardedAdPostPopup = new EMProperty(new GUIContent("Show Rewarded Ad PostPopup", "Show popup after the rewarded video has finished"));
             public static EMProperty adColonyDefaultInterstitialAdId = new EMProperty(new GUIContent("Interstitial Ad"));
             public static EMProperty adColonyDefaultRewardedAdId = new EMProperty(new GUIContent("Rewarded Ad"));
+            public static EMProperty adColonyDefaultBannerAdId = new EMProperty(new GUIContent("Banner Ad"));
             public static EMProperty adColonyCustomInterstitialAdIds = new EMProperty(new GUIContent("Interstitial Ads"));
             public static EMProperty adColonyCustomRewardedAdIds = new EMProperty(new GUIContent("Rewarded Ads"));
+            public static EMProperty adColonyCustomBannerAdIds = new EMProperty(new GUIContent("Banner Ads"));
 
             // Admob properties.
             public static EMProperty adMobEnabled = new EMProperty(new GUIContent("AdMob enable"));
@@ -186,6 +191,18 @@ namespace EasyMobile.Editor
             public static EMProperty unityAdsCustomInterstitialAdIds = new EMProperty(new GUIContent("Interstitial Ads"));
             public static EMProperty unityAdsCustomRewardedAdIds = new EMProperty(new GUIContent("Rewarded Ads"));
             public static EMProperty unityAdsEnableTestMode = new EMProperty(new GUIContent("Enable Test Mode"));
+
+            // Vungle properties
+            public static EMProperty vungleAdEnabled = new EMProperty(new GUIContent("Vungle Ad enable"));
+            public static EMProperty vungleAdsAppId = new EMProperty(new GUIContent("App ID"));
+            public static EMProperty vungleDefaultInterstitialAdId = new EMProperty(new GUIContent("Interstitial Ad"));
+            public static EMProperty vungleDefaultRewardedAdId = new EMProperty(new GUIContent("Rewarded Ad"));
+            public static EMProperty vungleDefaultBannerAdId = new EMProperty(new GUIContent("Banner Ad"));
+            public static EMProperty vungleCustomInterstitialAdIds = new EMProperty(new GUIContent("Interstitial Ads"));
+            public static EMProperty vungleCustomRewardedAdIds = new EMProperty(new GUIContent("Rewarded Ads"));
+            public static EMProperty vungleCustomBannerAdIds = new EMProperty(new GUIContent("Banner Ads"));
+            public static EMProperty vungleUseAdvancedSettings = new EMProperty(new GUIContent("Advanced settings"));
+            public static EMProperty vungleAdvancedSettings = new EMProperty(new GUIContent("Vungle advanced settings"));
         }
 
         // In App Purchase module properties
@@ -211,6 +228,7 @@ namespace EasyMobile.Editor
             public static EMProperty gpgsPopupGravity = new EMProperty(null, new GUIContent("Popup Gravity", "Sets the gravity for popups on Google Play Games platform"));
             public static EMProperty gpgsXmlResources = new EMProperty(null, new GUIContent("Android XML Resources", "The XML resources exported from Google Play Console"));
             public static EMProperty autoInit = new EMProperty(null, new GUIContent("Auto Init", "Whether the module should automatically initialize itself"));
+            public static EMProperty autoInitAfterUserLogout = new EMProperty(null, new GUIContent("Auto Init (User Logged Out)", "Whether the module should automatically initialize itself when the user has logged out in the previous session."));
             public static EMProperty autoInitDelay = new EMProperty(null, new GUIContent("Auto Init Delay", "Delay time (seconds) after Start() that the service is automatically initialized"));
             public static EMProperty androidMaxLoginRequest =
                 new EMProperty(null,
@@ -323,6 +341,9 @@ namespace EasyMobile.Editor
 
         void OnEnable()
         {
+            // Runtime properties.
+            autoInitializationProperty = serializedObject.FindProperty("mRuntimeAutoInitialization");
+            
             // Module-control properties.
             isAdModuleEnable = serializedObject.FindProperty("mIsAdModuleEnable");
             isIAPModuleEnable = serializedObject.FindProperty("mIsIAPModuleEnable");
@@ -361,8 +382,10 @@ namespace EasyMobile.Editor
             AdProperties.adColonyEnableRewardedAdPostPopup.property = AdProperties.adColonySettings.FindPropertyRelative("mEnableRewardedAdPostPopup");
             AdProperties.adColonyDefaultInterstitialAdId.property = AdProperties.adColonySettings.FindPropertyRelative("mDefaultInterstitialAdId");
             AdProperties.adColonyDefaultRewardedAdId.property = AdProperties.adColonySettings.FindPropertyRelative("mDefaultRewardedAdId");
+            AdProperties.adColonyDefaultBannerAdId.property = AdProperties.adColonySettings.FindPropertyRelative("mDefaultBannerAdId");
             AdProperties.adColonyCustomInterstitialAdIds.property = AdProperties.adColonySettings.FindPropertyRelative("mCustomInterstitialAdIds");
             AdProperties.adColonyCustomRewardedAdIds.property = AdProperties.adColonySettings.FindPropertyRelative("mCustomRewardedAdIds");
+            AdProperties.adColonyCustomBannerAdIds.property = AdProperties.adColonySettings.FindPropertyRelative("mCustomBannerAdIds");
 
             // AdMob properties.
             AdProperties.admobSettings = AdProperties.mainProperty.FindPropertyRelative("mAdMob");
@@ -471,6 +494,19 @@ namespace EasyMobile.Editor
             AdProperties.unityAdsCustomRewardedAdIds.property = AdProperties.unityAdsSettings.FindPropertyRelative("mCustomRewardedAdIds");
             AdProperties.unityAdsEnableTestMode.property = AdProperties.unityAdsSettings.FindPropertyRelative("mEnableTestMode");
 
+            //Vungle properties.
+            AdProperties.vungleAdsSettings = AdProperties.mainProperty.FindPropertyRelative("mVungleAds");
+            AdProperties.vungleAdEnabled.property = AdProperties.vungleAdsSettings.FindPropertyRelative("mEnable");
+            AdProperties.vungleAdsAppId.property = AdProperties.vungleAdsSettings.FindPropertyRelative("mAppId");
+            AdProperties.vungleDefaultInterstitialAdId.property = AdProperties.vungleAdsSettings.FindPropertyRelative("mDefaultInterstitialAdId");
+            AdProperties.vungleDefaultRewardedAdId.property = AdProperties.vungleAdsSettings.FindPropertyRelative("mDefaultRewardedAdId");
+            AdProperties.vungleDefaultBannerAdId.property = AdProperties.vungleAdsSettings.FindPropertyRelative("mDefaultBannerAdId");
+            AdProperties.vungleCustomInterstitialAdIds.property = AdProperties.vungleAdsSettings.FindPropertyRelative("mCustomInterstitialAdIds");
+            AdProperties.vungleCustomRewardedAdIds.property = AdProperties.vungleAdsSettings.FindPropertyRelative("mCustomRewardedAdIds");
+            AdProperties.vungleCustomBannerAdIds.property = AdProperties.vungleAdsSettings.FindPropertyRelative("mCustomBannerAdIds");
+            AdProperties.vungleUseAdvancedSettings.property = AdProperties.vungleAdsSettings.FindPropertyRelative("mUseAdvancedSetting");
+            AdProperties.vungleAdvancedSettings.property = AdProperties.vungleAdsSettings.FindPropertyRelative("mAdvancedSettings");
+
             // In App Purchase module properties.
             IAPProperties.mainProperty = serializedObject.FindProperty("mInAppPurchaseSettings");
             IAPProperties.autoInit.property = IAPProperties.mainProperty.FindPropertyRelative("mAutoInit");
@@ -488,6 +524,7 @@ namespace EasyMobile.Editor
             GameServiceProperties.gpgsPopupGravity.property = GameServiceProperties.mainProperty.FindPropertyRelative("mGpgsPopupGravity");
             GameServiceProperties.gpgsXmlResources.property = GameServiceProperties.mainProperty.FindPropertyRelative("mAndroidXmlResources");
             GameServiceProperties.autoInit.property = GameServiceProperties.mainProperty.FindPropertyRelative("mAutoInit");
+            GameServiceProperties.autoInitAfterUserLogout.property = GameServiceProperties.mainProperty.FindPropertyRelative("mAutoInitAfterUserLogout");
             GameServiceProperties.autoInitDelay.property = GameServiceProperties.mainProperty.FindPropertyRelative("mAutoInitDelay");
             GameServiceProperties.androidMaxLoginRequest.property = GameServiceProperties.mainProperty.FindPropertyRelative("mAndroidMaxLoginRequests");
             GameServiceProperties.gpgsShouldRequestServerAuthCode.property = GameServiceProperties.mainProperty.FindPropertyRelative("mGpgsShouldRequestServerAuthCode");

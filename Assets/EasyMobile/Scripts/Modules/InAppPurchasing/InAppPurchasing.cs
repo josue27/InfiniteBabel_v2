@@ -15,6 +15,10 @@ namespace EasyMobile
     {
         public static InAppPurchasing Instance { get; private set; }
 
+        public const string PROCESSING_PURCHASE_ABORT = "PROCESSING_PURCHASE_ABORT";
+        public const string PROCESSING_PURCHASE_INVALID_RECEIPT = "PROCESSING_PURCHASE_INVALID_RECEIPT";
+        public const string CONFIRM_PENDING_PURCHASE_FAILED = "CONFIRM_PENDING_PURCHASE_FAILED";
+
         // Suppress the "Event is never used" warnings.
 #pragma warning disable 0067
 
@@ -36,7 +40,7 @@ namespace EasyMobile
         /// <summary>
         /// Occurs when a purchase failed.
         /// </summary>
-        public static event Action<IAPProduct> PurchaseFailed;
+        public static event Action<IAPProduct, string> PurchaseFailed;
 
         /// <summary>
         /// [Apple store only] Occurs as part of Apple's 'Ask to buy' functionality,
@@ -376,19 +380,61 @@ namespace EasyMobile
         /// it doesn't check if the subscription has been expired or canceled. 
         /// </summary>
         /// <returns><c>true</c> if the product has a receipt and that receipt is valid (if receipt validation is enabled); otherwise, <c>false</c>.</returns>
-        /// <param name="productId">Product name.</param>
+        /// <param name="productName">Product name.</param>
         public static bool IsProductOwned(string productName)
+        {
+#if EM_UIAP
+            IAPProduct iapProduct = GetIAPProductByName(productName);
+            return IsProductOwned(iapProduct);
+#else
+            return false;
+#endif
+        }
+        
+        /// <summary>
+        /// Determines whether the product with the specified id is owned.
+        /// A product is consider owned if it has a receipt. If receipt validation
+        /// is enabled, it is also required that this receipt passes the validation check.
+        /// Note that this method is mostly useful with non-consumable products.
+        /// Consumable products' receipts are not persisted between app restarts,
+        /// therefore their ownership only pertains in the session they're purchased.
+        /// In the case of subscription products, this method only checks if a product has been purchased before,
+        /// it doesn't check if the subscription has been expired or canceled. 
+        /// </summary>
+        /// <returns><c>true</c> if the product has a receipt and that receipt is valid (if receipt validation is enabled); otherwise, <c>false</c>.</returns>
+        /// <param name="productId">Product id.</param>
+        public static bool IsProductWithIdOwned(string productId)
+        {
+#if EM_UIAP
+            IAPProduct iapProduct = GetIAPProductById(productId);
+            return IsProductOwned(iapProduct);
+#else
+            return false;
+#endif
+        }
+        
+        /// <summary>
+        /// Determines whether the product is owned.
+        /// A product is consider owned if it has a receipt. If receipt validation
+        /// is enabled, it is also required that this receipt passes the validation check.
+        /// Note that this method is mostly useful with non-consumable products.
+        /// Consumable products' receipts are not persisted between app restarts,
+        /// therefore their ownership only pertains in the session they're purchased.
+        /// In the case of subscription products, this method only checks if a product has been purchased before,
+        /// it doesn't check if the subscription has been expired or canceled. 
+        /// </summary>
+        /// <returns><c>true</c> if the product has a receipt and that receipt is valid (if receipt validation is enabled); otherwise, <c>false</c>.</returns>
+        /// <param name="product">the product.</param>
+        public static bool IsProductOwned(IAPProduct product)
         {
 #if EM_UIAP
             if (!IsInitialized())
                 return false;
-
-            IAPProduct iapProduct = GetIAPProductByName(productName);
-
-            if (iapProduct == null)
+            
+            if (product == null)
                 return false;
 
-            Product pd = sStoreController.products.WithID(iapProduct.Id);
+            Product pd = sStoreController.products.WithID(product.Id);
 
             if (pd.hasReceipt)
             {
@@ -498,12 +544,6 @@ namespace EasyMobile
         public static void SetAppleStorePromotionVisibility(string productName, bool visible)
         {
 #if EM_UIAP
-            if (!IsInitialized())
-            {
-                Debug.Log("Couldn't set promotion visibility: In-App Purchasing is not initialized.");
-                return;
-            }
-
             IAPProduct iapProduct = GetIAPProductByName(productName);
 
             if (iapProduct == null)
@@ -511,8 +551,59 @@ namespace EasyMobile
                 Debug.Log("Couldn't set promotion visibility: not found product with name: " + productName);
                 return;
             }
+            
+            SetAppleStorePromotionVisibility(iapProduct, visible);
+#else
+            Debug.Log("Couldn't set Apple store promotion visibility: In-App Purchasing module is not enabled.");
+#endif
+        }
+        
+        /// <summary>
+        /// Sets the Apple store promotion visibility for the specified product on the current device.
+        /// Call this inside the handler of the <see cref="InitializeSucceeded"/> event to set
+        /// the visibility for a promotional product on Apple App Store.
+        /// On non-Apple platforms this method is a no-op.
+        /// </summary>
+        /// <param name="productId">Product id.</param>
+        /// <param name="visible">If set to <c>true</c> the product is shown, otherwise it is hidden.</param>
+        public static void SetAppleStorePromotionVisibilityWithId(string productId, bool visible)
+        {
+#if EM_UIAP
+            IAPProduct iapProduct = GetIAPProductById(productId);
 
-            Product prod = sStoreController.products.WithID(iapProduct.Id);
+            if (iapProduct == null)
+            {
+                Debug.Log("Couldn't set promotion visibility: not found product with id: " + productId);
+                return;
+            }
+            
+            SetAppleStorePromotionVisibility(iapProduct, visible);
+#else
+            Debug.Log("Couldn't set Apple store promotion visibility: In-App Purchasing module is not enabled.");
+#endif
+        }
+        
+        /// <summary>
+        /// Sets the Apple store promotion visibility for the specified product on the current device.
+        /// Call this inside the handler of the <see cref="InitializeSucceeded"/> event to set
+        /// the visibility for a promotional product on Apple App Store.
+        /// On non-Apple platforms this method is a no-op.
+        /// </summary>
+        /// <param name="product">the product.</param>
+        /// <param name="visible">If set to <c>true</c> the product is shown, otherwise it is hidden.</param>
+        public static void SetAppleStorePromotionVisibility(IAPProduct product, bool visible)
+        {
+#if EM_UIAP
+            if (!IsInitialized())
+            {
+                Debug.Log("Couldn't set promotion visibility: In-App Purchasing is not initialized.");
+                return;
+            }
+            
+            if (product == null)
+                return;
+
+            Product prod = sStoreController.products.WithID(product.Id);
 
             if (sAppleExtensions != null)
             {
@@ -579,12 +670,12 @@ namespace EasyMobile
 
             return null;
         }
-
+        
         /// <summary>
         /// Gets the IAP product declared in module settings with the specified identifier.
         /// </summary>
         /// <returns>The IAP product.</returns>
-        /// <param name="pId">P identifier.</param>
+        /// <param name="productId">Product identifier.</param>
         public static IAPProduct GetIAPProductById(string productId)
         {
             foreach (IAPProduct pd in EM_Settings.InAppPurchasing.Products)
@@ -609,12 +700,6 @@ namespace EasyMobile
         /// <param name="productName">Product name.</param>
         public static Product GetProduct(string productName)
         {
-            if (!IsInitialized())
-            {
-                Debug.Log("Couldn't get product: In-App Purchasing is not initialized.");
-                return null;
-            }
-
             IAPProduct iapProduct = GetIAPProductByName(productName);
 
             if (iapProduct == null)
@@ -623,22 +708,60 @@ namespace EasyMobile
                 return null;
             }
 
-            return sStoreController.products.WithID(iapProduct.Id);
+            return GetProduct(iapProduct);
+        }
+        
+        /// <summary>
+        /// Gets the product registered with UnityIAP stores by its id. This method returns
+        /// a Product object, which contains more information than an IAPProduct
+        /// object, whose main purpose is for displaying.
+        /// </summary>
+        /// <returns>The product.</returns>
+        /// <param name="productId">Product id.</param>
+        public static Product GetProductWithId(string productId)
+        {
+            IAPProduct iapProduct = GetIAPProductById(productId);
+
+            if (iapProduct == null)
+            {
+                Debug.Log("Couldn't get product: not found product with id: " + productId);
+                return null;
+            }
+
+            return GetProduct(iapProduct);
+        }
+    
+        
+        /// <summary>
+        /// Gets the product registered with UnityIAP stores. This method returns
+        /// a Product object, which contains more information than an IAPProduct
+        /// object, whose main purpose is for displaying.
+        /// </summary>
+        /// <returns>The product.</returns>
+        /// <param name="product">the product.</param>
+        public static Product GetProduct(IAPProduct product)
+        {
+            if (!IsInitialized())
+            {
+                Debug.Log("Couldn't get product: In-App Purchasing is not initialized.");
+                return null;
+            }
+            
+            if (product == null)
+            {
+                return null;
+            }
+
+            return sStoreController.products.WithID(product.Id);
         }
 
         /// <summary>
         /// Gets the product localized data provided by the stores.
         /// </summary>
         /// <returns>The product localized data.</returns>
-        /// <param name="productId">Product name.</param>
+        /// <param name="productName">Product name.</param>
         public static ProductMetadata GetProductLocalizedData(string productName)
         {
-            if (!IsInitialized())
-            {
-                Debug.Log("Couldn't get product localized data: In-App Purchasing is not initialized.");
-                return null;
-            }
-
             IAPProduct iapProduct = GetIAPProductByName(productName);
 
             if (iapProduct == null)
@@ -647,7 +770,46 @@ namespace EasyMobile
                 return null;
             }
 
-            return sStoreController.products.WithID(iapProduct.Id).metadata;
+            return GetProductLocalizedData(iapProduct);
+        }
+        
+        /// <summary>
+        /// Gets the product localized data provided by the stores.
+        /// </summary>
+        /// <returns>The product localized data.</returns>
+        /// <param name="productId">Product id.</param>
+        public static ProductMetadata GetProductLocalizedDataWithId(string productId)
+        {
+            IAPProduct iapProduct = GetIAPProductById(productId);
+
+            if (iapProduct == null)
+            {
+                Debug.Log("Couldn't get product localized data: not found product with name: " + productId);
+                return null;
+            }
+
+            return GetProductLocalizedData(iapProduct);
+        }
+        
+        /// <summary>
+        /// Gets the product localized data provided by the stores.
+        /// </summary>
+        /// <returns>The product localized data.</returns>
+        /// <param name="product">the product.</param>
+        public static ProductMetadata GetProductLocalizedData(IAPProduct product)
+        {
+            if (!IsInitialized())
+            {
+                Debug.Log("Couldn't get product localized data: In-App Purchasing is not initialized.");
+                return null;
+            }
+            
+            if (product == null)
+            {
+                return null;
+            }
+
+            return sStoreController.products.WithID(product.Id).metadata;
         }
 
         /// <summary>
@@ -661,6 +823,44 @@ namespace EasyMobile
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
                 return GetPurchaseReceipt(productName) as AppleInAppPurchaseReceipt;
+            }
+            else
+            {
+                Debug.Log("Getting Apple IAP receipt is only available on iOS.");
+                return null;
+            }
+        }
+        
+        /// <summary>
+        /// Gets the parsed Apple InAppPurchase receipt for the specified product.
+        /// This method only works if receipt validation is enabled.
+        /// </summary>
+        /// <returns>The Apple In App Purchase receipt.</returns>
+        /// <param name="productId">Product id.</param>
+        public static AppleInAppPurchaseReceipt GetAppleIAPReceiptWithId(string productId)
+        {
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                return GetPurchaseReceiptWithId(productId) as AppleInAppPurchaseReceipt;
+            }
+            else
+            {
+                Debug.Log("Getting Apple IAP receipt is only available on iOS.");
+                return null;
+            }
+        }
+        
+        /// <summary>
+        /// Gets the parsed Apple InAppPurchase receipt for the specified product.
+        /// This method only works if receipt validation is enabled.
+        /// </summary>
+        /// <returns>The Apple In App Purchase receipt.</returns>
+        /// <param name="product">The product.</param>
+        public static AppleInAppPurchaseReceipt GetAppleIAPReceipt(IAPProduct product)
+        {
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                return GetPurchaseReceipt(product) as AppleInAppPurchaseReceipt;
             }
             else
             {
@@ -687,6 +887,44 @@ namespace EasyMobile
                 return null;
             }
         }
+        
+        /// <summary>
+        /// Gets the parsed Google Play receipt for the specified product.
+        /// This method only works if receipt validation is enabled.
+        /// </summary>
+        /// <returns>The Google Play receipt.</returns>
+        /// <param name="productId">Product id.</param>
+        public static GooglePlayReceipt GetGooglePlayReceiptWithId(string productId)
+        {
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                return GetPurchaseReceiptWithId(productId) as GooglePlayReceipt;
+            }
+            else
+            {
+                Debug.Log("Getting Google Play receipt is only available on Android.");
+                return null;
+            }
+        }
+        
+        /// <summary>
+        /// Gets the parsed Google Play receipt for the specified product.
+        /// This method only works if receipt validation is enabled.
+        /// </summary>
+        /// <returns>The Google Play receipt.</returns>
+        /// <param name="product">The product.</param>
+        public static GooglePlayReceipt GetGooglePlayReceipt(IAPProduct product)
+        {
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                return GetPurchaseReceipt(product) as GooglePlayReceipt;
+            }
+            else
+            {
+                Debug.Log("Getting Google Play receipt is only available on Android.");
+                return null;
+            }
+        }
 
         /// <summary>
         /// Gets the parsed purchase receipt for the product.
@@ -695,6 +933,44 @@ namespace EasyMobile
         /// <returns>The purchase receipt.</returns>
         /// <param name="productName">Product name.</param>
         public static IPurchaseReceipt GetPurchaseReceipt(string productName)
+        {
+            IAPProduct iapProduct = GetIAPProductByName(productName);
+
+            if (iapProduct == null)
+            {
+                Debug.Log("Couldn't get purchase receipt: not found product with name: " + productName);
+                return null;
+            }
+
+            return GetPurchaseReceipt(iapProduct);
+        }
+        
+        /// <summary>
+        /// Gets the parsed purchase receipt for the product.
+        /// This method only works if receipt validation is enabled.
+        /// </summary>
+        /// <returns>The purchase receipt.</returns>
+        /// <param name="produtId">Product id.</param>
+        public static IPurchaseReceipt GetPurchaseReceiptWithId(string produtId)
+        {
+            IAPProduct iapProduct = GetIAPProductById(produtId);
+
+            if (iapProduct == null)
+            {
+                Debug.Log("Couldn't get purchase receipt: not found product with id: " + produtId);
+                return null;
+            }
+
+            return GetPurchaseReceipt(iapProduct);
+        }
+        
+        /// <summary>
+        /// Gets the parsed purchase receipt for the product.
+        /// This method only works if receipt validation is enabled.
+        /// </summary>
+        /// <returns>The purchase receipt.</returns>
+        /// <param name="product">the product.</param>
+        public static IPurchaseReceipt GetPurchaseReceipt(IAPProduct product)
         {
             if (Application.platform != RuntimePlatform.Android && Application.platform != RuntimePlatform.IPhonePlayer)
             {
@@ -707,16 +983,14 @@ namespace EasyMobile
                 Debug.Log("Couldn't get purchase receipt: In-App Purchasing is not initialized.");
                 return null;
             }
-
-            IAPProduct iapProduct = GetIAPProductByName(productName);
-
-            if (iapProduct == null)
+            
+            if (product == null)
             {
-                Debug.Log("Couldn't get purchase receipt: not found product with name: " + productName);
+                Debug.Log("Couldn't get purchase receipt: product is null");
                 return null;
             }
 
-            Product pd = sStoreController.products.WithID(iapProduct.Id);
+            Product pd = sStoreController.products.WithID(product.Id);
 
             if (!pd.hasReceipt)
             {
@@ -787,6 +1061,42 @@ namespace EasyMobile
         /// <param name="productName">Product name.</param>
         public static SubscriptionInfo GetSubscriptionInfo(string productName)
         {
+            IAPProduct iapProduct = GetIAPProductByName(productName);
+
+            if (iapProduct == null)
+            {
+                Debug.Log("Couldn't get subscription info: not found product with name: " + productName);
+                return null;
+            }
+            return GetSubscriptionInfo(iapProduct);
+        }
+        
+        /// <summary>
+        /// Gets the subscription info of the product using the SubscriptionManager class,
+        /// which currently supports the Apple store and Google Play store.
+        /// </summary>
+        /// <returns>The subscription info.</returns>
+        /// <param name="productId">Product name.</param>
+        public static SubscriptionInfo GetSubscriptionInfoWithId(string productId)
+        {
+            IAPProduct iapProduct = GetIAPProductById(productId);
+
+            if (iapProduct == null)
+            {
+                Debug.Log("Couldn't get subscription info: not found product with id: " + productId);
+                return null;
+            }
+            return GetSubscriptionInfo(iapProduct);
+        }
+        
+        /// <summary>
+        /// Gets the subscription info of the product using the SubscriptionManager class,
+        /// which currently supports the Apple store and Google Play store.
+        /// </summary>
+        /// <returns>The subscription info.</returns>
+        /// <param name="product">The product.</param>
+        public static SubscriptionInfo GetSubscriptionInfo(IAPProduct product)
+        {
             if (Application.platform != RuntimePlatform.Android && Application.platform != RuntimePlatform.IPhonePlayer)
             {
                 Debug.Log("Getting subscription info is only available on Android and iOS.");
@@ -798,16 +1108,14 @@ namespace EasyMobile
                 Debug.Log("Couldn't get subscripton info: In-App Purchasing is not initialized.");
                 return null;
             }
-
-            IAPProduct iapProduct = GetIAPProductByName(productName);
-
-            if (iapProduct == null)
+            
+            if (product == null)
             {
-                Debug.Log("Couldn't get subscription info: not found product with name: " + productName);
+                Debug.Log("Couldn't get subscription info: product is null");
                 return null;
             }
 
-            Product prod = sStoreController.products.WithID(iapProduct.Id);
+            Product prod = sStoreController.products.WithID(product.Id);
 
             if (prod.definition.type != ProductType.Subscription)
             {
@@ -975,7 +1283,7 @@ namespace EasyMobile
             else
             {
                 if (PurchaseFailed != null)
-                    PurchaseFailed(GetIAPProductById(product.definition.id));
+                    PurchaseFailed(GetIAPProductById(product.definition.id), CONFIRM_PENDING_PURCHASE_FAILED);
             }
         }
 
@@ -1093,7 +1401,7 @@ namespace EasyMobile
 
                 // Fire purchase failure event
                 if (PurchaseFailed != null)
-                    PurchaseFailed(GetIAPProductById(product.definition.id));
+                    PurchaseFailed(GetIAPProductById(product.definition.id), failureReason.ToString());
             }
 
             public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
@@ -1112,7 +1420,7 @@ namespace EasyMobile
 
                         // Fire purchase failure event
                         if (PurchaseFailed != null)
-                            PurchaseFailed(pd);
+                            PurchaseFailed(pd, PROCESSING_PURCHASE_ABORT);
 
                         return PurchaseProcessingResult.Complete;
                     }
@@ -1150,7 +1458,7 @@ namespace EasyMobile
 
                     // Fire purchase failure event
                     if (PurchaseFailed != null)
-                        PurchaseFailed(pd);
+                        PurchaseFailed(pd, PROCESSING_PURCHASE_INVALID_RECEIPT);
                 }
 
                 return PurchaseProcessingResult.Complete;

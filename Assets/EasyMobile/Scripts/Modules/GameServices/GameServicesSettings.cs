@@ -13,6 +13,12 @@ namespace EasyMobile
         public bool IsAutoInit { get { return mAutoInit; } set { mAutoInit = value; } }
 
         /// <summary>
+        /// Whether the Game Services module should initialize itself when the user has logged out in the previous session.
+        /// </summary>
+        /// <value><c>true</c> if is auto init; otherwise, <c>false</c>.</value>
+        public bool IsAutoInitAfterUserLogout { get { return mAutoInitAfterUserLogout; } set { mAutoInitAfterUserLogout = value; } }
+
+        /// <summary>
         /// The delay (in seconds) after the Easy Mobile runtime has been initialized that this module initializes itself automatically.
         /// </summary>
         /// <value>The auto init delay.</value>
@@ -68,6 +74,8 @@ namespace EasyMobile
         // Auto-init config
         [SerializeField]
         private bool mAutoInit = true;
+        [SerializeField]
+        private bool mAutoInitAfterUserLogout = false;
         [SerializeField]
         [Range(0, 120)]
         private float mAutoInitDelay = 0;

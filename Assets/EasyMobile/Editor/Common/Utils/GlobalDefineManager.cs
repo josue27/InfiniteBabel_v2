@@ -20,11 +20,11 @@ namespace EasyMobile.Editor
         /// <param name="symbol">Symbol.</param>
         public static void AddDefine(string symbol)
         {
-            #if USE_RSP
+#if USE_RSP
             RSP_AddDefine(symbol);
-            #else
+#else
             SDS_AddDefineOnAllPlatforms(symbol);
-            #endif
+#endif
         }
 
         /// <summary>
@@ -33,11 +33,11 @@ namespace EasyMobile.Editor
         /// <param name="symbols">Symbols.</param>
         public static void AddDefines(string[] symbols)
         {
-            #if USE_RSP
+#if USE_RSP
             RSP_AddDefines(symbols);
-            #else
+#else
             SDS_AddDefinesOnAllPlatforms(symbols);
-            #endif
+#endif
         }
 
         /// <summary>
@@ -46,11 +46,11 @@ namespace EasyMobile.Editor
         /// <param name="symbol">Symbol.</param>
         public static void RemoveDefine(string symbol)
         {
-            #if USE_RSP
+#if USE_RSP
             RSP_RemoveDefine(symbol);
-            #else
+#else
             SDS_RemoveDefineOnAllPlatforms(symbol);
-            #endif
+#endif
         }
 
         /// <summary>
@@ -59,11 +59,11 @@ namespace EasyMobile.Editor
         /// <param name="symbols">Symbols.</param>
         public static void RemoveDefines(string[] symbols)
         {
-            #if USE_RSP
+#if USE_RSP
             RSP_RemoveDefines(symbols);
-            #else
+#else
             SDS_RemoveDefinesOnAllPlatforms(symbols);
-            #endif
+#endif
         }
 
         #endregion
@@ -87,7 +87,7 @@ namespace EasyMobile.Editor
             foreach (BuildTargetGroup target in EM_EditorUtil.GetWorkingBuildTargetGroups())
             {
                 SDS_AddDefine(symbol, target);
-            }     
+            }
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace EasyMobile.Editor
             foreach (BuildTargetGroup target in EM_EditorUtil.GetWorkingBuildTargetGroups())
             {
                 SDS_AddDefines(symbols, target);
-            }     
+            }
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace EasyMobile.Editor
             foreach (BuildTargetGroup target in EM_EditorUtil.GetWorkingBuildTargetGroups())
             {
                 SDS_RemoveDefines(symbols, target);
-            }   
+            }
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace EasyMobile.Editor
             foreach (BuildTargetGroup target in EM_EditorUtil.GetWorkingBuildTargetGroups())
             {
                 SDS_RemoveDefine(symbol, target);
-            }   
+            }
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace EasyMobile.Editor
 
         #region Global define using .rsp files
 
-        #if USE_RSP
+#if USE_RSP
         /// <summary>
         /// Determines if the symbol is defined globally.
         /// </summary>
@@ -508,8 +508,10 @@ namespace EasyMobile.Editor
             MonoScript cMonoScript = MonoImporter.GetAllRuntimeMonoScripts()[0];
             MonoImporter.SetExecutionOrder(cMonoScript, MonoImporter.GetExecutionOrder(cMonoScript));
         }
-        #endif
+#endif
 
         #endregion
     }
 }
+// Force recompile for the changes to take effect
+// Force recompile for the changes to take effect

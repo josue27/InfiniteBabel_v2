@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System;
+using UnityEditor.Compilation;
 
 namespace EasyMobile.Editor
 {
@@ -9,11 +10,33 @@ namespace EasyMobile.Editor
     public class EM_PluginManager : AssetPostprocessor
     {
         #region Init
-
+        private const string PreviousUnsuccessfulDefines = "EM_PreviousUnsuccessfulDefines";
         // This static constructor will automatically run thanks to the InitializeOnLoad attribute.
         static EM_PluginManager()
         {
             EditorApplication.update += Initialize;
+            bool compilerErrorFound = false;
+            CompilationPipeline.assemblyCompilationFinished += (outputPath, compilerMessages) =>
+            {
+                foreach (var msg in compilerMessages)
+                {
+                    if (msg.type == CompilerMessageType.Error && (msg.message.Contains("CS0246") || msg.message.Contains("CS0006")))
+                    {
+                        compilerErrorFound = true;
+                    }
+                }
+
+                string lastDefine = EditorPrefs.GetString(PreviousUnsuccessfulDefines, "");
+                string currentDefine = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+                if (compilerErrorFound && lastDefine != currentDefine)
+                {
+                    //try to remove #defind since there was an error while compiling
+                    //in case the current define symbols are the same as last time => not reset symbols since it might be other party problems
+                    //and to avoid enless recompiling if that was the case
+                    EditorPrefs.SetString(PreviousUnsuccessfulDefines, currentDefine);
+                    GlobalDefineManager.SDS_RemoveDefinesOnAllPlatforms(EM_ScriptingSymbols.GetAllSymbols());
+                }
+            };
         }
 
         private static void Initialize()

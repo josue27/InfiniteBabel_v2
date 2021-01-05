@@ -76,6 +76,15 @@ namespace EasyMobile.Editor
     {
         public static void PreBuildProcessing(BuildTarget target, string path)
         {
+            // Auto initialization check warning
+            if (!EM_Settings.IsRuntimeAutoInitializationEnabled)
+            {
+                Debug.LogWarning(
+                    "Easy Mobile's Auto Runtime Initialization feature is turned off. " +
+                    "Make sure you call RuntimeManager.Init() before using Easy Mobile API in your code. " +
+                    "You can re-enable the feature in menu Window > Easy Mobile > Build tab > Auto Initialization.");
+            }
+
             if (target == BuildTarget.Android)
             {
                 // Force regenerating manifest at every build to avoid issues due to

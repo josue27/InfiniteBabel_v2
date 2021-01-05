@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 namespace EasyMobile.Editor
 {
@@ -13,6 +14,7 @@ namespace EasyMobile.Editor
         public const string FirebaseMessaging = "EM_FIR_MESSAGING";
         public const string ContactsSubmodule = "EM_CONTACTS";
         public const string CameraGallerySubmodule = "EM_CAMERA_GALLERY";
+        public const string UniversalRenderPipeline = "EM_URP";
 
         // Ad networks
         public const string AdColony = "EM_ADCOLONY";
@@ -25,7 +27,14 @@ namespace EasyMobile.Editor
         public const string IronSource = "EM_IRONSOURCE";
         public const string TapJoy = "EM_TAPJOY";
         public const string UnityAds = "EM_UNITY_ADS";
+        public const string Vungle = "EM_VUNGLE";
         public const string UnityMonetization = "UNITY_MONETIZATION";
+
+        public static string[] GetAllSymbols()
+        {
+            return EM_EditorUtil.GetConstants(typeof(EM_ScriptingSymbols)).Select(c => c.GetRawConstantValue() as string).ToArray();
+        }
+
     }
 }
 

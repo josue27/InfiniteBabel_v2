@@ -46,7 +46,11 @@ namespace EasyMobile.Internal.NativeAPIs.Media
         public override AndroidJavaObject Invoke(string methodName, AndroidJavaObject[] javaArgs)
         {
             var error = javaArgs[0] != null ? javaArgs[0].Call<string>("toString") : null;
+#if UNITY_2019_4_OR_NEWER
             var data = javaArgs[1] != null ? (byte[])(Array)AndroidJNIHelper.ConvertFromJNIArray<sbyte[]>(javaArgs[1].GetRawObject()) : null;
+#else
+            var data = javaArgs[1] != null ? (byte[])(Array)AndroidJNIHelper.ConvertFromJNIArray<byte[]>(javaArgs[1].GetRawObject()) : null;
+#endif
             OnNativeCallback(error, data);
             return null;
         }

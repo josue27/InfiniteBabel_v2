@@ -22,6 +22,7 @@ namespace EasyMobile
         private static IronSourceClientImpl sIronSourceClient;
         private static TapjoyClientImpl sTapjoyClient;
         private static UnityAdsClientImpl sUnityAdsClient;
+        private static VungleClientImpl sVungleClient;
 
         // Default ad clients for each ad types.
         private static AdClientImpl sDefaultBannerAdClient;
@@ -216,6 +217,16 @@ namespace EasyMobile
                 if (sUnityAdsClient == null)
                     sUnityAdsClient = SetupAdClient(AdNetwork.UnityAds) as UnityAdsClientImpl;
                 return sUnityAdsClient;
+            }
+        }
+
+        public static VungleClientImpl VungleClient
+        {
+            get
+            {
+                if (sVungleClient == null)
+                    sVungleClient = SetupAdClient(AdNetwork.Vungle) as VungleClientImpl;
+                return sVungleClient;
             }
         }
 
@@ -1181,6 +1192,8 @@ namespace EasyMobile
                     return UnityAdsClientImpl.CreateClient();
                 case AdNetwork.None:
                     return NoOpClientImpl.CreateClient();
+                case AdNetwork.Vungle:
+                    return VungleClientImpl.CreateClient();
                 default:
                     throw new NotImplementedException("No client implemented for the network:" + network.ToString());
             }
@@ -1196,6 +1209,7 @@ namespace EasyMobile
         private static AdClientImpl SetupAdClient(AdNetwork network)
         {
             AdClientImpl client = GetAdClient(network);
+            Debug.Log(client);
 
             if (client != null && client.Network != AdNetwork.None)
             {
@@ -1242,6 +1256,8 @@ namespace EasyMobile
                     return TapjoyClient;
                 case AdNetwork.None:
                     return NoOpClientImpl.CreateClient();
+                case AdNetwork.Vungle:
+                    return VungleClient;
                 default:
                     throw new NotImplementedException("No client found for the network:" + network.ToString());
             }

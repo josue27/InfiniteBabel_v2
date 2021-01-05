@@ -18,6 +18,7 @@ namespace EasyMobile.Demo
         public InputField scoreInput;
         public DemoUtils demoUtils;
         public GameObject scrollableListPrefab;
+        public GameObject requestFriendListConsentUI;
 
         Achievement selectedAchievement;
         Leaderboard selectedLeaderboard;
@@ -33,6 +34,12 @@ namespace EasyMobile.Demo
         void Start()
         {
             curtain.SetActive(!EM_Settings.IsGameServicesModuleEnable);
+
+            bool needToAskFriendListConsent = false;
+#if UNITY_ANDROID && EM_GPGS
+            needToAskFriendListConsent = true;
+#endif
+            requestFriendListConsentUI.SetActive(needToAskFriendListConsent);
         }
 
         void Update()
@@ -243,6 +250,21 @@ namespace EasyMobile.Demo
             }
         }
 
+#if UNITY_ANDROID && EM_GPGS
+        public void AskFriendListConsent()
+        {
+            if (!GameServices.IsInitialized())
+            {
+                NativeUI.Alert("Alert", "You need to initialize the module first.");
+                return;
+            }
+
+            GameServices.AskForLoadFriendsResolution((status) =>
+            {
+                NativeUI.Alert("Friend list permission resolution", status.ToString());
+            });
+        }
+#endif
         public void LoadFriends()
         {
             if (!GameServices.IsInitialized())

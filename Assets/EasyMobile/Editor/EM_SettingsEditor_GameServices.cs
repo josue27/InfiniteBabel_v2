@@ -132,6 +132,7 @@ namespace EasyMobile.Editor
                     EditorGUILayout.PropertyField(GameServiceProperties.autoInit.property, GameServiceProperties.autoInit.content);
 
                     EditorGUI.BeginDisabledGroup(!GameServiceProperties.autoInit.property.boolValue);
+                    EditorGUILayout.PropertyField(GameServiceProperties.autoInitAfterUserLogout.property, GameServiceProperties.autoInitAfterUserLogout.content);
                     EditorGUILayout.PropertyField(GameServiceProperties.autoInitDelay.property, GameServiceProperties.autoInitDelay.content);
                     EditorGUI.EndDisabledGroup();
 

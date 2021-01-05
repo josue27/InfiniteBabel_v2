@@ -3,6 +3,11 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 
+#if EM_URP
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
+#endif
+
 namespace EasyMobile.Editor
 {
     internal class ModuleManager_Gif : ModuleManager
@@ -31,12 +36,20 @@ namespace EasyMobile.Editor
 
         protected override void InternalEnableModule()
         {
-            // Nothing.
+            List<string> symbols = new List<string>();
+
+            if (EM_ExternalPluginManager.IsUsingURP())
+            {
+                symbols.Add(EM_ScriptingSymbols.UniversalRenderPipeline);
+            }
+
+            // Defines all ad symbols on all platforms.
+            GlobalDefineManager.SDS_AddDefinesOnAllPlatforms(symbols.ToArray());
         }
 
         protected override void InternalDisableModule()
         {
-            // Nothing.
+            GlobalDefineManager.SDS_RemoveDefinesOnAllPlatforms(new string[] { EM_ScriptingSymbols.UniversalRenderPipeline });
         }
 
         public override List<string> AndroidManifestTemplatePaths

@@ -29,6 +29,18 @@ namespace EasyMobile
         /// </param>
         void SaveImage(Texture2D image, string name, ImageFormat format = ImageFormat.JPG, Action<string> callback = null);
 
+#if UNITY_ANDROID
+        /// <summary>
+        /// Save an image into gallery with a custom name.
+        /// </summary>
+        /// <param name="image">The image you want to save.</param>
+        /// <param name="format">The image will be saved in this format.</param>
+        /// <param name="name">Image will be saved with this name.</param>
+        /// <param name="callback">
+        /// Callback called after the image is saved. Param: Error, null means success.
+        /// </param>
+        void SaveImage(Texture2D image, string name, string androidAlbumName, ImageFormat format = ImageFormat.JPG, Action<string> callback = null);
+#endif
         /// <summary>
         /// Load image from <see cref="MediaResult"/>.
         /// </summary>

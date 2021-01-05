@@ -55,9 +55,9 @@ namespace EasyMobile.Demo
             NativeUI.Alert("Purchased Completed", "The purchase of product " + product.Name + " has completed successfully. This is when you should grant the buyer digital goods.");
         }
 
-        void OnPurchaseFailed(IAPProduct product)
+        void OnPurchaseFailed(IAPProduct product, string failureReason)
         {
-            NativeUI.Alert("Purchased Failed", "The purchase of product " + product.Name + " has failed.");
+            NativeUI.Alert("Purchased Failed", "The purchase of product " + product.Name + " has failed with reason: " + failureReason);
         }
 
         void OnRestoreCompleted()

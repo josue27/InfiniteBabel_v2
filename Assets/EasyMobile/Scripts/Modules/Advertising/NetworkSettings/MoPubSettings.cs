@@ -191,10 +191,14 @@ namespace EasyMobile
             AppLovin,
             Chartboost,
             Facebook,
+            Furry,
             IronSource,
-            OnebyAOL,
+            Pangle,
             TapJoy,
+            Snap,
+            Tapjoy,
             UnityAds,
+            Verizon,
             Vungle,
         }
 
@@ -293,12 +297,6 @@ namespace EasyMobile
             [SerializeField]
             private StringStringSerializableDictionary mMoPubRequestOption;
 
-#if EM_MOPUB
-            public MoPubBase.MediatedNetwork ToMoPubMediatedNetwork()
-            {
-                return this.ToMoPubMediatedNetwork();
-            }
-#endif
         }
     }
 
@@ -325,7 +323,6 @@ namespace EasyMobile
         {
             if (mediatedNetwork == null)
                 return null;
-
 
             return new MoPubBase.MediatedNetwork()
             {
@@ -357,14 +354,20 @@ namespace EasyMobile
                     return new MoPub.SupportedNetwork.Chartboost().AdapterConfigurationClassName;
                 case MoPubSettings.SupportedNetwork.Facebook:
                     return new MoPub.SupportedNetwork.Facebook().AdapterConfigurationClassName;
+                case MoPubSettings.SupportedNetwork.Furry:
+                    return new MoPub.SupportedNetwork.Flurry().AdapterConfigurationClassName;
                 case MoPubSettings.SupportedNetwork.IronSource:
                     return new MoPub.SupportedNetwork.IronSource().AdapterConfigurationClassName;
-                case MoPubSettings.SupportedNetwork.OnebyAOL:
-                    return new MoPub.SupportedNetwork.OnebyAOL().AdapterConfigurationClassName;
+                case MoPubSettings.SupportedNetwork.Pangle:
+                    return new MoPub.SupportedNetwork.Pangle().AdapterConfigurationClassName;
+                case MoPubSettings.SupportedNetwork.Snap:
+                    return new MoPub.SupportedNetwork.Snap().AdapterConfigurationClassName;
                 case MoPubSettings.SupportedNetwork.TapJoy:
                     return new MoPub.SupportedNetwork.Tapjoy().AdapterConfigurationClassName;
                 case MoPubSettings.SupportedNetwork.UnityAds:
                     return new MoPub.SupportedNetwork.Unity().AdapterConfigurationClassName;
+                case MoPubSettings.SupportedNetwork.Verizon:
+                    return new MoPub.SupportedNetwork.Verizon().AdapterConfigurationClassName;
                 case MoPubSettings.SupportedNetwork.Vungle:
                     return new MoPub.SupportedNetwork.Vungle().AdapterConfigurationClassName;
                 default:
@@ -392,14 +395,20 @@ namespace EasyMobile
                     return new MoPub.SupportedNetwork.Chartboost().MediationSettingsClassName;
                 case MoPubSettings.SupportedNetwork.Facebook:
                     return new MoPub.SupportedNetwork.Facebook().MediationSettingsClassName;
+                case MoPubSettings.SupportedNetwork.Furry:
+                    return new MoPub.SupportedNetwork.Flurry().MediationSettingsClassName;
                 case MoPubSettings.SupportedNetwork.IronSource:
                     return new MoPub.SupportedNetwork.IronSource().MediationSettingsClassName;
-                case MoPubSettings.SupportedNetwork.OnebyAOL:
-                    return new MoPub.SupportedNetwork.OnebyAOL().MediationSettingsClassName;
+                case MoPubSettings.SupportedNetwork.Pangle:
+                    return new MoPub.SupportedNetwork.Pangle().MediationSettingsClassName;
+                case MoPubSettings.SupportedNetwork.Snap:
+                    return new MoPub.SupportedNetwork.Snap().MediationSettingsClassName;
                 case MoPubSettings.SupportedNetwork.TapJoy:
                     return new MoPub.SupportedNetwork.Tapjoy().MediationSettingsClassName;
                 case MoPubSettings.SupportedNetwork.UnityAds:
                     return new MoPub.SupportedNetwork.Unity().MediationSettingsClassName;
+                case MoPubSettings.SupportedNetwork.Verizon:
+                    return new MoPub.SupportedNetwork.Verizon().MediationSettingsClassName;
                 case MoPubSettings.SupportedNetwork.Vungle:
                     return new MoPub.SupportedNetwork.Vungle().MediationSettingsClassName;
                 default:

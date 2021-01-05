@@ -231,7 +231,16 @@ namespace EasyMobile
         public static void DecodeGif(string filepath, int framesToRead, System.Threading.ThreadPriority threadPriority, Action<AnimatedClip> completeCallback)
         {
 #if UNITY_EDITOR
-            Debug.LogWarning("DecodeGif is not supported in Unity editor. Please test on an iOS or Android device.");
+            EM_3DI70R_GIF.DecodeRequest request = new EM_3DI70R_GIF.DecodeRequest(filepath){
+                frameToRead = framesToRead,
+                threadPriority = threadPriority
+            };
+            request.Completed += () =>{
+                if(completeCallback != null)
+                    completeCallback(request.AnimatedClip);
+            };
+            request.Request();
+            // Debug.LogWarning("DecodeGif is not supported in Unity editor. Please test on an iOS or Android device.");
 #elif UNITY_IOS
             // Read the GIF partially.
             iOSNativeGif.DecodeGif(curDecodeId++, filepath, framesToRead, threadPriority,

@@ -21,5 +21,10 @@ namespace EasyMobile.Internal.NativeAPIs.Media
         {
             Debug.LogWarning(UnsupportedMessage);
         }
+
+        public void SaveImage(Texture2D image, string name, string androidAlbumName, ImageFormat format = ImageFormat.JPG, Action<string> callback = null)
+        {
+            Debug.LogWarning(UnsupportedMessage);
+        }
     }
 }

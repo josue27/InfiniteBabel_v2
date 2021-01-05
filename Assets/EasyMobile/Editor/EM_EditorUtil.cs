@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
+using System.Linq;
 
 namespace EasyMobile.Editor
 {
@@ -876,6 +877,19 @@ namespace EasyMobile.Editor
         public static Type GetInspectorWindowType()
         {
             return Type.GetType("UnityEditor.InspectorWindow,UnityEditor.dll");
+        }
+
+        /// <summary>
+        /// Gets all constants defined in a type via reflection.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static List<FieldInfo> GetConstants(Type type)
+        {
+            FieldInfo[] fieldInfos = type.GetFields(BindingFlags.Public |
+                 BindingFlags.Static | BindingFlags.FlattenHierarchy);
+
+            return fieldInfos.Where(fi => fi.IsLiteral && !fi.IsInitOnly).ToList();
         }
     }
 }

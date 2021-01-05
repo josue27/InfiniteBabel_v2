@@ -170,6 +170,9 @@ namespace EasyMobile
         public void Record()
         {
             _state = RecorderState.Recording;
+#if EM_URP
+            EM_GIFRecorderFeature.SetBlitRT(TargetCamera, null);
+#endif
         }
 
         /// <summary>
@@ -217,8 +220,52 @@ namespace EasyMobile
         {
             _state = RecorderState.Stopped;
             FlushMemory();
+#if EM_URP
+            EM_GIFRecorderFeature.SetBlitRT(TargetCamera, null);
+#endif
         }
+#if EM_URP
+        private void LateUpdate()
+        {
+            if (_state != RecorderState.Recording)
+                return;
+            pastTime += Time.unscaledDeltaTime;
 
+            if (pastTime >= timePerFrame)
+            {
+                pastTime -= timePerFrame;
+                RenderTexture targetBlitRT = EM_GIFRecorderFeature.GetBlitRT(TargetCamera);
+
+                if (targetBlitRT != null)
+                {
+                    //Enqueue last frame blit result
+                    recordedFrames.Enqueue(targetBlitRT);
+                }
+
+                RenderTexture tempRT = null;
+
+                // Recycle old frames -> discard old content
+                if (recordedFrames.Count >= maxFrameCount)
+                    tempRT = recordedFrames.Dequeue();
+
+                if (tempRT == null)
+                {
+                    tempRT = new RenderTexture(_width, _height, 0, RenderTextureFormat.ARGB32);
+                    tempRT.wrapMode = TextureWrapMode.Clamp;
+                    tempRT.filterMode = FilterMode.Bilinear;
+                    tempRT.anisoLevel = 0;
+                }
+                else
+                {
+                    // Discard the reused RT's content before rendering new content into it
+                    // to avoid a "restore" operation, which is costly on many mobile GPUs and
+                    // multi-GPU systems and will cause Unity to issue a warning.
+                    tempRT.DiscardContents();
+                }
+                EM_GIFRecorderFeature.SetBlitRT(TargetCamera, tempRT);
+            }
+        }
+#else
         // OnRenderImage is sent to all scripts attached to a camera.
         void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
@@ -261,7 +308,7 @@ namespace EasyMobile
 
             Graphics.Blit(source, destination);
         }
-
+#endif
         #endregion
 
         #region Methods

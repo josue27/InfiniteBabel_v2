@@ -14,6 +14,12 @@ namespace EasyMobile
         #region Public API
 
         /// <summary>
+        /// Occurs when the Easy Mobile runtime has been initialized,
+        /// when its modules are ready to use.
+        /// </summary>
+        public static event Action Initialized;
+
+        /// <summary>
         /// Initializes the Easy Mobile runtime. Always do this before
         /// accessing Easy Mobile API. It's recommended to initialize as 
         /// early as possible, ideally as soon as the app launches. This
@@ -46,6 +52,10 @@ namespace EasyMobile
 
                 // Done init.
                 mIsInitialized = true;
+
+                // Raise the event.
+                if (Initialized != null)
+                    Initialized();
 
                 Debug.Log("Easy Mobile runtime has been initialized.");
             }
@@ -88,6 +98,14 @@ namespace EasyMobile
         #endregion
 
         #region Internal Stuff
+        
+        //Auto initialization
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        private static void AutoInitialize()
+        {
+            if(EM_Settings.IsRuntimeAutoInitializationEnabled)
+                Init();
+        }
 
         // Adds the required components necessary for the runtime operation of EM modules
         // to the game object this instance is attached to.

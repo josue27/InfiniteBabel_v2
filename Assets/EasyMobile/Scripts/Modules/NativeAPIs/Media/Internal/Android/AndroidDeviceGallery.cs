@@ -1,4 +1,4 @@
-﻿#if UNITY_ANDROID
+#if UNITY_ANDROID
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,6 +43,11 @@ namespace EasyMobile.Internal.NativeAPIs.Media
 
         public void SaveImage(Texture2D image, string name, ImageFormat format = ImageFormat.JPG, Action<string> callback = null)
         {
+            SaveImage(image, name, null, format, callback);
+        }
+
+        public void SaveImage(Texture2D image, string name, string androidAlbumName, ImageFormat format = ImageFormat.JPG, Action<string> callback = null)
+        {
             if (callback == null)
             {
                 Debug.LogError(NullCallbackMessage);
@@ -60,8 +65,12 @@ namespace EasyMobile.Internal.NativeAPIs.Media
                 callback(NullNativeGalleryMessage);
                 return;
             }
-
-            nativeGallery.Call(NativeSaveImageName, TextureUtilities.Encode(image, format), name, (int)format, new AndroidSaveImageProxy(callback), false); // false = saveToInternal
+            
+            if (String.IsNullOrEmpty(androidAlbumName))
+            {
+                androidAlbumName = Application.productName;
+            }
+            nativeGallery.Call(NativeSaveImageName, TextureUtilities.Encode(image, format), name, (int)format, new AndroidSaveImageProxy(callback), false, androidAlbumName); //true = save to internal storage
         }
 
         public void LoadImage(MediaResult media, Action<string, Texture2D> callback, int maxSize = -1)

@@ -61,9 +61,12 @@ namespace EasyMobile.Demo
 
         void OnDestroy()
         {
-            // Dispose the used clip if needed
+            // Dispose the used clips if needed
             if (recordedClip != null)
                 recordedClip.Dispose();
+
+            if (decodedClip != null)
+                decodedClip.Dispose();
         }
 
         void Awake()

@@ -138,6 +138,15 @@ namespace EasyMobile
             get { return mUnityAds; }
         }
 
+        /// <summary>
+        /// Gets the Vungle settings.
+        /// </summary>
+        /// <value>The vungle ads.</value>
+        public VungleSettings VungleAds
+        {
+            get { return mVungleAds; }
+        }
+
         [System.Serializable]
         public struct DefaultAdNetworks
         {
@@ -190,5 +199,7 @@ namespace EasyMobile
         private TapjoySettings mTapjoy = null;
         [SerializeField]
         private UnityAdsSettings mUnityAds = null;
+        [SerializeField]
+        private VungleSettings mVungleAds = null;
     }
 }

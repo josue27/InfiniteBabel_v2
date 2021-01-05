@@ -101,6 +101,12 @@ namespace EasyMobile.Editor
                 symbols.Add(EM_ScriptingSymbols.UnityAds);
             }
 
+            // Vungle
+            if (EM_ExternalPluginManager.IsVungleAvail())
+            {
+                symbols.Add(EM_ScriptingSymbols.Vungle);
+            }
+
             // Defines all ad symbols on all platforms.
             GlobalDefineManager.SDS_AddDefinesOnAllPlatforms(symbols.ToArray());
         }
