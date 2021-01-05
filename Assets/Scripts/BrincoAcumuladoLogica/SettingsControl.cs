@@ -9,6 +9,7 @@ public class SettingsControl : MonoBehaviour
 
     public GameObject panelBotonesSuperiores;
     public GameObject panelIdiomas;
+    public GameObject panelCreditos;
 
     [SerializeField] Vector3 posPanelBotonesSuperiores_Activados;
     [SerializeField] Vector3 posPanelBotonesSuperiores_Desactivados;
@@ -50,4 +51,14 @@ public class SettingsControl : MonoBehaviour
         panelIdiomas.SetActive(!panelIdiomas.activeInHierarchy);
     }
      
+    public void Toggle_PanelCreditos()
+    {
+        if(!panelCreditos)
+        {
+            Debug.Log("No hay panel creditos");
+            return;
+
+        }
+        panelCreditos.SetActive(!panelCreditos.activeInHierarchy);
+    }
 }

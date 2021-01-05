@@ -357,6 +357,14 @@ namespace Brinco
         /// <param name="inout">se espera string: in o out</param>
         void PantallaNegra(string inout)
         {
+            if(pantallNegro == null)
+            {
+                Debug.Log("No se encontro pantalla negro");
+                return;
+            }
+            if (!pantallNegro.activeInHierarchy)
+                pantallNegro.SetActive(true);
+
             if(inout == "in")
             {
                 pantallNegro.transform.position = new Vector3(2400f,1400f,0f);

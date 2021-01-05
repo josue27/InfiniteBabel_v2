@@ -71,7 +71,9 @@ public class BrincoAcumulado : MonoBehaviour
 
    public Sprite_Animador spriteAnim;
     public GameObject spritePersonaje;
+    
     public bool puedeBrincar;
+
     [SerializeField] int toques = 0;
     void Start()
     {

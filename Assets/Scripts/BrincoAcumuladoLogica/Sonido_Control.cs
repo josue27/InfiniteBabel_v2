@@ -13,10 +13,20 @@ public class Sonido_Control : MonoBehaviour
 
     public List<ClipSonido> clipsSonidos = new List<ClipSonido>();
 
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
-    /// </summary>
+    private void OnValidate()
+    {
+        if(clipsSonidos.Count>0)
+        {
+            foreach(ClipSonido clip in clipsSonidos)
+            {
+                if (clip.audioSource)
+                {
+                    clip.audioSource.transform.name = clip.nombre + "_sfx";
+                    clip.audioSource.clip = clip.clip;
+                }
+            }
+        }
+    }
     void Start()
     {
         sonidos = this;
@@ -27,11 +37,15 @@ public class Sonido_Control : MonoBehaviour
     {
         foreach(ClipSonido clipSonido in clipsSonidos)
         {
-            if(clipSonido.nombre.Equals(nombrePista))
+            //if(clipSonido.nombre.Equals(nombrePista))
+            //{
+            //    ui_AudioSource.clip = clipSonido.clip;
+            //    ui_AudioSource.Play();
+            //    break;
+            //}
+            if(clipSonido.nombre == nombrePista)
             {
-                ui_AudioSource.clip = clipSonido.clip;
-                ui_AudioSource.Play();
-                break;
+                clipSonido.audioSource.Play();
             }
         }
     }
@@ -44,7 +58,7 @@ public class Sonido_Control : MonoBehaviour
     private void ReproducirObstaculoPasado()
     {
         if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.perdio)
-         return;
+          return;
         if(obstaculoPasado_sfx)
          obstaculoPasado_sfx.Play();
     }
@@ -67,4 +81,5 @@ public class ClipSonido
 {
     public string nombre;//conviene que tenga nombre de la ui como "botonPlay" o nombre de la Accion
     public AudioClip clip;
+    public AudioSource audioSource;
 }

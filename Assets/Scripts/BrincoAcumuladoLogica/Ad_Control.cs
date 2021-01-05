@@ -20,10 +20,13 @@ namespace Brinco
         public int casosFavorables_AdReward = 1;
         public GameObject panelAdReward;
         public bool mostrandoAdReward;
+        public bool adRewardMostrado;
         public bool mostrandoAdIntermedio;
         public int monedasRecompensa = 10;
         [Tooltip("TRUE si el jugador compro este articulo")]
         public bool removerAdIntermedio;
+        [SerializeField] private bool isInitialized;
+
 
         private void OnEnable()
         {
@@ -66,7 +69,9 @@ namespace Brinco
 
         void Start()
         {
-
+            isInitialized = InAppPurchasing.IsInitialized();
+            Debug.Log("AdControl: isInitialized" + isInitialized);
+            SeComproNoAds();
         }
 
 
@@ -88,14 +93,16 @@ namespace Brinco
         /// </summary>
         void MostarAdIntermedio()
         {
-            if (mostrandoAdIntermedio)
-                return;
-
             if (removerAdIntermedio)
             {
                 Debug.Log("El jugador compra NO ADS, descartando...");
                 return;
             }
+
+            if (mostrandoAdIntermedio)
+                return;
+
+            
             Debug.Log("Mostrando Ad Intermedio");
             bool estaListo = Advertising.IsInterstitialAdReady();
 
@@ -131,6 +138,8 @@ namespace Brinco
         /// </summary>
         public void MostrarAdReward()
         {
+            if (mostrandoAdReward)
+                return;
             MostrarPanelAdReward(false);
             bool estaListo = Advertising.IsRewardedAdReady();
             if(estaListo && !mostrandoAdReward)
@@ -149,6 +158,11 @@ namespace Brinco
         /// <param name="arg2"></param>
         private void Advertising_RewardedAdCompleted(RewardedAdNetwork arg1, AdPlacement arg2)
         {
+            if (adRewardMostrado)
+                return;
+
+            adRewardMostrado = true;
+
             Debug.Log("Ad Reward mostrado");
             Score_Control.instancia.SumarMonedas(monedasRecompensa);
         }
@@ -157,11 +171,33 @@ namespace Brinco
         public void RemoverAds(bool remover)
         {
             removerAdIntermedio = remover;
+            if(remover)
+            {
+                Advertising.RemoveAds();
+            }
+            Debug.Log("El jugador tiene comprado no ADS");
         }
 
         private void OnDisable()
         {
             Advertising.InterstitialAdCompleted -= Advertising_InterstitialAdCompleted;
+            Advertising.RewardedAdCompleted -= Advertising_RewardedAdCompleted;
+            Eventos_Dispatcher.eventos.JugadorPerdio -= JugadorPerdio_Callback;
+
+        }
+
+        //Reviza si el usuario compro el producto de remover ads intermedios y se lo manda a Ad_Control.cs
+        public void SeComproNoAds()
+        {
+            Debug.Log("AdControl: revizando compra noAds");
+            if (!isInitialized)
+            {
+                bool remover = InAppPurchasing.IsProductOwned(EM_IAPConstants.Product_RemoverAds);
+
+                RemoverAds(remover);
+                Debug.Log("AdControl: noAds = "+remover);
+
+            }
 
         }
     }

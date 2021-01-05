@@ -36,9 +36,9 @@ namespace Brinco
             InAppPurchasing.PurchaseFailed += PurchaseFailedHandler;
         }
 
-        private void PurchaseFailedHandler(IAPProduct producto)
+        private void PurchaseFailedHandler(IAPProduct producto, string failureReason)
         {
-            Debug.Log($"No se pudo procesar la compra de : {producto.Name}");
+            Debug.Log($"No se pudo procesar la compra de : {producto.Name} failureReason:{failureReason}");
             NativeUI.Alert("Error al comprar",$"La compra de{producto.Name} no se pudo completar");
 
         }
@@ -106,6 +106,7 @@ namespace Brinco
             if(!isInitialized)
             {
                 bool remover = InAppPurchasing.IsProductOwned(EM_IAPConstants.Product_RemoverAds);
+
                 GetComponent<Ad_Control>().RemoverAds(remover);
             }
         }
