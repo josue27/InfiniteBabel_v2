@@ -26,7 +26,6 @@ MonoBehaviour:
   - {fileID: -814346854146180952, guid: 43ef84ea1e7228e4797fac7102f3a076, type: 3}
   - {fileID: -4843804517281143311, guid: 43ef84ea1e7228e4797fac7102f3a076, type: 3}
   - {fileID: 5040895241927729827, guid: 43ef84ea1e7228e4797fac7102f3a076, type: 3}
-  - {fileID: -699581082141124096, guid: 43ef84ea1e7228e4797fac7102f3a076, type: 3}
   sprites_brinco:
   - {fileID: 8710665852346365702, guid: 43ef84ea1e7228e4797fac7102f3a076, type: 3}
   - {fileID: 5740058292788253911, guid: 43ef84ea1e7228e4797fac7102f3a076, type: 3}

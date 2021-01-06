@@ -33,6 +33,11 @@ public class Sonido_Control : MonoBehaviour
         Eventos_Dispatcher.MonedaTomada +=ReproducirMoneda;
         Eventos_Dispatcher.CruceObstaculo += ReproducirObstaculoPasado;
     }
+
+    /// <summary>
+    /// Reproduce un sonido normalmente de UI para buscarlo por su nombre
+    /// </summary>
+    /// <param name="nombrePista">botonPersonaje,botonPlay,errorBoton,clickMenu</param>
     public void ReproducirSonido_UI(string nombrePista)
     {
         foreach(ClipSonido clipSonido in clipsSonidos)

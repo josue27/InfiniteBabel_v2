@@ -215,29 +215,31 @@ namespace Brinco
             if (scoreRonda >= 5)
             {
                // Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_rookie_moves);
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_rookie_moves, (bool exito) =>
-                {
-                    Debug.Log("Logor desbloqueado:" + exito);
+                //GameServices.UnlockAchievement(EM_GameServicesConstants.Achievement_Rookie_moves,(bool exito)=>{ 
+                //    Debug.Log("Logor desbloqueado:" + exito);
 
-                });
+                //});
+                Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_Rookie_moves);
             }
             else if (scoreRonda >= 10)
             {
                 //  Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_looking_that_promotion);
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_looking_that_promotion, (bool exito) =>
-                {
-                    Debug.Log("Logor desbloqueado:" + exito);
+                //GameServices.UnlockAchievement(EM_GPGSIds.achievement_looking_that_promotion, (bool exito) =>
+                //{
+                //    Debug.Log("Logor desbloqueado:" + exito);
 
-                });
+                //});
+                Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_Looking_Promotion);
             }
             else if (scoreRonda >= 30)
             {
                 // Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_senior_moves);
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_senior_moves, (bool exito) =>
-                {
-                    Debug.Log("Logor desbloqueado:" + exito);
+                //GameServices.UnlockAchievement(EM_GPGSIds.achievement_senior_moves, (bool exito) =>
+                //{
+                //    Debug.Log("Logor desbloqueado:" + exito);
 
-                });
+                //});
+                Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_Looking_Promotion);
             }
         }
 
@@ -317,13 +319,14 @@ namespace Brinco
         public void DesbloquearLogro()
         {
 
-           // Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_welcome_to_the_late_shift);
+            // Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_welcome_to_the_late_shift);
 
-            GameServices.UnlockAchievement(EM_GPGSIds.achievement_welcome_to_the_late_shift, (bool exito) =>
-            {
-                Debug.Log("Logor desbloqueado:" + exito);
+            //GameServices.UnlockAchievement(EM_GPGSIds.achievement_welcome_to_the_late_shift, (bool exito) =>
+            //{
+            //    Debug.Log("Logor desbloqueado:" + exito);
 
-            });
+            //});
+            Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_FirstRun);
         }
 
 
@@ -749,7 +752,7 @@ namespace Brinco
                     nombre = personaje.personaje.nombre
                 };
                 personajesAGuardar.Add(_personaje);
-                Debug.Log($"Personaje:{personaje.personaje.nombre} comprado:{personaje.comprado} y agregado para guardar ");
+               // Debug.Log($"Personaje:{personaje.personaje.nombre} comprado:{personaje.comprado} y agregado para guardar ");
             }
 
             save.personajes = personajesAGuardar;

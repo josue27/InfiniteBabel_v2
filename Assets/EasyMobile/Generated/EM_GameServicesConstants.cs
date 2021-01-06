@@ -17,6 +17,7 @@ namespace EasyMobile
 		public const string Achievement_NoShame = "NoShame";
 		public const string Achievement_MoreCoffee = "MoreCoffee";
 		public const string Achievement_Rookie_moves = "Rookie_moves";
+		public const string Achievement_MakeItRain = "MakeItRain";
 		public const string Achievement_FirstRun = "FirstRun";
 
 	}

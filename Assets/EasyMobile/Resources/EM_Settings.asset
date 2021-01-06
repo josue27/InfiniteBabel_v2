@@ -302,6 +302,9 @@ MonoBehaviour:
     - _name: NoShame
       _iosId: 
       _androidId: CgkIsfDXnPEcEAIQCw
+    - _name: MakeItRain
+      _iosId: 
+      _androidId: CgkIsfDXnPEcEAIQDA
     mAndroidXmlResources: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!--Google
       Play game services IDs. Save this file as res/values/games-ids.xml in your
       project.-->\r\n<resources>\r\n  <!--app_id-->\r\n  <string name=\"app_id\"
@@ -468,5 +471,5 @@ MonoBehaviour:
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
   mIsSharingModuleEnable: 0
-  mActiveModuleIndex: 3
+  mActiveModuleIndex: 1
   mIsSelectingModule: 0

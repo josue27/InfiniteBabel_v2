@@ -386,7 +386,7 @@ namespace Brinco
                     nombre = personaje.personaje.nombre
                 };
                 personajesAGuardar.Add(_personaje);
-                Debug.Log($"Personaje:{personaje.personaje.nombre} comprado:{personaje.comprado} y agregado para guardar ");
+               // Debug.Log($"Personaje:{personaje.personaje.nombre} comprado:{personaje.comprado} y agregado para guardar ");
             }
 
             save.personajes = personajesAGuardar;
@@ -411,7 +411,7 @@ namespace Brinco
             {
                 string p = SaveGame.Load<string>(nombreSlotPersonajeUsado);
                 SeleccionPersonaje._seleccionPersonaje.SetPersonaje(p);
-                Debug.Log("Se mando cambio de personaje guardado");
+                //Debug.Log("Se mando cambio de personaje guardado");
             }
             else
             {

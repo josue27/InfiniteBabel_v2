@@ -9,7 +9,8 @@ public class Logros_Control : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        instancia = this; 
+        instancia = this;
+        GameServices.Init();
     }
 
     
@@ -20,69 +21,77 @@ public class Logros_Control : MonoBehaviour
             Debug.Log("No se inicializo gameservices");
             return;
         }
+
+        GameServices.UnlockAchievement(logro, (bool exito) =>
+        {
+            Debug.Log("Logor desbloqueado:" + exito);
+
+        });
         
-       
+
+        /*
+         * DEPRECATED: Al parecer solo con el string es el codigo que pide Google
         switch (logro)
         {
-            case EM_GPGSIds.achievement_work_with_style:
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_work_with_style, (bool exito) =>
+            case EM_GameServicesConstants.Achievement_WorkWithStyle:
+                GameServices.UnlockAchievement(EM_GameServicesConstants.Achievement_WorkWithStyle, (bool exito) =>
                 {
                     Debug.Log("Logor desbloqueado:" + exito);
 
                 });
                 break;
-            case EM_GPGSIds.achievement_down_the_system:
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_down_the_system, (bool exito) =>
+            case EM_GameServicesConstants.Achievement_DownTheSystem:
+                GameServices.UnlockAchievement(EM_GameServicesConstants.Achievement_DownTheSystem, (bool exito) =>
                 {
                     Debug.Log("Logor desbloqueado:" + exito);
 
                 });
                 break;
-            case EM_GPGSIds.achievement_looking_that_promotion:
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_looking_that_promotion, (bool exito) =>
+            case EM_GameServicesConstants.Achievement_Looking_Promotion:
+                GameServices.UnlockAchievement(EM_GameServicesConstants.Achievement_Looking_Promotion, (bool exito) =>
                 {
                     Debug.Log("Logor desbloqueado:" + exito);
 
                 });
                 break;
-            case EM_GPGSIds.achievement_make_it_rain:
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_make_it_rain, (bool exito) =>
+            case EM_GameServicesConstants.Achievement_MakeItRain:
+                GameServices.UnlockAchievement(EM_GameServicesConstants.Achievement_MakeItRain, (bool exito) =>
                 {
                     Debug.Log("Logor desbloqueado:" + exito);
 
                 });
                 break;
-            case EM_GPGSIds.achievement_more_coffee_please:
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_more_coffee_please, (bool exito) =>
+            case EM_GameServicesConstants.Achievement_MoreCoffee:
+                GameServices.UnlockAchievement(EM_GameServicesConstants.Achievement_MoreCoffee, (bool exito) =>
                 {
                     Debug.Log("Logor desbloqueado:" + exito);
 
                 });
                 break;
            
-            case EM_GPGSIds.achievement_no_shame:
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_no_shame, (bool exito) =>
+            case EM_GameServicesConstants.Achievement_NoShame:
+                GameServices.UnlockAchievement(EM_GameServicesConstants.Achievement_NoShame, (bool exito) =>
                 {
                     Debug.Log("Logor desbloqueado:" + exito);
 
                 });
                 break;
-            case EM_GPGSIds.achievement_rookie_moves:
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_rookie_moves, (bool exito) =>
+            case EM_GameServicesConstants.Achievement_Rookie_moves:
+                GameServices.UnlockAchievement(EM_GameServicesConstants.Achievement_Rookie_moves, (bool exito) =>
                 {
                     Debug.Log("Logor desbloqueado:" + exito);
 
                 });
                 break;
-            case EM_GPGSIds.achievement_senior_moves:
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_senior_moves, (bool exito) =>
+            case EM_GameServicesConstants.Achievement_Senior_Moves:
+                GameServices.UnlockAchievement(EM_GameServicesConstants.Achievement_Senior_Moves, (bool exito) =>
                 {
                     Debug.Log("Logor desbloqueado:" + exito);
 
                 });
                 break;
-            case EM_GPGSIds.achievement_welcome_to_the_late_shift:
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_welcome_to_the_late_shift, (bool exito) =>
+            case EM_GameServicesConstants.Achievement_FirstRun:
+                GameServices.UnlockAchievement(EM_GameServicesConstants.Achievement_FirstRun, (bool exito) =>
                 {
                     Debug.Log("Logor desbloqueado:" + exito);
 
@@ -92,6 +101,7 @@ public class Logros_Control : MonoBehaviour
                 Debug.Log("No se encontro logro");
                 break;
         }
+        */
 
     }
 
@@ -108,9 +118,9 @@ public class Logros_Control : MonoBehaviour
             return;
         }
 
-        if (logro == EM_GPGSIds.achievement_no_quitters)
+        if (logro == EM_GameServicesConstants.Achievement_No_Quitters)
         {
-            GameServices.ReportAchievementProgress(EM_GPGSIds.achievement_no_quitters, cantidad, (exito) =>
+            GameServices.ReportAchievementProgress(EM_GameServicesConstants.Achievement_No_Quitters, cantidad, (exito) =>
             {
 
                 Debug.Log("Logro incrementado:" + exito);

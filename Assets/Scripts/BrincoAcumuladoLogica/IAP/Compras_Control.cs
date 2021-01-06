@@ -35,6 +35,17 @@ namespace Brinco
             InAppPurchasing.PurchaseCompleted += PurchaseCompletedHandler;
             InAppPurchasing.PurchaseFailed += PurchaseFailedHandler;
         }
+        void Start()
+        {
+            isInitialized = InAppPurchasing.IsInitialized();
+
+            //foreach (IAPProduct producto in productos_DB)
+            //{
+            //    Debug.Log("Producto: " + producto.Name);
+            //}
+            BuscarProductoLocalized();
+            //SeComproNoAds();
+        }
 
         private void PurchaseFailedHandler(IAPProduct producto, string failureReason)
         {
@@ -56,13 +67,37 @@ namespace Brinco
 
                 });
 
-            } else if (producto.Name == EM_IAPConstants.Product_RemoverAds)
+            }
+            else if(producto.Name == EM_IAPConstants.Product_Overtimepay)
             {
-                this.GetComponent<Ad_Control>().removerAdIntermedio = true;
+                Debug.Log($"Se compro dinero: {producto.Name}");
+                Score_Control.instancia.SumarMonedas(50);
+                //  Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_make_it_rain);
+                GameServices.UnlockAchievement(EM_GPGSIds.achievement_make_it_rain, (bool exito) =>
+                {
+                    Debug.Log("Logor desbloqueado:" + exito);
+
+                });
+            }
+            else if (producto.Name == EM_IAPConstants.Product_Promovido)
+            {
+                Debug.Log($"Se compro dinero: {producto.Name}");
+                Score_Control.instancia.SumarMonedas(100);
+                //  Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_make_it_rain);
+                GameServices.UnlockAchievement(EM_GPGSIds.achievement_make_it_rain, (bool exito) =>
+                {
+                    Debug.Log("Logor desbloqueado:" + exito);
+
+                });
+            }
+            else if (producto.Name == EM_IAPConstants.Product_RemoverAds)
+            {
+                this.GetComponent<Ad_Control>().RemoverAds(true);
                 Debug.Log("se removieron los ads");
             }
             else
             {
+                //Sin usar
                 Debug.Log($"Se compro personaje: {producto.Name}");
                 //Liberar personaje
 
@@ -88,28 +123,23 @@ namespace Brinco
         }
 
 
-        void Start()
-        {
-            isInitialized = InAppPurchasing.IsInitialized();
-
-            //foreach (IAPProduct producto in productos_DB)
-            //{
-            //    Debug.Log("Producto: " + producto.Name);
-            //}
-            BuscarProductoLocalized();
-            SeComproNoAds();
-        }
-
+     
+        //DEPRECATED: Ad_Control ahora hace esta revicion
         //Reviza si el usuario compro el producto de remover ads intermedios y se lo manda a Ad_Control.cs
         public void SeComproNoAds()
         {
             if(!isInitialized)
+            {
+              
+            }
+            else
             {
                 bool remover = InAppPurchasing.IsProductOwned(EM_IAPConstants.Product_RemoverAds);
 
                 GetComponent<Ad_Control>().RemoverAds(remover);
             }
         }
+
         public void ComprarObjeto(Button boton)
         {
             foreach (Producto _producto in productos)

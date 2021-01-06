@@ -32,6 +32,7 @@ namespace Brinco
         {
             Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
             CambiarPersonaje();
+            //GameServices.Init();
         }
 
         private void InicioJuego()
@@ -148,29 +149,33 @@ namespace Brinco
                 if (personajes[enPersonaje].personaje.nombre == "coffeeguy")
                 {
                     //Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_more_coffee_please);
-                    GameServices.UnlockAchievement(EM_GPGSIds.achievement_more_coffee_please, (bool exito) =>
-                    {
-                        Debug.Log("Logor desbloqueado:" + exito);
+                    //GameServices.UnlockAchievement(EM_GPGSIds.achievement_more_coffee_please, (bool exito) =>
+                    //{
+                    //    Debug.Log("Logor desbloqueado:" + exito);
 
-                    });
+                    //});
+                    Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_MoreCoffee);
                 }
-                else if(personajes[enPersonaje].personaje.nombre == "punkman")
+                else if(personajes[enPersonaje].personaje.nombre == "punkman" )
                 {
-                   // Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_down_the_system);
-                    GameServices.UnlockAchievement(EM_GPGSIds.achievement_down_the_system, (bool exito) =>
-                    {
-                        Debug.Log("Logor desbloqueado:" + exito);
+                    // Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_down_the_system);
+                    //GameServices.UnlockAchievement(EM_GPGSIds.achievement_down_the_system, (bool exito) =>
+                    //{
+                    //    Debug.Log("Logor desbloqueado:" + exito);
 
-                    });
+                    //});
+                    Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_DownTheSystem);
                 }
                 else if(personajes[enPersonaje].personaje.nombre == "naked_man")
                 {
                     // Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_no_shame);
-                    GameServices.UnlockAchievement(EM_GPGSIds.achievement_no_shame, (bool exito) =>
-                    {
-                        Debug.Log("Logor desbloqueado:" + exito);
+                    //GameServices.UnlockAchievement(EM_GPGSIds.achievement_no_shame, (bool exito) =>
+                    //{
+                    //    Debug.Log("Logor desbloqueado:" + exito);
 
-                    });
+                    //});
+                    Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_NoShame);
+
                 }
             }
         }
@@ -181,6 +186,7 @@ namespace Brinco
         /// </summary>
         public void DesbloquearPersonaje()
         {
+            //Checamos si el personaje ya esta comprado, aunque esto no deberia pasar pues cuando esta comprado quitamos el boton de venta
             if (personajes[enPersonaje].comprado)
             {
                 Debug.Log($"Intento comprar {personajes[enPersonaje].personaje.name} ya comprado");
@@ -196,17 +202,19 @@ namespace Brinco
                 ///EN teoria no, porque ya implementamos salvado si quita o se va
                 // Score_Control.instancia.Guardar_MonedasYPersonajes();
                 //Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_work_with_style);
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_work_with_style, (bool exito) =>
-                {
-                    Debug.Log("Logor desbloqueado:" + exito);
+                //GameServices.UnlockAchievement(EM_GPGSIds.achievement_work_with_style, (bool exito) =>
+                //{
+                //    Debug.Log("Logor desbloqueado:" + exito);
 
-                });
+                //});
+                Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_WorkWithStyle);
             }
 
             else
             {
                 Debug.Log("Sin monedas suficientes");
                 //TODO: Agregar SFX incorrecto y animacion candado
+                Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
 
             }
 

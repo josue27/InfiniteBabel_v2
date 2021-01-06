@@ -34,13 +34,33 @@ namespace Brinco
             Advertising.RewardedAdCompleted += Advertising_RewardedAdCompleted;
             Eventos_Dispatcher.eventos.JugadorPerdio += JugadorPerdio_Callback;
 
+            Advertising.AdsRemoved += Advertising_AdsRemoved;
+
 
         }
+
+        /// <summary>
+        /// Llamado cuando los ads son removidos
+        /// </summary>
+        private void Advertising_AdsRemoved()
+        {
+            //NativeUI.Alert("Ads", "Ads removidos");
+            Advertising.AdsRemoved -= Advertising_AdsRemoved;
+        }
+
         private void Awake()
         {
             ObtenerConsentimiento();
 
         }
+        void Start()
+        {
+            isInitialized = InAppPurchasing.IsInitialized();
+            Debug.Log("AdControl: isInitialized" + isInitialized);
+            SeComproNoAds();
+            GameServices.Init();
+        }
+
 
         /// <summary>
         /// Eventos que ocurren cuando el jugador perdio, normalmente se decide si mostar
@@ -67,22 +87,14 @@ namespace Brinco
 
         }
 
-        void Start()
-        {
-            isInitialized = InAppPurchasing.IsInitialized();
-            Debug.Log("AdControl: isInitialized" + isInitialized);
-            SeComproNoAds();
-        }
-
-
-
+       
         void ObtenerConsentimiento()
         {
             // Grants the module-level consent for the Advertising module.
             Advertising.GrantDataPrivacyConsent();
 
             // Revokes the module-level consent of the Advertising module.
-            Advertising.RevokeDataPrivacyConsent();
+           // Advertising.RevokeDataPrivacyConsent();
 
             // Reads the current module-level consent of the Advertising module.
             moduleConsent = Advertising.DataPrivacyConsent;
@@ -116,7 +128,12 @@ namespace Brinco
         private void Advertising_InterstitialAdCompleted(InterstitialAdNetwork arg1, AdPlacement arg2)
         {
             Debug.Log("Ad Intermedio mostrado");
-            Logros_Control.instancia.LogroIncremental(EM_GPGSIds.achievement_no_quitters, 1);
+            //Logros_Control.instancia.LogroIncremental(EM_GPGSIds.achievement_no_quitters, 1);
+            //GameServices.ReportAchievementProgress(EM_GPGSIds.achievement_no_quitters, 1);
+            //Debug.Log("Achievement incremental...");
+
+            Logros_Control.instancia.LogroIncremental(EM_GameServicesConstants.Achievement_No_Quitters,1);
+
         }
 
         #region AdReward
@@ -170,10 +187,13 @@ namespace Brinco
 
         public void RemoverAds(bool remover)
         {
+            
             removerAdIntermedio = remover;
             if(remover)
             {
                 Advertising.RemoveAds();
+                //Advertising.RemoveAds(true);
+
             }
             Debug.Log("El jugador tiene comprado no ADS");
         }
@@ -183,6 +203,9 @@ namespace Brinco
             Advertising.InterstitialAdCompleted -= Advertising_InterstitialAdCompleted;
             Advertising.RewardedAdCompleted -= Advertising_RewardedAdCompleted;
             Eventos_Dispatcher.eventos.JugadorPerdio -= JugadorPerdio_Callback;
+            //Duda si volver a desactivar aqui esto
+            Advertising.AdsRemoved -= Advertising_AdsRemoved;
+
 
         }
 
@@ -190,7 +213,7 @@ namespace Brinco
         public void SeComproNoAds()
         {
             Debug.Log("AdControl: revizando compra noAds");
-            if (!isInitialized)
+            if (isInitialized)
             {
                 bool remover = InAppPurchasing.IsProductOwned(EM_IAPConstants.Product_RemoverAds);
 
