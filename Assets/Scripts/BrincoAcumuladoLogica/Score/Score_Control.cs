@@ -80,8 +80,12 @@ namespace Brinco
 
         public TMP_Text highScoreUsuario_text;
         public TMP_Text monedasUsuario_text;
+        public TMP_Text scoreBest_text;
+        public TMP_Text scoreRonda_text;
 
         public TMP_Text debug_text;
+
+        public GameObject nuevoHighScore_letrero;
         public GameObject monitorHighScore_inicial;
         public GameObject highScore_tabla;
         public GameObject[] scoreSlot;
@@ -102,6 +106,7 @@ namespace Brinco
             {
                 highScoreUsuario = value;
                 highScoreUsuario_text.text = highScoreUsuario.ToString();
+                scoreBest_text.text = highScoreUsuario.ToString();
             }
         }
         private void Awake()
@@ -125,7 +130,7 @@ namespace Brinco
             Eventos_Dispatcher.JuegoCargado += CargarScores;
             panelScore.transform.position = panelScore_posCerrada.position;
 
-
+            nuevoHighScore_letrero.SetActive(false);
             //if (SaveGame.Exists(juegoSalvadoLocal_ID))
             //{
             //   // CargarJuegoLocal();
@@ -180,6 +185,9 @@ namespace Brinco
         private void FinJuego()
         {
             CompararScore();
+
+            scoreRonda_text.text = ScoreRonda.ToString();
+
             //IngresarMonedasPartida();
         }
 
@@ -196,6 +204,8 @@ namespace Brinco
 
                     Save_Control.instancia.SubirScoreGooglePlay(scoreRonda);
                     Debug.Log("Highscore :" + highScoreUsuario + " superado guardano nuevo: " + scoreRonda);
+                    HighscoreUsuario = scoreRonda;
+                    nuevoHighScore_letrero.SetActive(true);
                 }
                 DesbloquearLogro();
 
@@ -214,31 +224,17 @@ namespace Brinco
 
             if (scoreRonda >= 5)
             {
-               // Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_rookie_moves);
-                //GameServices.UnlockAchievement(EM_GameServicesConstants.Achievement_Rookie_moves,(bool exito)=>{ 
-                //    Debug.Log("Logor desbloqueado:" + exito);
-
-                //});
+               
                 Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_Rookie_moves);
             }
             else if (scoreRonda >= 10)
             {
-                //  Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_looking_that_promotion);
-                //GameServices.UnlockAchievement(EM_GPGSIds.achievement_looking_that_promotion, (bool exito) =>
-                //{
-                //    Debug.Log("Logor desbloqueado:" + exito);
-
-                //});
+               
                 Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_Looking_Promotion);
             }
             else if (scoreRonda >= 30)
             {
-                // Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_senior_moves);
-                //GameServices.UnlockAchievement(EM_GPGSIds.achievement_senior_moves, (bool exito) =>
-                //{
-                //    Debug.Log("Logor desbloqueado:" + exito);
-
-                //});
+                
                 Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_Looking_Promotion);
             }
         }

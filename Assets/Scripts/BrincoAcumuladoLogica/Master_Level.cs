@@ -125,11 +125,11 @@ namespace Brinco
         {
             estadoJuego = EstadoJuego.perdio;
 
-            if (Score_Control.instancia)
-            {
-                scoreBest.text = $"{Score_Control.instancia.HighscoreUsuario}";
-                scoreFinal.text = $"{Score_Control.instancia.ScoreRonda}";
-            }
+            //if (Score_Control.instancia)
+            //{
+            //    scoreBest.text = $"{Score_Control.instancia.HighscoreUsuario}";
+            //    scoreFinal.text = $"{Score_Control.instancia.ScoreRonda}";
+            //}
             panel_reinicio.SetActive(true);
 
             print("GAME OVER");

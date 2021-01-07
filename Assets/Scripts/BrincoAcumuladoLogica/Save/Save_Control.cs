@@ -67,7 +67,7 @@ namespace Brinco
                 //debug_text.text = $"Score Google Play:{scoreCargado.value}";
                 Debug.Log($"Score Google Play:{scoreCargado.value}");
                 HighScoreUsuario = int.Parse(scoreCargado.formattedValue);
-
+                Score_Control.instancia.HighscoreUsuario = HighScoreUsuario;
                 //Verificamos si el Score de la Nube es diferente al Local
 
                 //if (juegoSalvadoLocal != null)
@@ -120,8 +120,12 @@ namespace Brinco
             //GuardarJuego_Local();
             if (GameServices.IsInitialized())
             {
-                GameServices.ReportScore(nuevoScore, EM_GPGSIds.leaderboard_the_best_runner, (bool exito) => {
-                   Debug.Log("Se subio el score exitosamente");
+                //GameServices.ReportScore(nuevoScore, EM_GPGSIds.leaderboard_the_best_runner, (bool exito) => {
+                //   Debug.Log("Se subio el score exitosamente");
+                //});
+
+                GameServices.ReportScore(nuevoScore, EM_GameServicesConstants.Leaderboard_Obstaculos, (bool exito) => {
+                    Debug.Log("Se subio el score exitosamente");
                 });
             }
             else
@@ -206,6 +210,7 @@ namespace Brinco
 
                                 Score_Control.instancia.MonedasTotales = JuegoSalvadoNube.monedas;
 
+                              
                                 //Resolver conflicto de monedas
                                 //if (juegoSalvadoLocal != null)
                                 //{
