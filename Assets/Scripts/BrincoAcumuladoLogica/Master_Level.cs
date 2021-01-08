@@ -134,9 +134,7 @@ namespace Brinco
          private void PerdioJuego()
         {
             estadoJuego = EstadoJuego.perdio;
-
-            
-         
+       
             panel_reinicio.SetActive(true);
 
             print("GAME OVER");
@@ -186,14 +184,16 @@ namespace Brinco
             yield return new WaitForSeconds(1.3f);
 
             #region Nuevo sistema Reinicio
+            estadoJuego = EstadoJuego.inicio;
+
             panel_reinicio.SetActive(false);
             enNivel = 0;
             boton_jugar.gameObject.SetActive(true);
             Eventos_Dispatcher.eventos.Reinico_Call();
             PantallaNegra("out");
+            LeanTween.moveLocalY(boton_jugar.gameObject, -425.0f, 0.5f).setEaseInOutSine();
             #endregion
 
-            LeanTween.moveLocalY(boton_jugar.gameObject, -425.0f, 0.5f).setEaseInOutSine();
 
 
             //HARDCORD SOLUTION

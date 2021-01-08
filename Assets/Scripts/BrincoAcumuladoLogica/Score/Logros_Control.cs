@@ -10,7 +10,7 @@ public class Logros_Control : MonoBehaviour
     void Start()
     {
         instancia = this;
-        GameServices.Init();
+        //GameServices.Init();
     }
 
     

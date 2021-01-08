@@ -74,6 +74,9 @@ public class BrincoAcumulado : MonoBehaviour
     
     public bool puedeBrincar;
 
+    [SerializeField]
+    private bool enTrigger;
+
     [SerializeField] int toques = 0;
     void Start()
     {
@@ -174,6 +177,7 @@ public class BrincoAcumulado : MonoBehaviour
         if (collision.transform.tag == "piso")
         {
             enPiso = true;
+
             Camara_Control.camara.ShakeCam_Call();
 
             if(muerto)
@@ -312,6 +316,7 @@ public class BrincoAcumulado : MonoBehaviour
     /// that is touching rigidbody/collider.
     /// </summary>
     /// <param name="other">The Collision data associated with this collision.</param>
+    
     //void OnCollisionStay(Collision other)
     //{
     //    if(other.transform.CompareTag("piso"))
@@ -323,6 +328,7 @@ public class BrincoAcumulado : MonoBehaviour
     //        }
     //    }
     //}
+   
     private void OnCollisionExit(Collision collision)
     {
         if (collision.transform.tag == "piso")
@@ -338,6 +344,11 @@ public class BrincoAcumulado : MonoBehaviour
 
         //TODO: Cambiar a un script independiento o EventDispatcher
         //BUG:no esta detectando las TNT
+
+        if (enTrigger)
+            return;
+
+        enTrigger = true;
         switch (other.tag)
         {
             case "pared":
@@ -390,6 +401,7 @@ public class BrincoAcumulado : MonoBehaviour
                 EmpujarJugador(Vector3.up, empujeEnCruze);
 
                 cruzandoApertura = true;
+                enTrigger = false;
 
                 break;
             default:
@@ -408,11 +420,13 @@ public class BrincoAcumulado : MonoBehaviour
             
 
             }
-     }
+        enTrigger = false;
+
+    }
     ///
-   
-  
-    
+
+
+
 
 
 
@@ -521,6 +535,7 @@ public class BrincoAcumulado : MonoBehaviour
     {
         ReproducirAnimacion("idle");
         puedeBrincar = false;
+        muerto = false;
         gameObject.transform.position = new Vector3(0f, 0f, -3.05f);
         gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         LeanTween.moveZ(this.gameObject, posEnPiso.position.z, 0.3f);

@@ -33,9 +33,15 @@ namespace Brinco
         [Header("Scores")]
         [SerializeField]
         private int highScoreUsuario;
+        [SerializeField]
         private int scoreRonda;
 
-        public int ScoreRonda { get => scoreRonda; set => scoreRonda = value; }
+        public int ScoreRonda { get => scoreRonda; 
+            set { 
+                scoreRonda = value;
+                scoreRonda_text.text = scoreRonda.ToString();
+            }
+        }
 
         private string nombreSlotHighscore = "highscore";
         private string nombreSlotPersonajeUsado = "nombrePersonaje";
@@ -178,7 +184,8 @@ namespace Brinco
         {
 
             AbrirPanelScore("ocultar");
-
+            ScoreRonda = 0;
+            
             MonedasPartida = MonedasTotales;
         }
 
@@ -202,12 +209,12 @@ namespace Brinco
             //valga la pena
             if (highScoreUsuario > 0)
             {
-                if (scoreRonda > highScoreUsuario)//Si se llega a superar el score guardado
+                if (ScoreRonda > highScoreUsuario)//Si se llega a superar el score guardado
                 {
 
-                    Save_Control.instancia.SubirScoreGooglePlay(scoreRonda);
-                    Debug.Log("Highscore :" + highScoreUsuario + " superado guardano nuevo: " + scoreRonda);
-                    HighscoreUsuario = scoreRonda;
+                    Save_Control.instancia.SubirScoreGooglePlay(ScoreRonda);
+                    Debug.Log("Highscore :" + highScoreUsuario + " superado guardano nuevo: " + ScoreRonda);
+                    HighscoreUsuario = ScoreRonda;
                     nuevoHighScore_letrero.SetActive(true);
                 }
                 DesbloquearLogro();
@@ -219,23 +226,23 @@ namespace Brinco
                 ///Desbloqueamos logro de primera vez
                 DesbloquearLogro();
 
-                Save_Control.instancia.SubirScoreGooglePlay(scoreRonda);
-                Debug.Log("Primer highscore salvado:" + scoreRonda);
+                Save_Control.instancia.SubirScoreGooglePlay(ScoreRonda);
+                Debug.Log("Primer highscore salvado:" + ScoreRonda);
             }
             //para que se actualice el Highscore durante la partida
             // CargarScoreUsuario();
 
-            if (scoreRonda >= 5)
+            if (ScoreRonda >= 5)
             {
                
                 Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_Rookie_moves);
             }
-            else if (scoreRonda >= 10)
+            else if (ScoreRonda >= 10)
             {
                
                 Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_Looking_Promotion);
             }
-            else if (scoreRonda >= 30)
+            else if (ScoreRonda >= 30)
             {
                 
                 Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_Looking_Promotion);
@@ -336,11 +343,11 @@ namespace Brinco
         /// </summary>
         public void ObstaculoCruzado()
         {
-            if (Master_Level._masterBrinco.estadoJuego == EstadoJuego.perdio)
+            if (Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)
                 return;
 
             MonitorAnimar("obstaculo");
-            scoreRonda++;
+            ScoreRonda++;
 
         }
 
@@ -449,7 +456,7 @@ namespace Brinco
         #endregion
         public int ScoreFinal()
         {
-            return scoreRonda > HighscoreUsuario ? scoreRonda : HighscoreUsuario;
+            return ScoreRonda > HighscoreUsuario ? ScoreRonda: HighscoreUsuario;
         }
         public void GuardarMonedas()
         {
@@ -762,7 +769,9 @@ namespace Brinco
 
         void Reinicio()
         {
-            scoreRonda = 0;
+            ScoreRonda = 0;
+            scoreRonda_text.text = ScoreRonda.ToString();
+            AbrirPanelScore("mostrar");
         }
 
     }

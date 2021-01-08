@@ -58,7 +58,8 @@ namespace Brinco
             isInitialized = InAppPurchasing.IsInitialized();
             Debug.Log("AdControl: isInitialized" + isInitialized);
             SeComproNoAds();
-            GameServices.Init();
+            //Esta autonicializado
+            //GameServices.Init();
         }
 
 

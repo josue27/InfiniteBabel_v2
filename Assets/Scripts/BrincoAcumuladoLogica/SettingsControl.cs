@@ -21,8 +21,15 @@ public class SettingsControl : MonoBehaviour
          IntroJuego();
          Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
     }
-   
+    private void Start()
+    {
+        Eventos_Dispatcher.Reinicio += Reinicio;
+    }
+    private void OnDisable()
+    {
+        Eventos_Dispatcher.Reinicio -= Reinicio;
 
+    }
     void IntroJuego()
     {
         LeanTween.moveLocalY(panelBotonesSuperiores, posPanelBotonesSuperiores_Activados.y, 0.5f).setEaseInOutSine();
@@ -60,5 +67,10 @@ public class SettingsControl : MonoBehaviour
 
         }
         panelCreditos.SetActive(!panelCreditos.activeInHierarchy);
+    }
+
+    void Reinicio()
+    {
+        LeanTween.moveLocalY(panelBotonesSuperiores, posPanelBotonesSuperiores_Activados.y, 0.5f).setEaseInOutSine();
     }
 }

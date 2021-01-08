@@ -31,10 +31,18 @@ namespace Brinco
         void Start()
         {
             Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
+            Eventos_Dispatcher.Reinicio += Reinicio;
             CambiarPersonaje();
             //GameServices.Init();
         }
 
+        void Reinicio()
+        {
+            botonesSeleccion.SetActive(true);
+            panelNombrePersonaje.SetActive(true);
+            VerificarSiEstaComprado();
+
+        }
         private void InicioJuego()
         {
             botonesSeleccion.SetActive(false);

@@ -62,6 +62,7 @@ public class SpawnEscenario : MonoBehaviour
         SpawnElementos();
         Eventos_Dispatcher.eventos.InicioJuego +=   InicioJuego; 
         Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
+        Eventos_Dispatcher.Reinicio += Reinicio;
         
         if(spritePiso)
             spritePiso_material = spritePiso.material;
@@ -165,6 +166,9 @@ public class SpawnEscenario : MonoBehaviour
 
 
                 elemenoEnLista.objetos.Enqueue(objetoActivar);
+
+
+               
                
                 break;
             }
@@ -216,12 +220,12 @@ public class SpawnEscenario : MonoBehaviour
                     objetoI.gameObject.SetActive(true);
                     
                     float distanciaPos =   elemenoEnLista.posFinal.position.z-elemenoEnLista.posInicial.position.z;
-                    Debug.Log("Distancia:"+distanciaPos);
+                    //Debug.Log("Distancia:"+distanciaPos);
                     Vector3 posFinalInicial = objetoI.transform.position;
                     posFinalInicial.z += distanciaPos;
                     objetoI.GetComponent<ElementoEscenario_Control>().Mover(posFinalInicial,elemenoEnLista.duracionRecorrido);
                     //elemenoEnLista.objetos.Enqueue(objetoActivar);
-                    Debug.Log("objeto inicial activado");
+                    //Debug.Log("objeto inicial activado");
                     elementosIniciales.Add(objetoI.GetComponent<ElementoEscenario_Control>());
 
                 }
@@ -310,7 +314,10 @@ public class SpawnEscenario : MonoBehaviour
 
 
     #endregion
+    public void Reinicio()
+    {
 
+    }
 
 }
 

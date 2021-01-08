@@ -56,6 +56,8 @@ namespace Brinco
             //}
             BuscarProductoLocalized();
             SeComproNoAds();
+            //Esta autoinicializada, no se necesita
+          //  InAppPurchasing.InitializePurchasing();
         }
 
         private void PurchaseFailedHandler(IAPProduct producto, string failureReason)
