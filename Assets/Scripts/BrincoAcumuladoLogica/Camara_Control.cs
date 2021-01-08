@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 namespace Brinco
 {
@@ -17,9 +18,14 @@ namespace Brinco
         public float magnitudShake = 0.01f;
 
         public float velocidad;
+        [SerializeField]
+        private float duracion =1.5f;
         Camera cam;
         bool moverCamara;
+        [SerializeField]
+        private CinemachineVirtualCamera cmVirtualCamera;
 
+        CinemachineBasicMultiChannelPerlin cmBasicMultiChannelPerlin;
         private void Awake()
         {
             cam = GetComponent<Camera>();
@@ -28,70 +34,113 @@ namespace Brinco
         {
             camara = this;
             Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
+            Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
+            Eventos_Dispatcher.Reinicio += Reinicio;
+           // StartCoroutine(ShakeCam(duracionShake, magnitudShake));
 
         }
-        public void MePudeVer()
+       
+       
+        [EasyButtons.Button]
+        public void CamaraJuego()
         {
-            print(this.transform.name + "me pueden ver");
+            //moverCamara = true;
+            MoverCamaraJuego();
+
+
         }
-        // Update is called once per frame
-        void Update()
+        [EasyButtons.Button]
+        public void CamaraInicio()
         {
-            if(moverCamara)
-            {
-                MoverCamaraInicio();
-            }
-            if(Input.GetKeyDown(KeyCode.S))
-            {
-                StartCoroutine(ShakeCam(duracionShake, magnitudShake));
-            }
+            moverCamara = false;
+            MoverCamaraAInicio();
+
         }
         public void ShakeCam_Call()
         {
-             StartCoroutine(ShakeCam(duracionShake, magnitudShake));
+            
+            ShakeCamera(duracionShake, magnitudShake);
 
         }
-        IEnumerator ShakeCam(float duracion, float magnitud)
+
+        //DEPRECATED(08/07/2021)
+        //IEnumerator ShakeCam(float duracion, float magnitud)
+        //{
+        //    //if (Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)
+        //    //    yield break;
+
+        //    Vector3 posActual = this.transform.position;
+
+        //    float tiempoPasado = 0.0f;
+        //    while(tiempoPasado<duracion)
+        //    {
+        //        float x = Random.Range(-1.0f, 1.0f) * magnitud;
+        //        float y = Random.Range(-1.0f, 1.0f) * magnitud;
+
+
+        //         Vector3 nuevaPos =  new Vector3(this.transform.position.x + x, this.transform.position.y + y, posActual.z);
+        //        this.transform.position = Vector3.Lerp(this.transform.position, nuevaPos, Time.deltaTime * 5.0f);
+        //        tiempoPasado += Time.deltaTime;
+
+        //        yield return null;
+        //    }
+        //    while (this.transform.position.x != posActual.x)
+        //    {
+
+
+        //        this.transform.position = Vector3.Lerp(this.transform.position, posActual, Time.deltaTime * 1.0f);
+        //        yield return null;
+        //    }
+        //}
+
+
+        public void ShakeCamera(float duracion, float magnitud)
         {
-            Vector3 posActual = this.transform.position;
+             cmBasicMultiChannelPerlin = cmVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
-            float tiempoPasado = 0.0f;
-            while(tiempoPasado<duracion)
-            {
-                float x = Random.Range(-1.0f, 1.0f) * magnitud;
-                float y = Random.Range(-1.0f, 1.0f) * magnitud;
-
-
-                 Vector3 nuevaPos =  new Vector3(this.transform.position.x + x, this.transform.position.y + y, posActual.z);
-                this.transform.position = Vector3.Lerp(this.transform.position, nuevaPos, Time.deltaTime * 5.0f);
-                tiempoPasado += Time.deltaTime;
-
-                yield return null;
-            }
-            while (this.transform.position.x != posActual.x)
-            {
-
-
-                this.transform.position = Vector3.Lerp(this.transform.position, posActual, Time.deltaTime * 1.0f);
-                yield return null;
-            }
+            cmBasicMultiChannelPerlin.m_AmplitudeGain = magnitud;
+            StartCoroutine(ShakeCameraParar(duracion));
         }
+        IEnumerator ShakeCameraParar(float duracion)
+        {
+            yield return new WaitForSeconds(duracion);
+            cmBasicMultiChannelPerlin.m_AmplitudeGain = 0;
 
+        }
         void InicioJuego()
         {
-            moverCamara = true;
+            // moverCamara = true;
+            MoverCamaraJuego();
+
+        }
+        void FinJuego()
+        {
+            moverCamara = false;
+            
         }
 
-        void MoverCamaraInicio()
+        void MoverCamaraJuego()
         {
-            this.transform.position = Vector3.Lerp(this.transform.position, posJuego.position, Time.deltaTime * velocidad);
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, zoomJuego, Time.deltaTime * velocidad);
+            LeanTween.move(cmVirtualCamera.gameObject, posJuego.position, duracion).setEaseOutSine();
+            Debug.Log("Moviendo camara a Juego");
+         
+        }
+        void MoverCamaraAInicio()
+        {
+        
+            cmVirtualCamera.transform.position = posInicio.position;
+            cam.orthographicSize = zoomInicial;
         }
         private void OnDestroy()
         {
+            Eventos_Dispatcher.Reinicio -= Reinicio;
             Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
 
         }
-
+        void Reinicio()
+        {
+           // moverCamara = false;
+            MoverCamaraAInicio();
+        }
     }
 }
