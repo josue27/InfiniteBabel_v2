@@ -20,6 +20,8 @@ public  class Eventos_Dispatcher : MonoBehaviour
 
     public static Action JuegoCargado;
     public static Action JuegoSalvado;
+
+    public static Action Reinicio;
    void Awake()
    {
        eventos = this;
@@ -40,4 +42,6 @@ public  class Eventos_Dispatcher : MonoBehaviour
 
     public void JuegoCargado_Call() => JuegoCargado?.Invoke();
     public void JuegoSalvado_Call() => JuegoSalvado?.Invoke();
+
+    public void Reinico_Call() => Reinicio?.Invoke();
 }

@@ -11,23 +11,22 @@ using BayatGames.SaveGameFree;
 //TODO: Desuscribir a todos cuando el juego pierda o ver como se hace
 namespace Brinco
 {
-    
+
     public class Master_Level : MonoBehaviour
     {
-        
+
         public static Master_Level _masterBrinco;
-        
+
         // Start is called before the first frame update
         public Button boton_jugar;
         public GameObject panel_reinicio;
-        public TMP_Text scoreFinal;
-        public TMP_Text scoreBest;
+
 
 
         public EstadoJuego estadoJuego;
         [Header("Ritmo Niveles")]
         public float velocidadObstaculosInicial = 1.0f;
-        public float velocidadObstaculos ;
+        public float velocidadObstaculos;
         public float porcentajeAumento = 1.10f;
 
         //Despues de cuantos obstaculos pasamos a la siguiente velocidad
@@ -57,9 +56,10 @@ namespace Brinco
         [Header("PantallaReinicio")]
         public GameObject pantallNegro;
 
-        public bool tutorialCompletado;
 
-       
+        [Space(10)]
+        [Header("Tutorial")]
+        public bool tutorialCompletado;
         public GameObject panelTutorial;//params:tutorialRegreso;
 
         public BrincoAcumulado jugador;
@@ -67,6 +67,15 @@ namespace Brinco
         private void OnValidate()
         {
            // Debug.Log( pantallNegro.transform.position);
+
+        }
+        private void Awake()
+        {
+#if UNITY_EDITOR ///PARA mejorar rendimiento porque Debug.Log usa mucho proceso y lo ejecuta aun en las builds de cualquier plataforma
+            Debug.unityLogger.logEnabled = true;
+#else
+        Debug.unityLogger.logEnabled = false;
+#endif
         }
         void Start()
         {
@@ -92,6 +101,7 @@ namespace Brinco
             velocidadObstaculos = velocidadObstaculosInicial;
 
         }
+
 
         ///<sumary>
         ///Llamado por EventDispatcher.InicioJuego
@@ -125,11 +135,8 @@ namespace Brinco
         {
             estadoJuego = EstadoJuego.perdio;
 
-            //if (Score_Control.instancia)
-            //{
-            //    scoreBest.text = $"{Score_Control.instancia.HighscoreUsuario}";
-            //    scoreFinal.text = $"{Score_Control.instancia.ScoreRonda}";
-            //}
+            
+         
             panel_reinicio.SetActive(true);
 
             print("GAME OVER");
@@ -146,14 +153,17 @@ namespace Brinco
 
         }
         
+        /// <summary>
+        /// Llamado por el boton Reiniciar de UI
+        /// </summary>
         public void Reiniciar()
         {
             if (estadoJuego == EstadoJuego.reiniciando)
                 return;
 
             estadoJuego = EstadoJuego.reiniciando;
-            Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
-            Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
+            //Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
+            //Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
             StartCoroutine(SecuenciaReinicio());
             //Score_Control.instancia.GuardarMonedas();
             //PantallaNegra("in");
@@ -171,17 +181,31 @@ namespace Brinco
         IEnumerator SecuenciaReinicio()
         {
             Save_Control.instancia.GuardarJuego();
-            //DEPRECATED//Score_Control.instancia.GuardarMonedas();
             PantallaNegra("in");
 
             yield return new WaitForSeconds(1.3f);
-            SceneManager.LoadScene(1);
+
+            #region Nuevo sistema Reinicio
+            panel_reinicio.SetActive(false);
+            enNivel = 0;
+            boton_jugar.gameObject.SetActive(true);
+            Eventos_Dispatcher.eventos.Reinico_Call();
+            PantallaNegra("out");
+            #endregion
+
+            LeanTween.moveLocalY(boton_jugar.gameObject, -425.0f, 0.5f).setEaseInOutSine();
+
+
+            //HARDCORD SOLUTION
+            //SceneManager.LoadScene(1);
         }
 
         private void OnDestroy()
         {
             Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
             Eventos_Dispatcher.eventos.JugadorPerdio -= PerdioJuego;
+            Eventos_Dispatcher.MonedaTomada -= MonedaTomada;
+            Eventos_Dispatcher.CruceObstaculo -= ObstaculoCruzado;
         }
 
 
@@ -232,10 +256,7 @@ namespace Brinco
             boton_jugar.gameObject.SetActive(false);
             jugador.puedeBrincar = true;
 
-            // SpawnObstaculos_Apertura.spawner.SetDificultad(this.velocidadObstaculos,nivelesDificultad[enNivel].cantidadEspacios);
-            //SpawnObstaculos_Apertura.spawner.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
-            //                                               nivelesDificultad[enNivel].rateSpawn,
-            //                                               nivelesDificultad[enNivel].probabilidadMoneda);
+          
 
             SpawnEscenario.instancia.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
                                                            nivelesDificultad[enNivel].rateSpawn,

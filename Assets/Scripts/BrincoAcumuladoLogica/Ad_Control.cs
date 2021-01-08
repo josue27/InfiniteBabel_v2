@@ -182,6 +182,8 @@ namespace Brinco
 
             Debug.Log("Ad Reward mostrado");
             Score_Control.instancia.SumarMonedas(monedasRecompensa);
+            if(this.GetComponent<Compras_Control>())
+                this.GetComponent<Compras_Control>().AnimacionMonedaComprada();
         }
         #endregion 
 

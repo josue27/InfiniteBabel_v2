@@ -23,6 +23,17 @@ namespace Brinco
         [Header("Tienda UIX")]
         public GameObject panelTienda;
 
+        [Header("UI Reinicio")]
+        public GameObject botonReinicio;
+        public GameObject botonNoAds;
+        [SerializeField]
+        private Transform  posSinAds;
+
+        [SerializeField]
+        private GameObject panelAnimacionMoneda;
+        [SerializeField]
+        private float tiempoAnimacion =1.9f;
+
         private void OnValidate()
         {
             productos_DB = InAppPurchasing.GetAllIAPProducts();
@@ -44,13 +55,13 @@ namespace Brinco
             //    Debug.Log("Producto: " + producto.Name);
             //}
             BuscarProductoLocalized();
-            //SeComproNoAds();
+            SeComproNoAds();
         }
 
         private void PurchaseFailedHandler(IAPProduct producto, string failureReason)
         {
             Debug.Log($"No se pudo procesar la compra de : {producto.Name} failureReason:{failureReason}");
-            NativeUI.Alert("Error al comprar",$"La compra de{producto.Name} no se pudo completar");
+            NativeUI.Alert("Error al comprar",$"The purchase {producto.Name} was not completed");
 
         }
 
@@ -60,35 +71,31 @@ namespace Brinco
             {
                 Debug.Log($"Se compro dinero: {producto.Name}");
                 Score_Control.instancia.SumarMonedas(20);
-                //  Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_make_it_rain);
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_make_it_rain, (bool exito) =>
-                {
-                    Debug.Log("Logor desbloqueado:" + exito);
+              
+                Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_MakeItRain);
 
-                });
+                AnimacionMonedaComprada();
 
             }
             else if(producto.Name == EM_IAPConstants.Product_Overtimepay)
             {
                 Debug.Log($"Se compro dinero: {producto.Name}");
                 Score_Control.instancia.SumarMonedas(50);
-                //  Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_make_it_rain);
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_make_it_rain, (bool exito) =>
-                {
-                    Debug.Log("Logor desbloqueado:" + exito);
 
-                });
+                Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_MakeItRain);
+
+                AnimacionMonedaComprada();
+
             }
             else if (producto.Name == EM_IAPConstants.Product_Promovido)
             {
                 Debug.Log($"Se compro dinero: {producto.Name}");
                 Score_Control.instancia.SumarMonedas(100);
-                //  Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_make_it_rain);
-                GameServices.UnlockAchievement(EM_GPGSIds.achievement_make_it_rain, (bool exito) =>
-                {
-                    Debug.Log("Logor desbloqueado:" + exito);
 
-                });
+                Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_MakeItRain);
+
+                AnimacionMonedaComprada();
+
             }
             else if (producto.Name == EM_IAPConstants.Product_RemoverAds)
             {
@@ -111,6 +118,9 @@ namespace Brinco
             InAppPurchasing.PurchaseFailed -= PurchaseFailedHandler;
         }
 
+        /// <summary>
+        /// Acomoda los productos llenando la base de datos que se utilizara en runtime
+        /// </summary>
         public void SetProductos()
         {
             for (int i = 0; i < productos_DB.Length; i++)
@@ -124,22 +134,38 @@ namespace Brinco
 
 
      
-        //DEPRECATED: Ad_Control ahora hace esta revicion
-        //Reviza si el usuario compro el producto de remover ads intermedios y se lo manda a Ad_Control.cs
+       
+        /// <summary>
+        /// Verficia si se compro los ads o no, deshabilita
+        /// el boton de compra de noAds en caso de estar comprado
+        /// </summary>
         public void SeComproNoAds()
         {
-            if(!isInitialized)
+           
+            if (!isInitialized)
             {
-              
+                Debug.Log("ComprasControl: InAppPurchasing no inicializado");
             }
             else
             {
                 bool remover = InAppPurchasing.IsProductOwned(EM_IAPConstants.Product_RemoverAds);
 
-                GetComponent<Ad_Control>().RemoverAds(remover);
+                //GetComponent<Ad_Control>().RemoverAds(remover);
+                if(remover)
+                {
+                    botonNoAds.gameObject.SetActive(false);
+                    botonReinicio.transform.position = posSinAds.position;
+                }
+
             }
         }
 
+
+        /// <summary>
+        /// Llamado por los botones en tiend UI para buscar un objeto a comprar, lo encuentras
+        /// pasando el mismo boton que va a ser buscado
+        /// </summary>
+        /// <param name="boton"></param>
         public void ComprarObjeto(Button boton)
         {
             foreach (Producto _producto in productos)
@@ -153,8 +179,22 @@ namespace Brinco
             }
 
         }
+        /// <summary>
+        /// Llamapo por botones en UI por si necesitamos ingresar o colocar botones de otra manera
+        /// </summary>
+        /// <param name="id">NombreId como aparece en la base de datos</param>
+        public void ComprarObjeto(string id)
+        {
+            foreach (Producto _producto in productos)
+            {
+                if (_producto.nombreID == id)
+                {
+                    InAppPurchasing.Purchase(_producto.nombreID);
+                    break;
 
-
+                }
+            }
+        }
         public void ComprarPersonaje()
         {
             //PersonajeScriptable personaje = this.GetComponent<SeleccionPersonaje>().BuscarDataPersonaje();
@@ -164,7 +204,7 @@ namespace Brinco
             }
             else
             {
-                NativeUI.Alert("Error", "No hay conexion a la tienda ");
+                NativeUI.Alert("Error", "No internet connection ");
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
 
             }
@@ -174,7 +214,7 @@ namespace Brinco
             if (!isInitialized)
             {
                 Debug.Log("Compras Control: GPS no inicializado");
-                NativeUI.Alert("Error","No hay conexion a la red");
+                NativeUI.Alert("Error", "No internet connection");
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
                 return;
             }
@@ -211,6 +251,23 @@ namespace Brinco
             Debug.Log("Productos con precios localizados terminados");
 #endif
         }
+
+
+        public void AnimacionMonedaComprada()
+        {
+            StartCoroutine(AnimacionMonedaComprada_Rutina());
+            
+        }
+        IEnumerator AnimacionMonedaComprada_Rutina()
+        {
+            panelAnimacionMoneda.SetActive(true);
+
+            yield return new WaitForSeconds(tiempoAnimacion);
+            panelAnimacionMoneda.SetActive(false);
+
+
+        }
+
     }
 
     [System.Serializable]

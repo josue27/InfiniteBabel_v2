@@ -128,9 +128,12 @@ namespace Brinco
             Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
             Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
             Eventos_Dispatcher.JuegoCargado += CargarScores;
+            Eventos_Dispatcher.Reinicio += Reinicio;
             panelScore.transform.position = panelScore_posCerrada.position;
 
             nuevoHighScore_letrero.SetActive(false);
+
+            //DEPRECATED(07/01/2021):la clase SaveScore se encarga ahora de cargar y salvar el juego
             //if (SaveGame.Exists(juegoSalvadoLocal_ID))
             //{
             //   // CargarJuegoLocal();
@@ -757,6 +760,10 @@ namespace Brinco
 
         }
 
+        void Reinicio()
+        {
+            scoreRonda = 0;
+        }
 
     }
 

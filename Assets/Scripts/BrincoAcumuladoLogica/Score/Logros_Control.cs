@@ -30,7 +30,7 @@ public class Logros_Control : MonoBehaviour
         
 
         /*
-         * DEPRECATED: Al parecer solo con el string es el codigo que pide Google
+         * DEPRECATED(07/01/2021): Al parecer solo con el string es el codigo que pide Google
         switch (logro)
         {
             case EM_GameServicesConstants.Achievement_WorkWithStyle:

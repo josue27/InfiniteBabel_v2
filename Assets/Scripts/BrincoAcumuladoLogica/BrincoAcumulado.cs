@@ -81,6 +81,7 @@ public class BrincoAcumulado : MonoBehaviour
 
        // Eventos_Dispatcher.eventos.JugadorPerdio += PerdioJuego;
         Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
+        Eventos_Dispatcher.Reinicio += Reiniciar;
 
         LeanTouch.OnFingerDown+= DedoDown;
         LeanTouch.OnFingerUp +=DedoArriba;
@@ -145,6 +146,7 @@ public class BrincoAcumulado : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
+        //MEJORAR ESTO CON EL SISTEMA DE PERSONAJE DE CATLIKECODING
           if (rigid.velocity.y < 0)
         {
             rigid.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
@@ -164,26 +166,7 @@ public class BrincoAcumulado : MonoBehaviour
 
         slider_fuerzaBrinco.value = Mathf.Lerp(slider_fuerzaBrinco.value, acumulacionFuerza, 1.0f);
     }
-    private void LateUpdate()
-    {
-       // scoreActual.text = aperturas.ToString();
-        // if(Input.GetMouseButtonDown(0))
-        // {
-        //     mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //     mousePos.z = mousePos.x;
-        //     mousePos.x = 0;
-        //   trazoDedo.SetPosition(0,mousePos);
-        //   trazoDedo.SetPosition(1,mousePos);
-        // }
-        // if(Input.GetMouseButtonUp(0))
-        // {     
-        //       mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //        mousePos.z = mousePos.x;
-        //     mousePos.x = 0;
-        //       trazoDedo.SetPosition(1,mousePos);
-
-        // }
-    }
+  
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -329,17 +312,17 @@ public class BrincoAcumulado : MonoBehaviour
     /// that is touching rigidbody/collider.
     /// </summary>
     /// <param name="other">The Collision data associated with this collision.</param>
-    void OnCollisionStay(Collision other)
-    {
-        if(other.transform.CompareTag("piso"))
-        {
-            if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.jugando)
-            {
-                //ReproducirAnimacion("corriendo");
+    //void OnCollisionStay(Collision other)
+    //{
+    //    if(other.transform.CompareTag("piso"))
+    //    {
+    //        if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.jugando)
+    //        {
+    //            //ReproducirAnimacion("corriendo");
 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
     private void OnCollisionExit(Collision collision)
     {
         if (collision.transform.tag == "piso")
@@ -429,89 +412,7 @@ public class BrincoAcumulado : MonoBehaviour
     ///
    
   
-    /////// <summary>
-    /////// Logica de Brinco para PC con tecla
-    /////// </summary>
-    ////private void Brinco_PC()
-    ////{
-       
-    ////        if (enPiso)
-    ////        {
-
-    ////            if (Input.GetKey(teclaSalto))
-    ////            {
-    ////                print("Saltando");
-    ////                if(acumulacionFuerza < maxFuerza/2)
-    ////                {
-    ////                    stepAcumulacion = stepAcumulacionMax;
-    ////                }else if(acumulacionFuerza > maxFuerza/2)
-    ////                {
-    ////                    stepAcumulacion = stepAcumulacionMin;
-
-    ////                }
-    ////                acumulacionFuerza += stepAcumulacion;
-    ////                acumulacionFuerza = Mathf.Clamp(acumulacionFuerza, 0, maxFuerza);
-
-    ////                //TODO: podriamos hacer que
-    ////                /*
-    ////                 * El este de acumulacion sea mayor al principio y menor casi al final
-    ////                 * o
-    ////                 * Al reves que sea menor al principio y se acelere hacia el final
-    ////                 */
-    ////                float sizeY = Mathf.Clamp((acumulacionFuerza * 0.1f), 0.1f, 0.8f);
-    ////                this.transform.localScale = new Vector3(1.0f, 1.0f - sizeY, 1.0f);
-    ////            }
-    ////            else if (Input.GetKeyUp(teclaSalto))
-    ////            {
-    ////                rigid.velocity = Vector3.up * acumulacionFuerza;
-    ////                //print("Fuerza:" + acumulacionFuerza);
-    ////                acumulacionFuerza = 0;
-    ////                this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-
-    ////            }
-    ////        }
-        
-    ////}
-
-    /////// <summary>
-    /////// Logica de Brinco para App Movil con touchHold
-    /////// </summary>
-    ////private void Brinco_Movil()
-    ////{
-    ////    if (Input.touchCount > 0)
-    ////    {
-
-    ////        Touch touch = Input.GetTouch(0);
-    ////        if (enPiso)
-    ////        {
-
-    ////            if (touch.phase == TouchPhase.Stationary)
-    ////            {
-    ////                print("Saltando");
-    ////                acumulacionFuerza += stepAcumulacion;
-    ////                acumulacionFuerza = Mathf.Clamp(acumulacionFuerza, 0, maxFuerza);
-
-    ////                //TODO: podriamos hacer que
-    ////                /*
-    ////                 * El este de acumulacion sea mayor al principio y menor casi al final
-    ////                 * o
-    ////                 * Al reves que sea menor al principio y se acelere hacia el final
-    ////                 */
-    ////                float sizeY = Mathf.Clamp((acumulacionFuerza * 0.1f), 0.1f, 0.8f);
-    ////                this.transform.localScale = new Vector3(1.0f, 1.0f - sizeY, 1.0f);
-    ////            }
-    ////            else if (touch.phase == TouchPhase.Ended)
-    ////            {
-    ////                rigid.velocity = Vector3.up * acumulacionFuerza;
-    ////                print("Fuerza:" + acumulacionFuerza);
-    ////                acumulacionFuerza = 0;
-    ////                this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-
-    ////            }
-    ////        }
-    ////    }
-    ////}
-
+    
 
 
 
@@ -612,6 +513,16 @@ public class BrincoAcumulado : MonoBehaviour
         LeanTouch.OnFingerDown -= DedoDown;
         LeanTouch.OnFingerUp -= DedoArriba;
 
-        
+        Eventos_Dispatcher.Reinicio -= Reiniciar;
+
+    }
+
+    public void Reiniciar()
+    {
+        ReproducirAnimacion("idle");
+        puedeBrincar = false;
+        gameObject.transform.position = new Vector3(0f, 0f, -3.05f);
+        gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        LeanTween.moveZ(this.gameObject, posEnPiso.position.z, 0.3f);
     }
 }
