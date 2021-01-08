@@ -37,16 +37,17 @@ namespace Brinco
 
         //Debe ir en descalada para que sean mas pronta las velocidades
         public float rateSpawnMin, rateSpawnMax;
+        [SerializeField]
         private int enNivel = 0;
         public Niveles[] nivelesDificultad;
 
         [Header("Score")]
         public int obstaculosCruzados;
-        public TMP_Text score_tex;
+        
 
         [Header("Monedas")]
         public int monedasTomadas;
-        public TMP_Text monedas_txt;
+       
 
         [Space(10)]
         [Header("BandaTransportadora")]
@@ -188,6 +189,7 @@ namespace Brinco
 
             panel_reinicio.SetActive(false);
             enNivel = 0;
+            obstaculosCruzados = 0;
             boton_jugar.gameObject.SetActive(true);
             Eventos_Dispatcher.eventos.Reinico_Call();
             PantallaNegra("out");
@@ -289,8 +291,9 @@ namespace Brinco
         ///</sumary>    
         public void ObstaculoCruzado()
         {   
-             if(estadoJuego == EstadoJuego.perdio)
+             if(estadoJuego != EstadoJuego.jugando)
                 return;
+
             obstaculosCruzados++;
             // if(enNivel+1 >= nivelesDificultad.Length){
 
@@ -330,8 +333,8 @@ namespace Brinco
                 
                 Debug.Log("Se aumento la dificultad nivel: "+ enNivel);
             }
-
-            score_tex.SetText(obstaculosCruzados.ToString());
+            //DEPRECATED(08/01/2021)
+            //score_tex.SetText(obstaculosCruzados.ToString());
 
         }
          ///<sumary>

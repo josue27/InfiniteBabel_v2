@@ -74,8 +74,8 @@ public class BrincoAcumulado : MonoBehaviour
     
     public bool puedeBrincar;
 
-    [SerializeField]
-    private bool enTrigger;
+    
+    public bool enTrigger;
 
     [SerializeField] int toques = 0;
     void Start()
@@ -179,7 +179,7 @@ public class BrincoAcumulado : MonoBehaviour
             enPiso = true;
 
             Camara_Control.camara.ShakeCam_Call();
-
+            
             if(muerto)
             {
               // LeanTween.moveZ(this.gameObject,posicionMuerte.position.z,duracionAPosicionMuerte);
@@ -348,12 +348,13 @@ public class BrincoAcumulado : MonoBehaviour
         if (enTrigger)
             return;
 
-        enTrigger = true;
+    
         switch (other.tag)
         {
             case "pared":
                 if (!cruzandoApertura)
                 {
+                    enTrigger = true;
                     EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 50.0f);
                     //Eventos_Dispatcher.eventos.JugadorPerdio();
                     PerdioJuego();
@@ -365,6 +366,7 @@ public class BrincoAcumulado : MonoBehaviour
             case "paredTNT":
                 if (!cruzandoApertura)
                 {
+                    enTrigger = true;
                     EmpujarJugador(new Vector3(0.0f, 1.0f, 1.0f), 150.0f);
                     //Eventos_Dispatcher.eventos.JugadorPerdio();
                     PerdioJuego();
@@ -379,6 +381,7 @@ public class BrincoAcumulado : MonoBehaviour
             case "pisoRoto":
                 if (!cruzandoApertura)
                 {
+                    enTrigger = true;
                     ReproducirAnimacion("muerto");
                     GetComponent<CapsuleCollider>().enabled = false;
                     rigid.useGravity = false;

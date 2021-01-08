@@ -26,8 +26,10 @@ namespace Brinco
         [Header("UI Reinicio")]
         public GameObject botonReinicio;
         public GameObject botonNoAds;
+        public GameObject panelNoAds_Tienda;
         [SerializeField]
         private Transform  posSinAds;
+        
 
         [SerializeField]
         private GameObject panelAnimacionMoneda;
@@ -157,6 +159,7 @@ namespace Brinco
                 {
                     botonNoAds.gameObject.SetActive(false);
                     botonReinicio.transform.position = posSinAds.position;
+                    panelNoAds_Tienda.gameObject.SetActive(false);
                 }
 
             }

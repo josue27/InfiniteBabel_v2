@@ -2533,7 +2533,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 211.01254, y: -619.8558}
+  m_AnchoredPosition: {x: 211.01254, y: -572.0997}
   m_SizeDelta: {x: 422.0251, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &162045906
@@ -6997,7 +6997,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +999
+  m_text: 0000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f794b1ee8f4164e44b0460ce32635570, type: 2}
   m_sharedMaterial: {fileID: 4003679277037692881, guid: f794b1ee8f4164e44b0460ce32635570,
@@ -7070,7 +7070,7 @@ MonoBehaviour:
     characterCount: 4
     spriteCount: 0
     spaceCount: 0
-    wordCount: 2
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -9488,7 +9488,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 211.01254, y: -105.69368}
+  m_AnchoredPosition: {x: 211.01254, y: -95}
   m_SizeDelta: {x: 422.0251, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &656807628
@@ -10901,7 +10901,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
   m_AmplitudeGain: 0
-  m_FrequencyGain: 10
+  m_FrequencyGain: 20
   mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!114 &752382830
 MonoBehaviour:
@@ -14132,7 +14132,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 211.01254, y: -277.08105}
+  m_AnchoredPosition: {x: 211.01254, y: -254.03322}
   m_SizeDelta: {x: 422.0251, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1011365765
@@ -14772,10 +14772,10 @@ MonoBehaviour:
   posInicio: {fileID: 698696092}
   zoomInicial: 2.39
   zoomJuego: 8.42
-  duracionShake: 0.7
-  magnitudShake: 0.7
+  duracionShake: 0.5
+  magnitudShake: 1
   velocidad: 0
-  duracion: 0.7
+  duracion: 1
   cmVirtualCamera: {fileID: 2111488369}
 --- !u!114 &1043186023
 MonoBehaviour:
@@ -16904,7 +16904,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 211.01254, y: -448.46838}
+  m_AnchoredPosition: {x: 211.01254, y: -413.06644}
   m_SizeDelta: {x: 422.0251, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1243306586
@@ -27939,8 +27939,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.08172839, y: 0.29440743}
   m_AnchorMax: {x: 0.91886425, y: 0.94548154}
-  m_AnchoredPosition: {x: -1.1000977, y: -0.4000244}
-  m_SizeDelta: {x: -6.235962, y: 2.3876953}
+  m_AnchoredPosition: {x: -1.1000977, y: 24.3}
+  m_SizeDelta: {x: -6.235962, y: -47.02887}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1645232133
 MonoBehaviour:
@@ -27996,7 +27996,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 20
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 1
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -35705,6 +35705,7 @@ MonoBehaviour:
   pasarSigVelocidad_Max: 12
   rateSpawnMin: 0
   rateSpawnMax: 0
+  enNivel: 0
   nivelesDificultad:
   - obstaculFinal: 1
     cantidadEspacios: 5
@@ -35755,9 +35756,7 @@ MonoBehaviour:
     spawnearCintasTransportadorasRotas: 1
     spawnearTNT: 1
   obstaculosCruzados: 0
-  score_tex: {fileID: 645217427}
   monedasTomadas: 0
-  monedas_txt: {fileID: 507474718}
   bandasTransportadoras:
   - {fileID: 1504065513}
   - {fileID: 0}
@@ -35825,7 +35824,8 @@ MonoBehaviour:
   highScoreUsuario_text: {fileID: 1888352288}
   monedasUsuario_text: {fileID: 0}
   scoreBest_text: {fileID: 1815436176}
-  scoreRonda_text: {fileID: 1313978729}
+  scoreFinalRonda_text: {fileID: 1313978729}
+  scoreRonda_text: {fileID: 645217427}
   debug_text: {fileID: 509269473}
   nuevoHighScore_letrero: {fileID: 56301438}
   monitorHighScore_inicial: {fileID: 1657291823}
@@ -36147,6 +36147,7 @@ MonoBehaviour:
   panelTienda: {fileID: 88238166}
   botonReinicio: {fileID: 206536509}
   botonNoAds: {fileID: 1551097234}
+  panelNoAds_Tienda: {fileID: 162045904}
   posSinAds: {fileID: 1904032321}
   panelAnimacionMoneda: {fileID: 1279517537}
   tiempoAnimacion: 1.9

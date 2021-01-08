@@ -39,7 +39,8 @@ namespace Brinco
         public int ScoreRonda { get => scoreRonda; 
             set { 
                 scoreRonda = value;
-                scoreRonda_text.text = scoreRonda.ToString();
+                scoreFinalRonda_text.text = scoreRonda.ToString();
+                scoreRonda_text.text = ScoreRonda.ToString();
             }
         }
 
@@ -87,6 +88,7 @@ namespace Brinco
         public TMP_Text highScoreUsuario_text;
         public TMP_Text monedasUsuario_text;
         public TMP_Text scoreBest_text;
+        public TMP_Text scoreFinalRonda_text;
         public TMP_Text scoreRonda_text;
 
         public TMP_Text debug_text;
@@ -196,7 +198,7 @@ namespace Brinco
         {
             CompararScore();
 
-            scoreRonda_text.text = ScoreRonda.ToString();
+            scoreFinalRonda_text.text = ScoreRonda.ToString();
 
             //IngresarMonedasPartida();
         }
@@ -324,14 +326,6 @@ namespace Brinco
 
         public void DesbloquearLogro()
         {
-
-            // Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_welcome_to_the_late_shift);
-
-            //GameServices.UnlockAchievement(EM_GPGSIds.achievement_welcome_to_the_late_shift, (bool exito) =>
-            //{
-            //    Debug.Log("Logor desbloqueado:" + exito);
-
-            //});
             Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_FirstRun);
         }
 
@@ -359,9 +353,7 @@ namespace Brinco
         {
             monitorAnimator.SetTrigger(trigger);
         }
-        //public void MonitorAnimar(string nombreParametro, bool estado) {
-
-        //}
+       
 
 
 
@@ -443,10 +435,11 @@ namespace Brinco
             SumarMonedas(totalPartida);
 
         }
+       
         public void SumarMonedas(int cantidad)
         {
             MonedasTotales += cantidad;
-            //GuardarMonedas();
+            
         }
         public void RestarMonedas(int cantidad)
         {
@@ -454,323 +447,25 @@ namespace Brinco
         }
 
         #endregion
+      
+        
+
+        /// <summary>
+        /// Obtienes el score final haciendo una comparacion entre el score ronda y el HighScore
+        /// </summary>
+        /// <returns></returns>
         public int ScoreFinal()
         {
             return ScoreRonda > HighscoreUsuario ? ScoreRonda: HighscoreUsuario;
         }
-        public void GuardarMonedas()
-        {
-
-            //DEPRECATED
-            //if (RuntimeManager.IsInitialized())
-            //{
-            //    OpenSavedGame("guardar");
-            //}
-            //else
-            //{
-            //    //Master_Level._masterBrinco.Reiniciar_Callback();
-            //}
-        }
-
-        public void Guardar_MonedasYPersonajes()
-        {
-            if (RuntimeManager.IsInitialized())
-            {
-                OpenSavedGame("guardar");
-
-            }
-        }
-
-
-
-        /// <summary>
-        /// Open a saved game with automatic conflict resolution
-        /// Tienes que indicar que quieres hacer depues de abrir el archivo
-        /// </summary>
-        /// <param name="caso">leer, guardar</param>
-        void OpenSavedGame(string caso)
-        {
-            switch (caso)
-            {
-                case "leer":
-                    GameServices.SavedGames.OpenWithAutomaticConflictResolution("SaveMonedas_01", OpenSavedGameCallback);
-                    break;
-                case "guardar":
-                    GameServices.SavedGames.OpenWithAutomaticConflictResolution("SaveMonedas_01", GuardarPartidaEnCloud);
-                    break;
-                default:
-                    Debug.Log("Error no se encontro" + caso + " como comando para abrir slot guardado");
-                    break;
-            }
-            // Open a saved game named "My_Saved_Game" and resolve conflicts automatically if any.
-
-
-        }
-
-        // Open saved game callback
-        void OpenSavedGameCallback(SavedGame savedGame, string error)
-        {
-            if (string.IsNullOrEmpty(error))
-            {
-                Debug.Log("Se recupero juego guardado Nube, leyendo...!");
-                juegoSalvadoNube = savedGame;        // keep a reference for later operations   
-                ReadSavedGame(juegoSalvadoNube);
-            }
-            else
-            {
-                Debug.Log("Error al cargar juego guardado Nube: " + error);
-                //INHABILITADO POR ERRORES
-                //if (SaveGame.Exists(juegoSalvadoLocal_ID))
-                //{
-                //    juegoSalvadoLocal = SaveGame.Load<Saved_Data>(juegoSalvadoLocal_ID);
-                //    Debug.Log("Se cargo juego local");
-                //    if (juegoSalvadoLocal != null)
-                //    {
-                //        MonedasTotales = juegoSalvadoLocal.monedas;
-                //        ///Inhabilitamos porque no sabemos si esto afecta al guardado en nube
-                //        //GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoSalvadoLocal.personajes);
-
-                //    }
-                //}
-            }
-        }
-
-
-        // Retrieves the binary data associated with the specified saved game
-        void ReadSavedGame(SavedGame savedGame)
-        {
-            if (savedGame.IsOpen)
-            {
-                // The saved game is open and ready for reading
-                GameServices.SavedGames.ReadSavedGameData
-                   (
-                    savedGame,
-                    (SavedGame game, byte[] data, string error) =>
-                    {
-                    //si error esta vacio o no existe o sea todo fue correcto
-                    if (string.IsNullOrEmpty(error))
-                        {
-                            Debug.Log("Juego Salvado de Nube leido con exito!");
-                        // Here you can process the data as you wish.
-                        if (data.Length > 0)
-                            {
-                            // Data processing
-                            //Debug.Log("Cloud save-monedas:" + data);
-
-                            Saved_Data juegoRecuperado = ConvertidorData.ByteArra_Deserealizar(data);
-
-                            //Guardamos los datos descargados para futura comparacion
-                            datosDescargados = juegoRecuperado;
-                            //INHABILITADO POR ERRORES
-                            //Resolver conflicto de monedas
-
-                            //if (juegoSalvadoLocal != null)
-                            //{
-                            //    if(juegoSalvadoLocal.monedas > juegoRecuperado.monedas)
-                            //    {
-                            //        MonedasTotales = juegoSalvadoLocal.monedas;
-                            //        Debug.Log($"Conflicto Cloud y Local, las monedas en local({juegoSalvadoLocal.monedas}) es > a las de nube({juegoRecuperado.monedas}) se tomara en cuenta monedas Locales");
-                            //    }
-                            //    else
-                            //    {
-                            //        MonedasTotales = juegoRecuperado.monedas;
-                            //        Debug.Log($"Conflicto Cloud y Local, las monedas en local({juegoSalvadoLocal.monedas}) es < a las de nube({juegoRecuperado.monedas}) se tomaran en cuenta monedas Nube");
-                            //    }
-                            //}
-                            //else
-                            //{
-                            //    MonedasTotales = juegoRecuperado.monedas;
-                            //}
-
-                            MonedasTotales = juegoRecuperado.monedas;
-
-                            //Enviar monitos comprados a SeleccionPersonaje
-                            GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoRecuperado.personajes);
-
-                            }
-                            else
-                            {
-                                Debug.Log("EL  juego guardado Nube se recupero pero esta vacio!");
-                            }
-
-                        }
-                        else
-                        {
-                            Debug.Log("Error al leer el archivo guardado de NUBE: " + error);
-                        }
-                    }
-
-
-                );
-            }
-            else
-            {
-                // The saved game is not open. You can optionally open it here and repeat the process.
-                Debug.Log("No se pudo abrir el archivo");
-                //Cargar con data Local
-                //INHABILITADO POR ERRORES
-                //if(juegoSalvadoLocal != null)
-                //{
-                //    MonedasTotales = juegoSalvadoLocal.monedas;
-                //  //  GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoSalvadoLocal.personajes);
-                // //   GetComponent<Ad_Control>().RemoverAds(juegoSalvadoLocal.removeAds);
-                //}
-
-            }
-        }
-
-
-
-        /// <summary>
-        /// Callback despues de abrir el juego guardado en nube si se encuentra el archivo,
-        /// Despues llama a EscribirJuegoSalvado, pasandole el juegosalvado encontrado
-        /// </summary>
-        /// <param name="savedGame">objeto tipo SavedGame</param>
-        /// <param name="error">objeto tipo string que recibe errores</param>
-        void GuardarPartidaEnCloud(SavedGame savedGame, string error)
-        {
-            //Aqui declaramo un objeto , al crearlo este se llena automaticamente con los datos de la partida
-            Saved_Data saveJuego = NuevoSavedGame();
-
-            if (string.IsNullOrEmpty(error))
-            {
-                Debug.Log("Juego Salvado preparado para guardar  en la nube...");
-
-                juegoSalvadoNube = savedGame;
-
-
-
-                byte[] datos = ConvertidorData.SavedGameDataToByteArray(saveJuego);
-
-
-                EscribirJuegoSalvado(juegoSalvadoNube, datos);
-
-                GuardarJuego_Local();
-            }
-            else
-            {
-
-                GuardarJuego_Local();
-
-                Debug.Log("Error al carga slot salvado de juego: " + error);
-                //Master_Level._masterBrinco.Reiniciar_Callback();
-            }
-
-        }
-
-
-        /// <summary>
-        /// Llamado cuando para guardar el juego en un archivo local
-        /// </summary>
-        void GuardarJuego_Local()
-        {
-
-            Saved_Data saveJuego = NuevoSavedGame();
-
-
-            SaveGame.Save<Saved_Data>(juegoSalvadoLocal_ID, saveJuego);
-            Debug.Log("Se guardo juego local exitosamente");
-
-            //string saveJuego_json = JsonUtility.ToJson(saveJuego);
-
-            //if (FileManager.WriteToFile(saveLocal_ID, saveJuego.ToJson()))
-            //{
-            //    Debug.Log("Se guardo juego local exitosamente");
-            //}
-
-        }
-
-
-        /// <summary>
-        /// Escribe los datos a guardar
-        /// </summary>
-        /// <param name="savedGame">la instancia tipo SavedGame</param>
-        /// <param name="data">los datos ya serializados a byteArray</param>
-        void EscribirJuegoSalvado(SavedGame savedGame, byte[] data)
-        {
-            if (savedGame.IsOpen && GameServices.IsInitialized())
-            {
-                // The saved game is open and ready for writing
-                GameServices.SavedGames.WriteSavedGameData(
-                    savedGame,
-                    data,
-                    (SavedGame updatedSavedGame, string error) =>
-                    {
-                        if (string.IsNullOrEmpty(error))
-                        {
-                            Debug.Log($"Se guardo juego en Nube con exito[{MonedasTotales} monedas] ");
-
-
-
-                        }
-                        else
-                        {
-                            Debug.Log("NO se pudieron guardar las monedas en la nube" + error);
-
-
-                        }
-                    }
-
-                );
-
-
-            }
-            else
-            {
-                // The saved game is not open. You can optionally open it here and repeat the process.
-                Debug.Log("El juego no se pudo abrir y/o no esta inicializado el servicio de nube.");
-
-
-            }
-
-
-            // Master_Level._masterBrinco.Reiniciar_Callback();
-
-        }
-
-
-        /// <summary>
-        /// Funcion que regresa un tipo Score_Save ya con los datos ingresados;
-        /// </summary>
-        /// <returns></returns>
-        private Saved_Data NuevoSavedGame()
-        {
-
-            Saved_Data save = new Saved_Data();
-
-            save.monedas = MonedasTotales;
-            save.score = scoreRonda > HighscoreUsuario ? scoreRonda : HighscoreUsuario;
-
-            save.removeAds = GetComponent<Ad_Control>().removerAdIntermedio;
-
-            //esto en teoria deberia evitar el error de que suba un personaje como no comprado que en la nube
-            //si este comprado
-            if (datosDescargados != null)
-                GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(datosDescargados.personajes);
-
-            List<PersonajeSalvado> personajesAGuardar = new List<PersonajeSalvado>();
-
-            foreach (PersonajesEnJuego personaje in SeleccionPersonaje._seleccionPersonaje.personajes)
-            {
-                PersonajeSalvado _personaje = new PersonajeSalvado
-                {
-                    comprado = personaje.comprado,
-                    nombre = personaje.personaje.nombre
-                };
-                personajesAGuardar.Add(_personaje);
-               // Debug.Log($"Personaje:{personaje.personaje.nombre} comprado:{personaje.comprado} y agregado para guardar ");
-            }
-
-            save.personajes = personajesAGuardar;
-
-            return save;
-
-        }
+    
 
         void Reinicio()
         {
             ScoreRonda = 0;
-            scoreRonda_text.text = ScoreRonda.ToString();
+            scoreFinalRonda_text.text = ScoreRonda.ToString();
+            nuevoHighScore_letrero.SetActive(false);
+
             AbrirPanelScore("mostrar");
         }
 

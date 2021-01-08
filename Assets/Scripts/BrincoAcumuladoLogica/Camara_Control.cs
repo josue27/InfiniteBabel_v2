@@ -26,6 +26,11 @@ namespace Brinco
         private CinemachineVirtualCamera cmVirtualCamera;
 
         CinemachineBasicMultiChannelPerlin cmBasicMultiChannelPerlin;
+
+
+        float shakeTimer;
+        float shakeTimerTotal;
+        float startingIntensity;
         private void Awake()
         {
             cam = GetComponent<Camera>();
@@ -63,7 +68,7 @@ namespace Brinco
 
         }
 
-        //DEPRECATED(08/07/2021)
+        //DEPRECATED(08/07/2021) Se utiliza ahora un script junto a Cinemachine
         //IEnumerator ShakeCam(float duracion, float magnitud)
         //{
         //    //if (Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)
@@ -99,13 +104,22 @@ namespace Brinco
              cmBasicMultiChannelPerlin = cmVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
             cmBasicMultiChannelPerlin.m_AmplitudeGain = magnitud;
-            StartCoroutine(ShakeCameraParar(duracion));
-        }
-        IEnumerator ShakeCameraParar(float duracion)
-        {
-            yield return new WaitForSeconds(duracion);
-            cmBasicMultiChannelPerlin.m_AmplitudeGain = 0;
 
+            shakeTimer = duracion;
+            shakeTimerTotal = duracion;
+            startingIntensity = magnitud;
+
+           // StartCoroutine(ShakeCameraParar(duracion));
+        }
+        
+
+        private void Update()
+        {
+            if(shakeTimer>0)
+            {
+                shakeTimer -= Time.deltaTime;
+                cmBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp(startingIntensity, 0f, 1-(shakeTimer / shakeTimerTotal));
+            }
         }
         void InicioJuego()
         {

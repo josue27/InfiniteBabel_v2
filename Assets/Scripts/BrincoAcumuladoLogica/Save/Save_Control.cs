@@ -42,6 +42,8 @@ namespace Brinco
 
             Eventos_Dispatcher.eventos.GuardarPersonaje += GuardarPersonajeSeleccionado;
 
+            Eventos_Dispatcher.Reinicio += Reinicio;
+
         }
 
         private void CargarJuegoLocal()
@@ -371,7 +373,7 @@ namespace Brinco
             Saved_Data save = new Saved_Data();
 
             save.monedas = Score_Control.instancia.MonedasTotales;
-            Debug.Log(Score_Control.instancia.MonedasTotales);
+            Debug.Log("Guardando "+Score_Control.instancia.MonedasTotales+" monedas");
             save.score = Score_Control.instancia.ScoreFinal();
 
             save.removeAds = GetComponent<Ad_Control>().removerAdIntermedio;
@@ -440,7 +442,7 @@ namespace Brinco
 
         private void OnApplicationFocus(bool focus)
         {
-            if (focus)
+            if (!focus)
             {
                 GuardarJuego();
 
@@ -453,6 +455,12 @@ namespace Brinco
                 GuardarJuego();
 
             }
+        }
+
+        void Reinicio()
+        {
+            CargarScoreUsuario();
+            CargarSavedGame();
         }
     }
 }

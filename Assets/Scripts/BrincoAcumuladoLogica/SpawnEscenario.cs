@@ -316,7 +316,7 @@ public class SpawnEscenario : MonoBehaviour
     #endregion
     public void Reinicio()
     {
-
+        
     }
 
 }

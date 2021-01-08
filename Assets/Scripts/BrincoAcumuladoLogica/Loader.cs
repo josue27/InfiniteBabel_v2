@@ -32,7 +32,7 @@ public class Loader : MonoBehaviour
         {
             //sliderPorcentaje.value = loader.progress;
             fillImagen.fillAmount = loader.progress;
-            Debug.Log($"Cargando: {loader.progress}");
+            //Debug.Log($"Cargando: {loader.progress}");
             yield return null;
         }
         //loader.allowSceneActivation = true;
