@@ -78,6 +78,8 @@ public class BrincoAcumulado : MonoBehaviour
     public bool enTrigger;
 
     [SerializeField] int toques = 0;
+
+  
     void Start()
     {
         rigid = this.GetComponent<Rigidbody>();
@@ -536,11 +538,16 @@ public class BrincoAcumulado : MonoBehaviour
 
     public void Reiniciar()
     {
+      
         ReproducirAnimacion("idle");
         puedeBrincar = false;
         muerto = false;
         gameObject.transform.position = new Vector3(0f, 0f, -3.05f);
-        gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        //gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        //reorientamos el sprite porque le aplicamos un efecto cuando choca de rotacion
+        spritePersonaje.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+        // no aseguramos de devolverlo a su posicion original
         LeanTween.moveZ(this.gameObject, posEnPiso.position.z, 0.3f);
+   
     }
 }

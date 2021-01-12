@@ -19,6 +19,7 @@ namespace Brinco
         public TMP_Text nombrePersonaje_text;
         public TMP_Text precioPersonaje_text;
         public GameObject candado_img;
+        public GameObject moneda_img;
 
         int personajeCompradoListo = 0;//en teoria deberia ser le primer dude
         /// <summary>
@@ -62,8 +63,8 @@ namespace Brinco
         public void AnteriorPersonaje()
         {
             enPersonaje--;
-            if (enPersonaje <= 0)
-                enPersonaje = personajes.Count - 1;
+            if (enPersonaje < 0)
+                enPersonaje = personajes.Count-1;
 
             CambiarPersonaje();
         }
@@ -82,6 +83,7 @@ namespace Brinco
                 precioPersonaje_text.SetText($"{personajes[enPersonaje].personaje.precio} x");
             }
             candado_img.SetActive(!personajes[enPersonaje].comprado);
+            moneda_img.SetActive(!personajes[enPersonaje].comprado);
             //Debug.Log("Se cambio personaje...mandando sprites");
         }
 

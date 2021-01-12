@@ -162,10 +162,14 @@ namespace Brinco
 
         }
 
+
+        /// <summary>
+        /// Llamado por el momento para abrir el panel score cuando ya se tiene cargado el score y monedas
+        /// </summary>
         public void CargarScores()
         {
 
-            CargarScoreUsuario();
+            //CargarScoreUsuario();
            // CargarMonedas();
             if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.inicio)
                 AbrirPanelScore("mostrar");
@@ -213,11 +217,18 @@ namespace Brinco
             {
                 if (ScoreRonda > highScoreUsuario)//Si se llega a superar el score guardado
                 {
-
-                    Save_Control.instancia.SubirScoreGooglePlay(ScoreRonda);
                     Debug.Log("Highscore :" + highScoreUsuario + " superado guardano nuevo: " + ScoreRonda);
+
+                    //DEPRECATED:La funcion de ReportarNuevoHighScore hace eso
+                    //reportar a google play
+                    //Save_Control.instancia.SubirScoreGooglePlay(ScoreRonda);
+                    Save_Control.instancia.ReportarNuevoHighScore(ScoreRonda);
+                    //Asignar como highscore actual
                     HighscoreUsuario = ScoreRonda;
+                   
+
                     nuevoHighScore_letrero.SetActive(true);
+
                 }
                 DesbloquearLogro();
 
@@ -228,7 +239,11 @@ namespace Brinco
                 ///Desbloqueamos logro de primera vez
                 DesbloquearLogro();
 
-                Save_Control.instancia.SubirScoreGooglePlay(ScoreRonda);
+                //Save_Control.instancia.SubirScoreGooglePlay(ScoreRonda);
+                Save_Control.instancia.ReportarNuevoHighScore(ScoreRonda);
+                HighscoreUsuario = ScoreRonda;
+                nuevoHighScore_letrero.SetActive(true);
+
                 Debug.Log("Primer highscore salvado:" + ScoreRonda);
             }
             //para que se actualice el Highscore durante la partida
@@ -363,9 +378,6 @@ namespace Brinco
             //      highscoreLocal = SaveGame.Load<int>(nombreSlotHighscore);
             // AbrirPanelScore();
 
-            //DEPRECATED
-            //GameServices.LoadLocalUserScore(EM_GameServicesConstants.Leaderboard_Obstaculos, OnLocalUserScoreLoaded);
-
             HighscoreUsuario = Save_Control.instancia.HighScoreUsuario;
 
 
@@ -452,6 +464,7 @@ namespace Brinco
 
         /// <summary>
         /// Obtienes el score final haciendo una comparacion entre el score ronda y el HighScore
+        /// OJO:Por el momento no se utiliza
         /// </summary>
         /// <returns></returns>
         public int ScoreFinal()
@@ -462,10 +475,8 @@ namespace Brinco
 
         void Reinicio()
         {
-            ScoreRonda = 0;
-            scoreFinalRonda_text.text = ScoreRonda.ToString();
-            nuevoHighScore_letrero.SetActive(false);
-
+            ScoreRonda = 0;  
+            nuevoHighScore_letrero.SetActive(false);        
             AbrirPanelScore("mostrar");
         }
 

@@ -22,8 +22,10 @@ namespace Brinco
         private string nombreSlotPersonajeUsado = "nombrePersonaje";
         //HighScore
         private int highScoreUsuario;
-        public int HighScoreUsuario { get => highScoreUsuario; private set => highScoreUsuario = value; }
+        public int HighScoreUsuario { get => highScoreUsuario;  private set => highScoreUsuario = value; }
         public Saved_Data JuegoSalvadoNube { get => juegoSalvadoNube; set => juegoSalvadoNube = value; }
+
+        [SerializeField] int reinicios = 0;
 
         private void Awake()
         {
@@ -94,7 +96,7 @@ namespace Brinco
             }
             else
             {
-                Debug.Log($"Problema cargando el score local de GooglePlay cargando score Local");
+                Debug.Log($"Problema cargando el score local de GooglePlay cargando score Local o no tienes ningun score guardado");
                 //if (juegoSalvadoLocal != null)
                 //    HighscoreUsuario = juegoSalvadoLocal.score;
 
@@ -143,6 +145,19 @@ namespace Brinco
 
         }
 
+
+        /// <summary>
+        /// Asigna el nuevo Highscore a la variable local para su futuro guardado asi como
+        /// repota la funcion para subir el score a google play
+        /// </summary>
+        /// <param name="nuevoScore"></param>
+        public void ReportarNuevoHighScore(int nuevoScore)
+        {
+            //Asignar a save control como actual para que cuando demos reset game y este script se lo pida a Save_Control lo obtenga actualizado            HighScoreUsuario = nuevoScore;
+            Debug.Log("Save_Control: Nuevo score reportado localmente: " + nuevoScore);
+
+            SubirScoreGooglePlay(nuevoScore);
+        }
 
         #endregion
 
@@ -374,14 +389,13 @@ namespace Brinco
 
             save.monedas = Score_Control.instancia.MonedasTotales;
             Debug.Log("Guardando "+Score_Control.instancia.MonedasTotales+" monedas");
-            save.score = Score_Control.instancia.ScoreFinal();
+            save.score = HighScoreUsuario;
+            //DEPRECATED: No deberiamos tener que pedirselo ya que Score_Control lo actualizara de haber un nuevo highscore
+            //save.score = Score_Control.instancia.ScoreFinal();
 
             save.removeAds = GetComponent<Ad_Control>().removerAdIntermedio;
 
-            //esto en teoria deberia evitar el error de que suba un personaje como no comprado que en la nube
-            //si este comprado
-            //if (datosDescargados != null)
-            //    GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(datosDescargados.personajes);
+         
 
             List<PersonajeSalvado> personajesAGuardar = new List<PersonajeSalvado>();
 
@@ -459,8 +473,19 @@ namespace Brinco
 
         void Reinicio()
         {
-            CargarScoreUsuario();
-            CargarSavedGame();
+
+            //No deberiamos pedir esto ya que se supone ya esta cargado, al volverlo a pedir se sobreescribe lo que lleva de la partida
+            //CargarScoreUsuario();
+            // CargarSavedGame();
+
+            // HighScoreUsuario = Score_Control.instancia.HighscoreUsuario;
+            reinicios++;
+            if(reinicios == 3)
+            {
+                Debug.Log("Tercer reinicio guardado automatico...");
+                //GuardarJuego();
+                reinicios = 0;
+            }
         }
     }
 }
