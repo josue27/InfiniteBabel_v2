@@ -22,6 +22,7 @@ namespace Brinco
 
         [Header("Tienda UIX")]
         public GameObject panelTienda;
+        public GameObject panelCandadoAbierto;
 
         [Header("UI Reinicio")]
         public GameObject botonReinicio;
@@ -214,6 +215,26 @@ namespace Brinco
 
             }
         }
+
+
+        /// <summary>
+        /// Llamado(por Seleccionpersonaje) cuando un personaje es comprado
+        /// </summary>
+        /// 
+        [EasyButtons.Button]
+        public void PersonajeComprado_Callback()
+        {
+            if (!panelCandadoAbierto)
+                return;
+
+            panelCandadoAbierto.SetActive(true);
+            LeanTween.value(0, 1, 1.0f).setOnComplete(()=> {
+                panelCandadoAbierto.SetActive(false);
+
+            });
+
+        }
+
         public void AbrirTienda()
         {
             if (!isInitialized)
