@@ -33,7 +33,7 @@ namespace Brinco
             Advertising.InterstitialAdCompleted += Advertising_InterstitialAdCompleted;
             Advertising.RewardedAdCompleted += Advertising_RewardedAdCompleted;
             Eventos_Dispatcher.eventos.JugadorPerdio += JugadorPerdio_Callback;
-
+            Eventos_Dispatcher.Reinicio += Reinicio;
             Advertising.AdsRemoved += Advertising_AdsRemoved;
 
 
@@ -182,7 +182,7 @@ namespace Brinco
             adRewardMostrado = true;
 
             Debug.Log("Ad Reward mostrado");
-            Score_Control.instancia.SumarMonedas(monedasRecompensa);
+            Score_Control.instancia.SumarMonedas(monedasRecompensa,true);
             if(this.GetComponent<Compras_Control>())
                 this.GetComponent<Compras_Control>().AnimacionMonedaComprada();
         }
@@ -206,6 +206,8 @@ namespace Brinco
             Advertising.InterstitialAdCompleted -= Advertising_InterstitialAdCompleted;
             Advertising.RewardedAdCompleted -= Advertising_RewardedAdCompleted;
             Eventos_Dispatcher.eventos.JugadorPerdio -= JugadorPerdio_Callback;
+            Eventos_Dispatcher.Reinicio -= Reinicio;
+
             //Duda si volver a desactivar aqui esto
             Advertising.AdsRemoved -= Advertising_AdsRemoved;
 
@@ -224,6 +226,11 @@ namespace Brinco
                 Debug.Log("AdControl: noAds = "+remover);
 
             }
+
+        }
+        public void Reinicio()
+        {
+            MostrarPanelAdReward(false);
 
         }
     }

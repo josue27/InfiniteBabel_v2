@@ -18,7 +18,7 @@ namespace Brinco
     public class Score_Control : MonoBehaviour
     {
         public static Score_Control instancia;
-        // Start is called before the first frame update
+
         public GameObject panelScore;
         public GameObject panelGlobal, panelLocal;
         public Transform panelScore_posAbierta;
@@ -141,24 +141,7 @@ namespace Brinco
 
             nuevoHighScore_letrero.SetActive(false);
 
-            //DEPRECATED(07/01/2021):la clase SaveScore se encarga ahora de cargar y salvar el juego
-            //if (SaveGame.Exists(juegoSalvadoLocal_ID))
-            //{
-            //   // CargarJuegoLocal();
-            //    CargarScoreUsuario();
-            //    CargarMonedas();
-            //   // CargarPersonajeGuardado();
-            //   // AbrirPanelScore();//Pasamos esta funcion a CargarScoreUsuario() para que muestre score despues de calcular
-
-
-            //}
-            //else
-            //{
-            //    Debug.Log("No hay scores, debe ser primeriso");
-            //}
-
-            // AbrirPanelScore("mostrar");
-           // CargarScores();
+          
 
         }
 
@@ -170,7 +153,7 @@ namespace Brinco
         {
 
             //CargarScoreUsuario();
-           // CargarMonedas();
+            //CargarMonedas();
             if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.inicio)
                 AbrirPanelScore("mostrar");
 
@@ -224,7 +207,7 @@ namespace Brinco
                     //Save_Control.instancia.SubirScoreGooglePlay(ScoreRonda);
                     Save_Control.instancia.ReportarNuevoHighScore(ScoreRonda);
                     //Asignar como highscore actual
-                    HighscoreUsuario = ScoreRonda;
+                    //HighscoreUsuario = ScoreRonda;
                    
 
                     nuevoHighScore_letrero.SetActive(true);
@@ -241,7 +224,7 @@ namespace Brinco
 
                 //Save_Control.instancia.SubirScoreGooglePlay(ScoreRonda);
                 Save_Control.instancia.ReportarNuevoHighScore(ScoreRonda);
-                HighscoreUsuario = ScoreRonda;
+               
                 nuevoHighScore_letrero.SetActive(true);
 
                 Debug.Log("Primer highscore salvado:" + ScoreRonda);
@@ -453,6 +436,12 @@ namespace Brinco
             MonedasTotales += cantidad;
             
         }
+        public void SumarMonedas(int cantidad,bool guardar)
+        {
+            SumarMonedas(cantidad);
+            if(guardar)
+                Save_Control.instancia.GuardarJuego();
+        }
         public void RestarMonedas(int cantidad)
         {
             MonedasTotales -= cantidad;
@@ -476,7 +465,8 @@ namespace Brinco
         void Reinicio()
         {
             ScoreRonda = 0;  
-            nuevoHighScore_letrero.SetActive(false);        
+            nuevoHighScore_letrero.SetActive(false);
+            CargarScoreUsuario();
             AbrirPanelScore("mostrar");
         }
 

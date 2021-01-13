@@ -36,7 +36,7 @@ namespace Brinco
         {
             instancia = this;
 
-            CargarJuegoLocal();
+           // CargarJuegoLocal();
             CargarScoreUsuario();
             CargarSavedGame();
             CargarPersonajeGuardado();
@@ -57,9 +57,7 @@ namespace Brinco
         #region ScoreJugador
         public void CargarScoreUsuario()
         {
-            // if(SaveGame.Exists(nombreSlotHighscore))
-            //      highscoreLocal = SaveGame.Load<int>(nombreSlotHighscore);
-            // AbrirPanelScore();
+            
 
             GameServices.LoadLocalUserScore(EM_GameServicesConstants.Leaderboard_Obstaculos, OnLocalUserScoreLoaded);
 
@@ -72,8 +70,8 @@ namespace Brinco
                 Debug.Log($"Score Google Play:{scoreCargado.value}");
                 HighScoreUsuario = int.Parse(scoreCargado.formattedValue);
                 Score_Control.instancia.HighscoreUsuario = HighScoreUsuario;
-                //Verificamos si el Score de la Nube es diferente al Local
 
+                //Verificamos si el Score de la Nube es diferente al Local
                 //if (juegoSalvadoLocal != null)
                 //{
 
@@ -99,10 +97,9 @@ namespace Brinco
                 Debug.Log($"Problema cargando el score local de GooglePlay cargando score Local o no tienes ningun score guardado");
                 //if (juegoSalvadoLocal != null)
                 //    HighscoreUsuario = juegoSalvadoLocal.score;
-
-
+                NativeUI.Alert("Error connection", "We couldn´t connect with the cloud");
                 //debug_text.text = $"Score Local cargado{HighscoreUsuario}";
-                //GameServices.Init();
+                GameServices.Init();
 
                 //if (Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)
                 //    CargarScoreUsuario();
@@ -155,7 +152,7 @@ namespace Brinco
         {
             //Asignar a save control como actual para que cuando demos reset game y este script se lo pida a Save_Control lo obtenga actualizado            HighScoreUsuario = nuevoScore;
             Debug.Log("Save_Control: Nuevo score reportado localmente: " + nuevoScore);
-
+            HighScoreUsuario = nuevoScore;
             SubirScoreGooglePlay(nuevoScore);
         }
 
@@ -387,8 +384,8 @@ namespace Brinco
 
             Saved_Data save = new Saved_Data();
 
-            save.monedas = Score_Control.instancia.MonedasTotales;
-            Debug.Log("Guardando "+Score_Control.instancia.MonedasTotales+" monedas");
+            Debug.Log("Guardando " + Score_Control.instancia.MonedasTotales + " monedas");
+            save.monedas = Score_Control.instancia.MonedasTotales; 
             save.score = HighScoreUsuario;
             //DEPRECATED: No deberiamos tener que pedirselo ya que Score_Control lo actualizara de haber un nuevo highscore
             //save.score = Score_Control.instancia.ScoreFinal();
@@ -470,6 +467,7 @@ namespace Brinco
 
             }
         }
+      
 
         void Reinicio()
         {
@@ -477,15 +475,19 @@ namespace Brinco
             //No deberiamos pedir esto ya que se supone ya esta cargado, al volverlo a pedir se sobreescribe lo que lleva de la partida
             //CargarScoreUsuario();
             // CargarSavedGame();
-
+            if (GameServices.IsInitialized() == false)
+            {
+                GameServices.Init();
+            }
             // HighScoreUsuario = Score_Control.instancia.HighscoreUsuario;
             reinicios++;
             if(reinicios == 3)
             {
                 Debug.Log("Tercer reinicio guardado automatico...");
-                //GuardarJuego();
+                GuardarJuego();
                 reinicios = 0;
             }
+            
         }
     }
 }

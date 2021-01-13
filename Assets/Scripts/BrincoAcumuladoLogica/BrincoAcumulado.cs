@@ -276,10 +276,10 @@ public class BrincoAcumulado : MonoBehaviour
             //print("Fuerza:" + acumulacionFuerza);
             acumulacionFuerza = 0;
             this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.tutorial)
-            {
-                Master_Level._masterBrinco.InstruccionesCompletada("brinco");
-            }
+            //if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.tutorial)
+            //{
+            //    Master_Level._masterBrinco.InstruccionesCompletada("brinco");
+            //}
 
         }else if(!enPiso)
         {
@@ -299,10 +299,10 @@ public class BrincoAcumulado : MonoBehaviour
             //print("Fuerza:" + acumulacionFuerza);
             acumulacionFuerza = 0;
             this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            if (Master_Level._masterBrinco.estadoJuego == EstadoJuego.tutorial)
-            {
-                Master_Level._masterBrinco.InstruccionesCompletada("regreso");
-            }
+            //if (Master_Level._masterBrinco.estadoJuego == EstadoJuego.tutorial)
+            //{
+            //    Master_Level._masterBrinco.InstruccionesCompletada("regreso");
+            //}
 
         }
        
@@ -548,6 +548,7 @@ public class BrincoAcumulado : MonoBehaviour
         spritePersonaje.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
         // no aseguramos de devolverlo a su posicion original
         LeanTween.moveZ(this.gameObject, posEnPiso.position.z, 0.3f);
+       
    
     }
 }

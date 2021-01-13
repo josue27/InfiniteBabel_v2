@@ -94,7 +94,8 @@ namespace Brinco
 
 
             tutorialCompletado = SaveGame.Load<bool>("tutorialCompletado");
-          //  boton_inicio. += InicioJuego_UI;
+          // tutorialCompletado = false;
+          // boton_inicio. += InicioJuego_UI;
         }
 
         public void SetDificultad()
@@ -113,7 +114,8 @@ namespace Brinco
 
             if (!tutorialCompletado)
             {
-                StartCoroutine(InicioTutorial_Rutina());
+                //  StartCoroutine(InicioTutorial_Rutina());
+                panelTutorial.SetActive(true);
                 estadoJuego = EstadoJuego.tutorial;
             }
             else
@@ -132,7 +134,7 @@ namespace Brinco
 
 
         }
-         private void PerdioJuego()
+        private void PerdioJuego()
         {
             estadoJuego = EstadoJuego.perdio;
        
@@ -210,7 +212,7 @@ namespace Brinco
             Eventos_Dispatcher.CruceObstaculo -= ObstaculoCruzado;
         }
 
-
+        #region Tutorial
         IEnumerator InicioTutorial_Rutina()
         {
             boton_jugar.gameObject.SetActive(false);
@@ -247,6 +249,17 @@ namespace Brinco
                 SaveGame.Save("tutorialCompletado", tutorialCompletado);
             }
         }
+
+        public void CerrarInsturcciones()
+        {
+            panelTutorial.gameObject.SetActive(false);
+            
+            estadoJuego = EstadoJuego.jugando;
+            StartCoroutine(InicioJuego_Rutina());
+            tutorialCompletado = true;
+            SaveGame.Save("tutorialCompletado", tutorialCompletado);
+        }
+        #endregion
 
         /// <summary>
         /// Secuencia de como inicia el juego despues de presionar PLAY

@@ -74,7 +74,7 @@ namespace Brinco
             if (producto.Name == EM_IAPConstants.Product_Cambio)
             {
                 Debug.Log($"Se compro dinero: {producto.Name}");
-                Score_Control.instancia.SumarMonedas(20);
+                Score_Control.instancia.SumarMonedas(20,true);
               
                 Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_MakeItRain);
 
@@ -84,7 +84,7 @@ namespace Brinco
             else if(producto.Name == EM_IAPConstants.Product_Overtimepay)
             {
                 Debug.Log($"Se compro dinero: {producto.Name}");
-                Score_Control.instancia.SumarMonedas(50);
+                Score_Control.instancia.SumarMonedas(50,true);
 
                 Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_MakeItRain);
 
@@ -94,7 +94,7 @@ namespace Brinco
             else if (producto.Name == EM_IAPConstants.Product_Promovido)
             {
                 Debug.Log($"Se compro dinero: {producto.Name}");
-                Score_Control.instancia.SumarMonedas(100);
+                Score_Control.instancia.SumarMonedas(100,true);
 
                 Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_MakeItRain);
 
@@ -159,7 +159,7 @@ namespace Brinco
                 {
                     botonNoAds.gameObject.SetActive(false);
                     botonReinicio.transform.position = posSinAds.position;
-                    panelNoAds_Tienda.gameObject.SetActive(false);
+                   // panelNoAds_Tienda.gameObject.SetActive(false);
                 }
 
             }

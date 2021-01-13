@@ -218,6 +218,8 @@ namespace Brinco
 
                 //});
                 Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_WorkWithStyle);
+
+                Save_Control.instancia.GuardarJuego();
             }
 
             else
