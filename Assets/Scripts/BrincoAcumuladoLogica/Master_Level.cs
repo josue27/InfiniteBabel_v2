@@ -64,12 +64,10 @@ namespace Brinco
         public GameObject panelTutorial;//params:tutorialRegreso;
 
         public BrincoAcumulado jugador;
-        
-        private void OnValidate()
-        {
-           // Debug.Log( pantallNegro.transform.position);
 
-        }
+        [SerializeField]
+        private GameObject versionText;
+        
         private void Awake()
         {
 #if UNITY_EDITOR ///PARA mejorar rendimiento porque Debug.Log usa mucho proceso y lo ejecuta aun en las builds de cualquier plataforma
@@ -77,9 +75,15 @@ namespace Brinco
 #else
         Debug.unityLogger.logEnabled = false;
 #endif
+
+            
+            
         }
         void Start()
         {
+
+            versionText.SetActive(Debug.isDebugBuild);
+
             _masterBrinco = this;
             Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
             Eventos_Dispatcher.eventos.JugadorPerdio += PerdioJuego;

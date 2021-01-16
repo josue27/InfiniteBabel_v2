@@ -66,7 +66,8 @@ namespace Brinco
             {
                 monedasTotales = value;
                 monedasTotales_txt.text = monedasTotales.ToString("0000");
-                monedasPartidas_txt.text = monedasTotales.ToString("0000");
+                monedasPartida = monedasTotales;
+                //monedasPartidas_txt.text = monedasTotales.ToString("0000");
             }
         }
 
@@ -76,8 +77,8 @@ namespace Brinco
             private set
             {
                 monedasPartida = value;
-                //monedasPartidas_txt.text = MonedasPartida.ToString("0000");
-                monedasTotales_txt.text = monedasTotales.ToString("0000");
+                monedasPartidas_txt.text = monedasPartida.ToString("0000");
+                //monedasTotales_txt.text = monedasTotales.ToString("0000");
 
             }
         }
@@ -351,10 +352,9 @@ namespace Brinco
         {
             monitorAnimator.SetTrigger(trigger);
         }
-       
 
 
-
+      
         public void CargarScoreUsuario()
         {
             // if(SaveGame.Exists(nombreSlotHighscore))
@@ -396,6 +396,7 @@ namespace Brinco
             MonitorAnimar("moneda");
             //MonedasPartida++;
             MonedasTotales++;
+            MonedasPartida = MonedasTotales;
         }
 
         /// <summary>
@@ -434,7 +435,9 @@ namespace Brinco
         public void SumarMonedas(int cantidad)
         {
             MonedasTotales += cantidad;
-            
+            MonedasPartida = MonedasTotales;
+            LerpInt(MonedasPartida, MonedasTotales, 1.0f);
+
         }
         public void SumarMonedas(int cantidad,bool guardar)
         {
@@ -445,11 +448,31 @@ namespace Brinco
         public void RestarMonedas(int cantidad)
         {
             MonedasTotales -= cantidad;
+            //MonedasPartida = MonedasTotales;
+            LerpInt(MonedasPartida, MonedasTotales, 1.0f);
+
         }
 
+        [EasyButtons.Button]
+        void PruebaScore()
+        {
+            StartCoroutine(LerpInt(MonedasPartida, MonedasPartida + 10, 1));
+        }
+
+        IEnumerator LerpInt(float valorInit,float valorFinal,float duracion)
+        {
+            float tiempoPasado = 0;
+            while (tiempoPasado < duracion)
+            {
+                MonedasPartida = (int)Mathf.Lerp(valorInit, valorFinal, tiempoPasado / duracion);
+                tiempoPasado += Time.deltaTime;
+                yield return null;
+            }
+            MonedasPartida = (int)valorFinal;
+        }
         #endregion
-      
-        
+
+
 
         /// <summary>
         /// Obtienes el score final haciendo una comparacion entre el score ronda y el HighScore
