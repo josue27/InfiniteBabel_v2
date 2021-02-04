@@ -70,19 +70,20 @@ namespace Brinco
         
         private void Awake()
         {
-#if UNITY_EDITOR ///PARA mejorar rendimiento porque Debug.Log usa mucho proceso y lo ejecuta aun en las builds de cualquier plataforma
-            Debug.unityLogger.logEnabled = true;
-#else
-        Debug.unityLogger.logEnabled = false;
-#endif
+//#if UNITY_EDITOR ///PARA mejorar rendimiento porque Debug.Log usa mucho proceso y lo ejecuta aun en las builds de cualquier plataforma
+//            Debug.unityLogger.logEnabled = true;
+//#else
+//        Debug.unityLogger.logEnabled = false;
+//#endif
 
             
             
         }
         void Start()
         {
-
+            Debug.Log("App Ver:" + Application.version);
             versionText.SetActive(Debug.isDebugBuild);
+            versionText.GetComponent<TMP_Text>().SetText("v"+Application.version);
 
             _masterBrinco = this;
             Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;

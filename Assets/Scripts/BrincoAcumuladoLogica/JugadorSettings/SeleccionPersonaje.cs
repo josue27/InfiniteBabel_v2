@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using EasyMobile;
+#if EM_UIAP
+using UnityEngine.Purchasing;
+#endif
 
 namespace Brinco
 {
@@ -80,10 +83,10 @@ namespace Brinco
             }
             else
             {
-                precioPersonaje_text.SetText($"{personajes[enPersonaje].personaje.precio} x");
+                precioPersonaje_text.SetText("$"+personajes[enPersonaje].personaje.precio.ToString("00"));
             }
             candado_img.SetActive(!personajes[enPersonaje].comprado);
-            moneda_img.SetActive(!personajes[enPersonaje].comprado);
+            //moneda_img.SetActive(!personajes[enPersonaje].comprado);
             //Debug.Log("Se cambio personaje...mandando sprites");
         }
 
@@ -158,32 +161,17 @@ namespace Brinco
 
                 if (personajes[enPersonaje].personaje.nombre == "coffeeguy")
                 {
-                    //Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_more_coffee_please);
-                    //GameServices.UnlockAchievement(EM_GPGSIds.achievement_more_coffee_please, (bool exito) =>
-                    //{
-                    //    Debug.Log("Logor desbloqueado:" + exito);
-
-                    //});
+                    
                     Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_MoreCoffee);
                 }
                 else if(personajes[enPersonaje].personaje.nombre == "punkman" )
                 {
-                    // Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_down_the_system);
-                    //GameServices.UnlockAchievement(EM_GPGSIds.achievement_down_the_system, (bool exito) =>
-                    //{
-                    //    Debug.Log("Logor desbloqueado:" + exito);
-
-                    //});
+                    
                     Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_DownTheSystem);
                 }
                 else if(personajes[enPersonaje].personaje.nombre == "naked_man")
                 {
-                    // Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_no_shame);
-                    //GameServices.UnlockAchievement(EM_GPGSIds.achievement_no_shame, (bool exito) =>
-                    //{
-                    //    Debug.Log("Logor desbloqueado:" + exito);
-
-                    //});
+                   
                     Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_NoShame);
 
                 }
@@ -202,21 +190,18 @@ namespace Brinco
                 Debug.Log($"Intento comprar {personajes[enPersonaje].personaje.name} ya comprado");
                 return;
             }
+#if UNITY_IOS
+            //Como no sabemos que tan seguro es que iOS guarde las cosas vamos a proceder a que las skins sean productos particulares
 
+#else
             if (Score_Control.instancia.MonedasTotales >= personajes[enPersonaje].personaje.precio)
             {
                 personajes[enPersonaje].comprado = true;
-                Score_Control.instancia.RestarMonedas(personajes[enPersonaje].personaje.precio);
+                //Score_Control.instancia.RestarMonedas(personajes[enPersonaje].personaje.precio);
                 CambiarPersonaje();
                 ///Tenemos que guardar en la nube y local que ya se compro el mono
                 ///EN teoria no, porque ya implementamos salvado si quita o se va
-                // Score_Control.instancia.Guardar_MonedasYPersonajes();
-                //Logros_Control.instancia.DesbloquearLogro(EM_GPGSIds.achievement_work_with_style);
-                //GameServices.UnlockAchievement(EM_GPGSIds.achievement_work_with_style, (bool exito) =>
-                //{
-                //    Debug.Log("Logor desbloqueado:" + exito);
-
-                //});
+             
                 Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_WorkWithStyle);
 
 
@@ -232,7 +217,77 @@ namespace Brinco
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
 
             }
+#endif
 
+        }
+
+        public void DesbloquearPersonaje(string productoID)
+        {
+            foreach(PersonajesEnJuego personaje in personajes)
+            {
+                if(personaje.personaje.nombre == productoID)
+                {
+                    personaje.comprado = true;
+                    Debug.Log($"Personaje {personaje.personaje.nombre} encontradod desbloqueando...");
+
+
+                    Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_WorkWithStyle);
+                   
+                    CambiarPersonaje();
+
+                    //GetComponent<Compras_Control>().PersonajeComprado_Callback();
+                    //Save_Control.instancia.GuardarJuego();
+
+                    break;
+                }
+            }
+        }
+
+        
+        public void BuscarPrecioLocalizadoPersonajes()
+        {
+
+#if EM_UIAP
+
+            foreach (PersonajesEnJuego personajeProducto in personajes)
+            {
+                //OJO lo busca por el nombre, no el ID, ya que EasyMobile se encarga de administrar le ID, 
+                //personaje.nombre == easymobile.product.name
+                ProductMetadata dataProducto = InAppPurchasing.GetProductLocalizedData(personajeProducto.personaje.nombre);
+                if (dataProducto != null)
+                {
+
+                    personajeProducto.personaje.precio = (float)dataProducto.localizedPrice;
+                    Debug.Log($"Producto {dataProducto.localizedTitle} localizado con precio {dataProducto.isoCurrencyCode} {dataProducto.localizedPrice}");
+                }
+            }
+            Debug.Log("Productos con precios localizados terminados");
+#endif
+        }
+
+        /// <summary>
+        /// Llamado por ComprasControl(para asegurarse que IAP
+        /// </summary>
+        public void SetPersonajesComprados()
+        {
+            foreach(PersonajesEnJuego personaje in personajes)
+            {
+                if (personaje.personaje.nombre == "internDude" || personaje.personaje.nombre == "internGirl")
+                {
+                    personaje.comprado = true;
+                }
+                else
+                {
+                    personaje.comprado = InAppPurchasing.IsProductOwned(personaje.personaje.nombre);
+                    //TODO:Al finalizar haz beardMan non-consumable pues te lo agarra como no comprado
+                }
+            }
+            Debug.Log("Personajes desbloqueados por tienda termiandos");
+        }
+
+        public string ObtenerIDProductoPersonaje()
+        {
+            return personajes[enPersonaje].personaje.nombre;
         }
 
         /// <summary>

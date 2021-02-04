@@ -4,10 +4,7 @@ using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using EasyMobile;
 using BayatGames.SaveGameFree;
-
-
-namespace Brinco
-{
+using Brinco;
     public class Save_Control : MonoBehaviour
     {
         public static Save_Control instancia;
@@ -110,6 +107,7 @@ namespace Brinco
         /// <summary>
         /// Maneja la subida de un HighScore logrado, llamado por CompararScore(),
         /// tambien salva el score localmente por si las dudas
+        /// Se supones que debe subirlo a GameCenter o GooglePlay conforme corresponda
         /// </summary>
         /// <param name="nuevoScore"></param>
         public void SubirScoreGooglePlay(int nuevoScore)
@@ -219,8 +217,9 @@ namespace Brinco
 
                                 //Guardamos los datos descargados para futura comparacion
                                 juegoSalvadoNube = ConvertidorData.ByteArra_Deserealizar(data);
+                                //DEPRECATED:Cambiando a sistema donde 
                                 //Enviar monitos comprados a SeleccionPersonaje
-                                GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoSalvadoNube.personajes);
+                                //GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoSalvadoNube.personajes);
 
                                 Score_Control.instancia.MonedasTotales = JuegoSalvadoNube.monedas;
 
@@ -490,7 +489,7 @@ namespace Brinco
             
         }
     }
-}
+
 
 
 

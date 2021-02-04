@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using Brinco;
 using Lean.Touch;
 using Lean.Common;
+using MoreMountains.NiceVibrations;
+
 public class BrincoAcumulado : MonoBehaviour
 {
 
@@ -201,7 +203,8 @@ public class BrincoAcumulado : MonoBehaviour
 
                  //   ReproducirAnimacion("corriendo");
                 }
-            //  ReproducirAnimacion("corriendo",true);
+                //  ReproducirAnimacion("corriendo",true);
+                MMVibrationManager.Haptic(HapticTypes.LightImpact);
 
             }
 
@@ -242,7 +245,7 @@ public class BrincoAcumulado : MonoBehaviour
         trazoDedo.transform.GetComponent<TrailRenderer>().enabled = true;
         trazoDedo.transform.position = dedo.GetWorldPosition(1,Camera.main);
 
-      
+        MMVibrationManager.Haptic(HapticTypes.Selection);
 
     }
     public void DedoArriba(LeanFinger dedo)
@@ -362,7 +365,7 @@ public class BrincoAcumulado : MonoBehaviour
                     PerdioJuego();
                     RotarSprite();
                     ReproducirAnimacion("muerto");
-                    
+                    VibracionGolpe();   
                 }
                 break;
             case "paredTNT":
@@ -378,6 +381,8 @@ public class BrincoAcumulado : MonoBehaviour
                     other.gameObject.SetActive(false);
                     other.transform.parent.parent.GetComponent<ObstaculoControl>().ExplotarTNT(other.transform);
                     Debug.Log("Jugador KABOOOOMM!!!");
+                    VibracionGolpe();
+
                 }
                 break;
             case "pisoRoto":
@@ -398,7 +403,8 @@ public class BrincoAcumulado : MonoBehaviour
                     PerdioJuego();
 
                     Debug.Log("Jugador entro a piso roto:" + other.transform.name);
-                    
+                    VibracionGolpe();
+
                 }
                 break;
             case "apertura":
@@ -417,6 +423,10 @@ public class BrincoAcumulado : MonoBehaviour
 
         
 
+    }
+    private void VibracionGolpe()
+    {
+        MMVibrationManager.Haptic(HapticTypes.Failure);
     }
     private void OnTriggerExit(Collider other) {
         if(other.transform.tag == "apertura")

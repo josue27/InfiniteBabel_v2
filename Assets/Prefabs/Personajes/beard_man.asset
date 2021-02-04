@@ -15,6 +15,7 @@ MonoBehaviour:
   nombre: beardMan
   nombreUI: Beard Man
   precio: 40
+  productoID: beard_man
   sprites_idle:
   - {fileID: 8286190818695685692, guid: 43ef84ea1e7228e4797fac7102f3a076, type: 3}
   - {fileID: 3585597846010819649, guid: 43ef84ea1e7228e4797fac7102f3a076, type: 3}

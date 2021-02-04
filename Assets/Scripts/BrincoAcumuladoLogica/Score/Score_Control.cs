@@ -316,7 +316,11 @@ namespace Brinco
             }
             else
             {
-                debug_text.text = "Fallo al mostar Leaderborad";
+#if UNITY_ANDROID
+                GameServices.Init();    // start a new initialization process
+#elif UNITY_IOS
+    Debug.Log("Cannot show leaderboard UI: The user is not logged in to Game Center.");
+#endif
             }
         }
 

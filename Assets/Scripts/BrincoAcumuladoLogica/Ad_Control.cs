@@ -60,6 +60,7 @@ namespace Brinco
             SeComproNoAds();
             //Esta autonicializado
             //GameServices.Init();
+           
         }
 
 

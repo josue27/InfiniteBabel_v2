@@ -8,10 +8,18 @@ namespace EasyMobile
 {
 	public static class EM_IAPConstants
 	{
-		public const string Product_Overtimepay = "Overtimepay";
-		public const string Product_RemoverAds = "RemoverAds";
 		public const string Product_Cambio = "Cambio";
+		public const string Product_beardMan = "beardMan";
+		public const string Product_madScientist = "madScientist";
 		public const string Product_Promovido = "Promovido";
+		public const string Product_RemoverAds = "RemoverAds";
+		public const string Product_xmasLover = "xmasLover";
+		public const string Product_Overtimepay = "Overtimepay";
+		public const string Product_cyberGirl = "cyberGirl";
+		public const string Product_naked_man = "naked_man";
+		public const string Product_quietGuy = "quietGuy";
+		public const string Product_punkman = "punkman";
+		public const string Product_coffeeguy = "coffeeguy";
 
 	}
 }

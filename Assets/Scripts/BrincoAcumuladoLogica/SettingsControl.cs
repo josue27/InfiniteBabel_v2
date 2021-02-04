@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Brinco;
-
+using MoreMountains.NiceVibrations;
 public class SettingsControl : MonoBehaviour
 {
     public GameObject panelSettings;
@@ -13,13 +13,13 @@ public class SettingsControl : MonoBehaviour
 
     [SerializeField] Vector3 posPanelBotonesSuperiores_Activados;
     [SerializeField] Vector3 posPanelBotonesSuperiores_Desactivados;
-
+    [SerializeField] bool vibracionActivada = true;
     private void Awake()
     {
         // posPanelBotonesSuperiores_Activados = panelBotonesSuperiores.transform.position;
-         panelBotonesSuperiores.transform.localPosition = posPanelBotonesSuperiores_Desactivados;
-         IntroJuego();
-         Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
+        panelBotonesSuperiores.transform.localPosition = posPanelBotonesSuperiores_Desactivados;
+        IntroJuego();
+        Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
     }
     private void Start()
     {
@@ -46,7 +46,7 @@ public class SettingsControl : MonoBehaviour
 
         panelSettings.SetActive(!panelSettings.activeInHierarchy);
     }
-    
+
     public void Toggle_PanelIdiomas()
     {
         if (!panelIdiomas)
@@ -57,10 +57,10 @@ public class SettingsControl : MonoBehaviour
 
         panelIdiomas.SetActive(!panelIdiomas.activeInHierarchy);
     }
-     
+
     public void Toggle_PanelCreditos()
     {
-        if(!panelCreditos)
+        if (!panelCreditos)
         {
             Debug.Log("No hay panel creditos");
             return;
@@ -72,5 +72,12 @@ public class SettingsControl : MonoBehaviour
     void Reinicio()
     {
         LeanTween.moveLocalY(panelBotonesSuperiores, posPanelBotonesSuperiores_Activados.y, 0.5f).setEaseInOutSine();
+    }
+    
+    public void ToggleVibracion()
+    {
+        vibracionActivada = !vibracionActivada;
+        MMVibrationManager.SetHapticsActive(vibracionActivada);
+        
     }
 }

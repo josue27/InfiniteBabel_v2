@@ -13,9 +13,9 @@ namespace Brinco
 {
     public class Compras_Control : MonoBehaviour
     {
-        [SerializeField] private bool isInitialized;
+        [SerializeField] private bool IAPisInitialized;
 
-
+        
         public List<Producto> productos = new List<Producto>();
         public IAPProduct[] productos_DB;
 
@@ -48,19 +48,33 @@ namespace Brinco
         {
             InAppPurchasing.PurchaseCompleted += PurchaseCompletedHandler;
             InAppPurchasing.PurchaseFailed += PurchaseFailedHandler;
+            //iOS
+            InAppPurchasing.RestoreCompleted += RestoreCompletedHandler;
+            InAppPurchasing.RestoreFailed += RestoreFailedHandler;
+
         }
         void Start()
         {
-            isInitialized = InAppPurchasing.IsInitialized();
+            IAPisInitialized = InAppPurchasing.IsInitialized();
 
             //foreach (IAPProduct producto in productos_DB)
             //{
             //    Debug.Log("Producto: " + producto.Name);
             //}
+
+            if(IAPisInitialized)
+            {
+#if UNITY_IOS
+                InAppPurchasing.RestorePurchases();
+#endif
+            }
             BuscarProductoLocalized();
             SeComproNoAds();
+            PersonajesComprados();
             //Esta autoinicializada, no se necesita
           //  InAppPurchasing.InitializePurchasing();
+
+            
         }
 
         private void PurchaseFailedHandler(IAPProduct producto, string failureReason)
@@ -107,20 +121,47 @@ namespace Brinco
                 this.GetComponent<Ad_Control>().RemoverAds(true);
                 Debug.Log("se removieron los ads");
             }
-            else
+            else if(producto.Name == EM_IAPConstants.Product_beardMan ||
+                    producto.Name == EM_IAPConstants.Product_naked_man ||
+                    producto.Name == EM_IAPConstants.Product_punkman ||
+                    producto.Name == EM_IAPConstants.Product_cyberGirl ||
+                    producto.Name == EM_IAPConstants.Product_coffeeguy ||
+                    producto.Name == EM_IAPConstants.Product_madScientist ||
+                    producto.Name == EM_IAPConstants.Product_quietGuy ||
+                    producto.Name == EM_IAPConstants.Product_xmasLover )
             {
                 //Sin usar
-                Debug.Log($"Se compro personaje: {producto.Name}");
+                Debug.Log("Se compro" + producto.Name);
+                this.GetComponent<SeleccionPersonaje>().DesbloquearPersonaje(producto.Name);
                 //Liberar personaje
 
             }
 
+            
+
+
+        }
+
+
+        // Successful restoration handler
+        void RestoreCompletedHandler()
+        {
+            Debug.Log("All purchases have been restored successfully.");
+        }
+
+        // Failed restoration handler
+        void RestoreFailedHandler()
+        {
+            Debug.Log("The purchase restoration has failed.");
         }
 
         private void OnDisable()
         {
             InAppPurchasing.PurchaseCompleted -= PurchaseCompletedHandler;
             InAppPurchasing.PurchaseFailed -= PurchaseFailedHandler;
+
+            InAppPurchasing.RestoreCompleted -= RestoreCompletedHandler;
+            InAppPurchasing.RestoreFailed -= RestoreFailedHandler;
         }
 
         /// <summary>
@@ -147,7 +188,7 @@ namespace Brinco
         public void SeComproNoAds()
         {
            
-            if (!isInitialized)
+            if (!IAPisInitialized)
             {
                 Debug.Log("ComprasControl: InAppPurchasing no inicializado");
             }
@@ -166,7 +207,18 @@ namespace Brinco
             }
         }
 
+        public void PersonajesComprados()
+        {
+            if(!IAPisInitialized)
+            {
+                Debug.Log("ComprasControl: InAppPurchasing no inicializado");
 
+            }
+            else
+            {
+                GetComponent<SeleccionPersonaje>().SetPersonajesComprados();
+            }
+        }
         /// <summary>
         /// Llamado por los botones en tiend UI para buscar un objeto a comprar, lo encuentras
         /// pasando el mismo boton que va a ser buscado
@@ -201,18 +253,43 @@ namespace Brinco
                 }
             }
         }
+
+        
         public void ComprarPersonaje()
         {
             //PersonajeScriptable personaje = this.GetComponent<SeleccionPersonaje>().BuscarDataPersonaje();
-            if (isInitialized)
+            if (IAPisInitialized)
             {
-                this.GetComponent<SeleccionPersonaje>().DesbloquearPersonaje();
+                string IDProductoPersonaje = GetComponent<SeleccionPersonaje>().ObtenerIDProductoPersonaje();
+                InAppPurchasing.Purchase(IDProductoPersonaje);
+
+                //Deprecated
+                // this.GetComponent<SeleccionPersonaje>().DesbloquearPersonaje();
             }
             else
             {
                 NativeUI.Alert("Error", "No internet connection ");
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
 
+            }
+        }
+        
+
+        /// <summary>
+        /// Debe ser utilizado por los dispositivos iOS
+        /// </summary>
+        /// <param name="_id"></param>
+        public void ComprarPersonaje(string _id)
+        {
+            if(IAPisInitialized)
+            {
+                //Se tiene que pasar el _id del producto como viene en EasyMobile
+                InAppPurchasing.Purchase(_id);
+            }
+            else
+            {
+                NativeUI.Alert("Error", "No internet connection ");
+                Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
             }
         }
 
@@ -237,7 +314,7 @@ namespace Brinco
 
         public void AbrirTienda()
         {
-            if (!isInitialized)
+            if (!IAPisInitialized)
             {
                 Debug.Log("Compras Control: GPS no inicializado");
                 NativeUI.Alert("Error", "No internet connection");
@@ -255,9 +332,9 @@ namespace Brinco
         void BuscarProductoLocalized()
         {
 #if EM_UIAP
-            if (!isInitialized)
+            if (!IAPisInitialized)
             {
-                Debug.Log("Compras Control: GPS no inicializado");
+                Debug.Log("Compras Control: UIAP no inicializado");
                 return;
             }
             
@@ -269,12 +346,13 @@ namespace Brinco
                 ProductMetadata dataProducto = InAppPurchasing.GetProductLocalizedData(_producto.producto.Name);
                 if(dataProducto != null)
                 {
-
-                    _producto.precioText.text = $"${dataProducto.localizedPrice}";
+                    if(_producto.precioText)
+                        _producto.precioText.text = $"${dataProducto.localizedPrice}";
                     Debug.Log($"Producto {dataProducto.localizedTitle} localizado con precio {dataProducto.isoCurrencyCode} {dataProducto.localizedPrice}");
                 }
             }
-            Debug.Log("Productos con precios localizados terminados");
+            Debug.Log("Productos Tienda con precios localizados terminados");
+            GetComponent<SeleccionPersonaje>().BuscarPrecioLocalizadoPersonajes();
 #endif
         }
 

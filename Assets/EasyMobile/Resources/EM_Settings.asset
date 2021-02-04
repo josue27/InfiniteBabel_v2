@@ -51,13 +51,15 @@ MonoBehaviour:
         keys: []
         values: []
     mAdMob:
-      mEnable: 0
+      mEnable: 1
       mTargetingSettings:
-        mTagForChildDirectedTreatment: 0
+        mTagForChildDirectedTreatment: 1
         mExtraOptions:
-          keys: []
-          values: []
-      mEnableTestMode: 0
+          keys:
+          - is_designed_for_families
+          values:
+          - true
+      mEnableTestMode: 1
       mAppId:
         mIosId: 
         mAndroidId: 
@@ -66,10 +68,10 @@ MonoBehaviour:
         mAndroidId: 
       mDefaultInterstitialAdId:
         mIosId: 
-        mAndroidId: 
+        mAndroidId: ca-app-pub-4624030930258187/7941063413
       mDefaultRewardedAdId:
         mIosId: 
-        mAndroidId: 
+        mAndroidId: ca-app-pub-4624030930258187/5151442065
       mCustomBannerAdIds:
         keys: []
         values: []
@@ -223,7 +225,7 @@ MonoBehaviour:
       mCustomRewardedAdIds:
         keys: []
         values: []
-      mEnableTestMode: 0
+      mEnableTestMode: 1
     mVungleAds:
       mEnable: 0
       mAppId:
@@ -272,38 +274,38 @@ MonoBehaviour:
     mGpgsOauthScopes: []
     mLeaderboards:
     - _name: Obstaculos
-      _iosId: 
+      _iosId: best_runner
       _androidId: CgkIsfDXnPEcEAIQAQ
     mAchievements:
     - _name: FirstRun
-      _iosId: 
+      _iosId: welcome_to_late_shift
       _androidId: CgkIsfDXnPEcEAIQAw
     - _name: WorkWithStyle
-      _iosId: 
+      _iosId: work_with_style
       _androidId: CgkIsfDXnPEcEAIQBA
     - _name: No_Quitters
-      _iosId: 
+      _iosId: no_quitters
       _androidId: CgkIsfDXnPEcEAIQBQ
     - _name: Rookie_moves
-      _iosId: 
+      _iosId: rookie_moves
       _androidId: CgkIsfDXnPEcEAIQBw
     - _name: Looking_Promotion
-      _iosId: 
+      _iosId: looking_promotion
       _androidId: CgkIsfDXnPEcEAIQBg
     - _name: Senior_Moves
-      _iosId: 
+      _iosId: senior_moves
       _androidId: CgkIsfDXnPEcEAIQCA
     - _name: MoreCoffee
-      _iosId: 
+      _iosId: more_coffee
       _androidId: CgkIsfDXnPEcEAIQCQ
     - _name: DownTheSystem
-      _iosId: 
+      _iosId: down_the_system
       _androidId: CgkIsfDXnPEcEAIQCg
     - _name: NoShame
-      _iosId: 
+      _iosId: no_shame
       _androidId: CgkIsfDXnPEcEAIQCw
     - _name: MakeItRain
-      _iosId: 
+      _iosId: make_it_rain
       _androidId: CgkIsfDXnPEcEAIQDA
     mAndroidXmlResources: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!--Google
       Play game services IDs. Save this file as res/values/games-ids.xml in your
@@ -336,7 +338,7 @@ MonoBehaviour:
     mSimulateAppleAskToBuy: 0
     mInterceptApplePromotionalPurchases: 0
     mEnableAmazonSandboxTesting: 0
-    mValidateAppleReceipt: 0
+    mValidateAppleReceipt: 1
     mValidateGooglePlayReceipt: 1
     mProducts:
     - _name: Cambio
@@ -367,6 +369,62 @@ MonoBehaviour:
       _description: Great work!! buy you something pretty
       _storeSpecificIds: []
       _isEditingAdvanced: 1
+    - _name: naked_man
+      _type: 1
+      _id: naked_man
+      _price: $1
+      _description: A man without shame...
+      _storeSpecificIds: []
+      _isEditingAdvanced: 1
+    - _name: punkman
+      _type: 1
+      _id: punk_man
+      _price: $1
+      _description: A man without shame...
+      _storeSpecificIds: []
+      _isEditingAdvanced: 1
+    - _name: beardMan
+      _type: 0
+      _id: beard_man
+      _price: $1
+      _description: A man without shame...
+      _storeSpecificIds: []
+      _isEditingAdvanced: 1
+    - _name: cyberGirl
+      _type: 1
+      _id: cyber_girl
+      _price: $1
+      _description: A man without shame...
+      _storeSpecificIds: []
+      _isEditingAdvanced: 1
+    - _name: xmasLover
+      _type: 1
+      _id: xmas_lover
+      _price: $1
+      _description: A man without shame...
+      _storeSpecificIds: []
+      _isEditingAdvanced: 1
+    - _name: quietGuy
+      _type: 1
+      _id: quite_guy
+      _price: $1
+      _description: A man without shame...
+      _storeSpecificIds: []
+      _isEditingAdvanced: 1
+    - _name: coffeeguy
+      _type: 1
+      _id: coffee_guy
+      _price: $1
+      _description: A man without shame...
+      _storeSpecificIds: []
+      _isEditingAdvanced: 0
+    - _name: madScientist
+      _type: 1
+      _id: mad_scientist
+      _price: $1
+      _description: A man without shame...
+      _storeSpecificIds: []
+      _isEditingAdvanced: 0
   mNotificationSettings:
     mAutoInit: 1
     mAutoInitDelay: 0

@@ -15,6 +15,7 @@ MonoBehaviour:
   nombre: punkman
   nombreUI: Punk man
   precio: 60
+  productoID: punk_man
   sprites_idle:
   - {fileID: 5492780272649404610, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}
   - {fileID: 7215996922070432026, guid: 7f860e4bb596b403da0aab3fa7d8902f, type: 3}

@@ -7,7 +7,8 @@ public class PersonajeScriptable : ScriptableObject
 {
    public string nombre;
    public string nombreUI;
-   public int precio;
+   public float precio;
+   public string productoID;
    [Space(10)]
    public List<Sprite> sprites_idle;
    public List<Sprite> sprites_corriendo;

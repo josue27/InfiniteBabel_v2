@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: coffeedude
   m_EditorClassIdentifier: 
   nombre: coffeeguy
-  nombreUI: Coffe Guy
+  nombreUI: Coffee Guy
   precio: 30
+  productoID: 
   sprites_idle:
   - {fileID: 6046956157892424168, guid: 501aefcced99e44469a193e659dd06c4, type: 3}
   - {fileID: -710574314188483639, guid: 501aefcced99e44469a193e659dd06c4, type: 3}
