@@ -3,7 +3,7 @@
 --- !u!129 &1
 PlayerSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 20
+  serializedVersion: 22
   productGUID: 846d0abc580a67642ab0529b7046ad4c
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
@@ -49,6 +49,8 @@ PlayerSettings:
   m_StereoRenderingPath: 0
   m_ActiveColorSpace: 1
   m_MTRendering: 1
+  mipStripping: 0
+  numberOfMipsStripped: 0
   m_StackTraceTypes: 010000000100000001000000010000000100000001000000
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
@@ -117,6 +119,7 @@ PlayerSettings:
   stadiaTargetFramerate: 0
   vulkanNumSwapchainBuffers: 3
   vulkanEnableSetSRGBWrite: 0
+  vulkanEnablePreTransform: 0
   vulkanEnableLateAcquireNextImage: 0
   m_SupportedAspectRatios:
     4:3: 1
@@ -124,39 +127,15 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.6.3
-  preloadedAssets: []
+  bundleVersion: 1.6.6
+  preloadedAssets:
+  - {fileID: 0}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
   xboxOneDisableKinectGpuReservation: 1
   xboxOneEnable7thCore: 1
   vrSettings:
-    cardboard:
-      depthFormat: 0
-      enableTransitionView: 0
-    daydream:
-      depthFormat: 0
-      useSustainedPerformanceMode: 0
-      enableVideoLayer: 0
-      useProtectedVideoMemory: 0
-      minimumSupportedHeadTracking: 0
-      maximumSupportedHeadTracking: 1
-    hololens:
-      depthFormat: 1
-      depthBufferSharingEnabled: 1
-    lumin:
-      depthFormat: 0
-      frameTiming: 2
-      enableGLCache: 0
-      glCacheMaxBlobSize: 524288
-      glCacheMaxFileSize: 8388608
-    oculus:
-      sharedDepthBuffer: 1
-      dashSupport: 1
-      lowOverheadMode: 0
-      protectedContext: 0
-      v2Signing: 1
     enable360StereoCapture: 0
   isWsaHolographicRemotingEnabled: 0
   enableFrameTimingStats: 0
@@ -168,9 +147,13 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.ParallelsGames.Late_Shift
-  buildNumber: {}
-  AndroidBundleVersionCode: 25
+    Android: com.ParallelsGames.LateShift
+  buildNumber:
+    Standalone: 0
+    iPhone: 0
+    tvOS: 0
+  overrideDefaultApplicationIdentifier: 0
+  AndroidBundleVersionCode: 27
   AndroidMinSdkVersion: 26
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -186,10 +169,10 @@ PlayerSettings:
   StripUnusedMeshComponents: 0
   VertexChannelCompressionMask: 4054
   iPhoneSdkVersion: 988
-  iOSTargetOSVersionString: 10.0
+  iOSTargetOSVersionString: 11.0
   tvOSSdkVersion: 0
   tvOSRequireExtendedGameController: 0
-  tvOSTargetOSVersionString: 10.0
+  tvOSTargetOSVersionString: 11.0
   uIPrerenderedIcon: 0
   uIRequiresPersistentWiFi: 0
   uIRequiresFullScreen: 1
@@ -223,8 +206,8 @@ PlayerSettings:
   iOSLaunchScreeniPadFillPct: 100
   iOSLaunchScreeniPadSize: 100
   iOSLaunchScreeniPadCustomXibPath: 
-  iOSUseLaunchScreenStoryboard: 0
   iOSLaunchScreenCustomStoryboardPath: 
+  iOSLaunchScreeniPadCustomStoryboardPath: 
   iOSDeviceRequirements: []
   iOSURLSchemes: []
   iOSBackgroundModes: 0
@@ -232,6 +215,7 @@ PlayerSettings:
   metalEditorSupport: 1
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 0
+  iosCopyPluginsCodeInsteadOfSymlink: 0
   appleDeveloperTeamID: 
   iOSManualSigningProvisioningProfileID: 
   tvOSManualSigningProvisioningProfileID: 
@@ -241,9 +225,17 @@ PlayerSettings:
   iOSRequireARKit: 0
   iOSAutomaticallyDetectAndAddCapabilities: 1
   appleEnableProMotion: 0
+  shaderPrecisionModel: 0
   clonedFromGUID: 9870af204204ab84596f8a656f2f2ce6
   templatePackageId: com.unity.template.universal@7.1.6
   templateDefaultScene: Assets/Scenes/SampleScene.unity
+  useCustomMainManifest: 0
+  useCustomLauncherManifest: 0
+  useCustomMainGradleTemplate: 0
+  useCustomLauncherGradleManifest: 0
+  useCustomBaseGradleTemplate: 0
+  useCustomGradlePropertiesTemplate: 0
+  useCustomProguardFile: 0
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
@@ -261,6 +253,9 @@ PlayerSettings:
     height: 180
     banner: {fileID: 0}
   androidGamepadSupportLevel: 0
+  AndroidMinifyWithR8: 0
+  AndroidMinifyRelease: 0
+  AndroidMinifyDebug: 0
   AndroidValidateAppBundleSize: 1
   AndroidAppBundleSizeToValidate: 100
   m_BuildTargetIcons:
@@ -429,10 +424,10 @@ PlayerSettings:
   m_BuildTargetGraphicsAPIs:
   - m_BuildTarget: iOSSupport
     m_APIs: 10000000
-    m_Automatic: 0
+    m_Automatic: 1
   - m_BuildTarget: AppleTVSupport
     m_APIs: 10000000
-    m_Automatic: 0
+    m_Automatic: 1
   - m_BuildTarget: AndroidPlayer
     m_APIs: 0b000000
     m_Automatic: 0
@@ -455,6 +450,7 @@ PlayerSettings:
   - m_BuildTarget: Standalone
     m_EncodingQuality: 1
   m_BuildTargetGroupLightmapSettings: []
+  m_BuildTargetNormalMapEncoding: []
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1
@@ -464,12 +460,14 @@ PlayerSettings:
   cameraUsageDescription: 
   locationUsageDescription: 
   microphoneUsageDescription: 
+  switchNMETAOverride: 
   switchNetLibKey: 
   switchSocketMemoryPoolSize: 6144
   switchSocketAllocatorPoolSize: 128
   switchSocketConcurrencyLimit: 14
   switchScreenResolutionBehavior: 2
   switchUseCPUProfiler: 0
+  switchUseGOLDLinker: 0
   switchApplicationID: 0x01004b9000490000
   switchNSODependencies: 
   switchTitleNames_0: 
@@ -594,6 +592,7 @@ PlayerSettings:
   switchSocketInitializeEnabled: 1
   switchNetworkInterfaceManagerInitializeEnabled: 1
   switchPlayerConnectionEnabled: 1
+  switchUseNewStyleFilepaths: 0
   ps4NPAgeRating: 12
   ps4NPTitleSecret: 
   ps4NPTrophyPackPath: 
@@ -684,31 +683,41 @@ PlayerSettings:
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
   webGLCompressionFormat: 1
+  webGLWasmArithmeticExceptions: 0
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
-  webGLWasmStreaming: 1
+  webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    1: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP
-    4: EASY_MOBILE;EASY_MOBILE_PRO;NO_GPGS;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP
-    7: EASY_MOBILE;EASY_MOBILE_PRO;EM_GPGS;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP
-    13: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP
-    14: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP
-    19: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP
-    21: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP
-    25: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP
-    27: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP
-    28: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP
-    29: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP
+    1: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP;EM_ADMOB
+    4: EASY_MOBILE;EASY_MOBILE_PRO;NO_GPGS;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP;EM_ADMOB
+    7: EASY_MOBILE;EASY_MOBILE_PRO;EM_GPGS;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP;MOREMOUNTAINS_NICEVIBRATIONS_RUMBLE;MOREMOUNTAINS_NICEVIBRATIONS;EM_ADMOB
+    13: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP;EM_ADMOB
+    14: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP;EM_ADMOB
+    19: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP;EM_ADMOB
+    21: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP;EM_ADMOB
+    25: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP;EM_ADMOB
+    27: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP;EM_ADMOB
+    28: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP;EM_ADMOB
+    29: EASY_MOBILE;EASY_MOBILE_PRO;UNITY_MONETIZATION;EM_UNITY_ADS;EM_UIAP;EM_URP;EM_ADMOB
+    30: EASY_MOBILE;EASY_MOBILE_PRO;EM_ADMOB;UNITY_MONETIZATION;EM_UNITY_ADS;EM_URP;EM_UIAP
+    31: EASY_MOBILE;EASY_MOBILE_PRO;EM_ADMOB;UNITY_MONETIZATION;EM_UNITY_ADS;EM_URP;EM_UIAP
+    32: EASY_MOBILE;EASY_MOBILE_PRO;EM_ADMOB;UNITY_MONETIZATION;EM_UNITY_ADS;EM_URP;EM_UIAP
+  additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
     Android: 1
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}
+  suppressCommonWarnings: 1
   allowUnsafeCode: 0
+  useDeterministicCompilation: 1
+  useReferenceAssemblies: 1
+  enableRoslynAnalyzers: 1
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   gcIncremental: 0
+  assemblyVersionValidation: 1
   gcWBarrierValidation: 0
   apiCompatibilityLevelPerPlatform:
     Android: 3
@@ -760,6 +769,7 @@ PlayerSettings:
   XboxOneCapability: []
   XboxOneGameRating: {}
   XboxOneIsContentPackage: 0
+  XboxOneEnhancedXboxCompatibilityMode: 0
   XboxOneEnableGPUVariability: 1
   XboxOneSockets: {}
   XboxOneSplashScreen: {fileID: 0}
@@ -768,10 +778,7 @@ PlayerSettings:
   XboxOneXTitleMemory: 8
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
-  vrEditorSettings:
-    daydream:
-      daydreamIconForeground: {fileID: 0}
-      daydreamIconBackground: {fileID: 0}
+  vrEditorSettings: {}
   cloudServicesEnabled:
     Build: 1
     UNet: 1
@@ -787,11 +794,12 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
+  activeInputHandler: 0
   cloudProjectId: 2e36b96c-6203-4c91-b36b-e965212243d5
   framebufferDepthMemorylessMode: 0
+  qualitySettingsNames: []
   projectName: Late Shift
   organizationId: josue-374575
   cloudEnabled: 0
-  enableNativePlatformBackendsForNewInputSystem: 0
-  disableOldInputManagerSupport: 0
   legacyClampBlendShapeWeights: 0
+  virtualTexturingSupportEnabled: 0
