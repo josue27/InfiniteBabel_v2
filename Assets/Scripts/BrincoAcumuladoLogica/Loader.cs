@@ -11,13 +11,18 @@ public class Loader : MonoBehaviour
     // Start is called before the first frame update
     public Image fillImagen;
     public Slider sliderPorcentaje;
+    public GameObject mobileConsole;
     private void Awake()
     {
         if (!RuntimeManager.IsInitialized())
         {
             RuntimeManager.Init();
         }
-        
+#if DEVELOPMENT_BUILD
+        Debug.Log("DEVELOPMENT_BUILD");
+        mobileConsole.SetActive(true);
+#endif
+
     }
     void Start()
     {

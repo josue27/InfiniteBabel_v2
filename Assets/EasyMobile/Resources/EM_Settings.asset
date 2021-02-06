@@ -17,11 +17,11 @@ MonoBehaviour:
     mAdCheckingInterval: 10
     mAdLoadingInterval: 20
     mIosDefaultAdNetworks:
-      bannerAdNetwork: 0
+      bannerAdNetwork: 10
       interstitialAdNetwork: 10
       rewardedAdNetwork: 10
     mAndroidDefaultAdNetworks:
-      bannerAdNetwork: 0
+      bannerAdNetwork: 10
       interstitialAdNetwork: 10
       rewardedAdNetwork: 10
     mAdColony:
@@ -59,13 +59,13 @@ MonoBehaviour:
           - is_designed_for_families
           values:
           - true
-      mEnableTestMode: 1
+      mEnableTestMode: 0
       mAppId:
         mIosId: 
         mAndroidId: 
       mDefaultBannerAdId:
         mIosId: 
-        mAndroidId: 
+        mAndroidId: ca-app-pub-4624030930258187/9810604317
       mDefaultInterstitialAdId:
         mIosId: 
         mAndroidId: ca-app-pub-4624030930258187/7941063413
@@ -209,7 +209,7 @@ MonoBehaviour:
         mAndroidId: 3875547
       mDefaultBannerAdId:
         mIosId: 
-        mAndroidId: 
+        mAndroidId: endBanner
       mDefaultInterstitialAdId:
         mIosId: video
         mAndroidId: video
@@ -225,7 +225,7 @@ MonoBehaviour:
       mCustomRewardedAdIds:
         keys: []
         values: []
-      mEnableTestMode: 1
+      mEnableTestMode: 0
     mVungleAds:
       mEnable: 0
       mAppId:
@@ -276,6 +276,9 @@ MonoBehaviour:
     - _name: Obstaculos
       _iosId: best_runner
       _androidId: CgkIsfDXnPEcEAIQAQ
+    - _name: Cafes
+      _iosId: cafe_adict
+      _androidId: CgkIsfDXnPEcEAIQDw
     mAchievements:
     - _name: FirstRun
       _iosId: welcome_to_late_shift
@@ -384,7 +387,7 @@ MonoBehaviour:
       _storeSpecificIds: []
       _isEditingAdvanced: 1
     - _name: beardMan
-      _type: 0
+      _type: 1
       _id: beard_man
       _price: $1
       _description: A man without shame...
@@ -529,5 +532,5 @@ MonoBehaviour:
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
   mIsSharingModuleEnable: 0
-  mActiveModuleIndex: 1
+  mActiveModuleIndex: 0
   mIsSelectingModule: 0

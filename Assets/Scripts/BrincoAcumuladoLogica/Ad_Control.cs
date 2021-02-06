@@ -16,17 +16,18 @@ namespace Brinco
         public int casosProbables = 3;
         public int casosFavorables = 1;
         [Header("Probabilidad para mostrar Panel Ad Reward")]
-        public int casosProbables_AdReward = 3;
-        public int casosFavorables_AdReward = 1;
-        public GameObject panelAdReward;
-        public bool mostrandoAdReward;
+        public int casosProbables_PanelRevivir = 3;
+        public int casosFavorables_PanelRevivir = 1;
+        public GameObject panelRevivir;
+        public bool mostrandoAdRevivir;
         public bool adRewardMostrado;
         public bool mostrandoAdIntermedio;
-        public int monedasRecompensa = 10;
+        public int cafeRecompensa = 5;
         [Tooltip("TRUE si el jugador compro este articulo")]
         public bool removerAdIntermedio;
         [SerializeField] private bool isInitialized;
 
+        public bool reviviendo;
 
         private void OnEnable()
         {
@@ -34,6 +35,8 @@ namespace Brinco
             Advertising.RewardedAdCompleted += Advertising_RewardedAdCompleted;
             Eventos_Dispatcher.eventos.JugadorPerdio += JugadorPerdio_Callback;
             Eventos_Dispatcher.Reinicio += Reinicio;
+            Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
+            Eventos_Dispatcher.eventos.Revivir += Revivir;
             Advertising.AdsRemoved += Advertising_AdsRemoved;
 
 
@@ -58,11 +61,16 @@ namespace Brinco
             isInitialized = InAppPurchasing.IsInitialized();
             Debug.Log("AdControl: isInitialized" + isInitialized);
             SeComproNoAds();
-            //Esta autonicializado
-            //GameServices.Init();
+         
+            
            
         }
 
+        private void InicioJuego()
+        {
+            Advertising.HideBannerAd();
+
+        }
 
         /// <summary>
         /// Eventos que ocurren cuando el jugador perdio, normalmente se decide si mostar
@@ -73,20 +81,36 @@ namespace Brinco
 
             //Loteria para saber si mostramos un AD Intermedio
             int probabilidad = Random.Range(0, casosProbables);
-            if(probabilidad < casosFavorables)
-            {
-                MostarAdIntermedio();
-            }
+            //if(probabilidad < casosFavorables)
+            //{
+            //    MostarAdIntermedio();
+            //}
 
-            //Loteria para saber si mostramos panel AD Reward
-            probabilidad = Random.Range(0, casosProbables_AdReward);
-            if(probabilidad < casosFavorables_AdReward)
+            //Loteria para saber si mostramos panel AD Revivir
+            probabilidad = Random.Range(0, casosProbables_PanelRevivir);
+            if(probabilidad < casosFavorables_PanelRevivir)
             {
                 //Mostrar Panel Ad Reward
-                MostrarPanelAdReward();
+                MostrarPanelRevivir();
             }
 
+            //Mostrar Banner
+            MostrarAdBanner();
 
+
+        }
+
+        void MostrarAdBanner()
+        {
+            
+            if (removerAdIntermedio)
+            {
+                Debug.Log("El jugador compra NO ADS, descartando...");
+                return;
+            }
+
+            Advertising.ShowBannerAd(BannerAdPosition.Bottom);
+            Debug.Log("Mostrando Banner");
         }
 
        
@@ -140,34 +164,53 @@ namespace Brinco
 
         #region AdReward
 
-        public void MostrarPanelAdReward()
+        public void MostrarPanelRevivir()
         {
-            panelAdReward.SetActive(true);
+            panelRevivir.SetActive(true);
         }
 
-        public void MostrarPanelAdReward(bool mostrar)
+        public void MostrarPanelRevivir(bool mostrar)
         {
-            panelAdReward.SetActive(mostrar);
+            panelRevivir.SetActive(mostrar);
 
         }
 
         /// <summary>
-        /// Activado por UI si el jugador decide ver un AD por una recompenza de dinero,
-        /// agregar sumar la cantidad de dinero por ver el Ad en el callback
+        /// Activado por UI si el jugador decide ver un AD por una RECOMPENSA de cafe,
+        /// agregar sumar la cantidad de cafe por ver el Ad en el callback
         /// </summary>
         public void MostrarAdReward()
         {
-            if (mostrandoAdReward)
+            if (mostrandoAdRevivir)
                 return;
-            MostrarPanelAdReward(false);
+            MostrarPanelRevivir(false);
             bool estaListo = Advertising.IsRewardedAdReady();
-            if(estaListo && !mostrandoAdReward)
+            if(estaListo && !mostrandoAdRevivir)
             {
-                mostrandoAdReward = true;
+                mostrandoAdRevivir = true;
                 Advertising.ShowRewardedAd();
 
             }
         }
+
+        /// <summary>
+        /// Activado por UI si el jugador decide ver AD para REVIVIR
+        /// </summary>
+        public void MostrarAd_Revivir()
+        {
+            if (mostrandoAdRevivir)
+                return;
+            MostrarPanelRevivir(false);
+            bool estaListo = Advertising.IsRewardedAdReady();
+            if (estaListo && !mostrandoAdRevivir)
+            {
+                reviviendo = true;
+                mostrandoAdRevivir = true;
+                Advertising.ShowRewardedAd();
+
+            }
+        }
+
 
         /// <summary>
         /// Callback que se activa cuando el AdReward ya termino, se deberia implementar
@@ -182,16 +225,32 @@ namespace Brinco
 
             adRewardMostrado = true;
 
-            Debug.Log("Ad Reward mostrado");
-            Score_Control.instancia.SumarMonedas(monedasRecompensa,true);
-            if(this.GetComponent<Compras_Control>())
-                this.GetComponent<Compras_Control>().AnimacionMonedaComprada();
+            if (reviviendo)
+            {
+                Debug.Log("Ad Reward mostrado");
+                Master_Level._masterBrinco.Revivir();
+
+                mostrandoAdRevivir = false;
+                reviviendo = false;
+                return;
+            }
+            else
+            {
+
+
+                Debug.Log("Ad Reward mostrado");
+                Score_Control.instancia.SumarMonedas(cafeRecompensa, true);
+                if (this.GetComponent<Compras_Control>())
+                    this.GetComponent<Compras_Control>().AnimacionMonedaComprada();
+                mostrandoAdRevivir = false;
+            }
+
         }
         #endregion 
 
         public void RemoverAds(bool remover)
         {
-            
+            //Al parecer solo con RemoveAds() basta
             removerAdIntermedio = remover;
             if(remover)
             {
@@ -208,7 +267,7 @@ namespace Brinco
             Advertising.RewardedAdCompleted -= Advertising_RewardedAdCompleted;
             Eventos_Dispatcher.eventos.JugadorPerdio -= JugadorPerdio_Callback;
             Eventos_Dispatcher.Reinicio -= Reinicio;
-
+            Eventos_Dispatcher.eventos.Revivir -= Revivir;
             //Duda si volver a desactivar aqui esto
             Advertising.AdsRemoved -= Advertising_AdsRemoved;
 
@@ -231,7 +290,17 @@ namespace Brinco
         }
         public void Reinicio()
         {
-            MostrarPanelAdReward(false);
+            MostrarPanelRevivir(false);
+            Advertising.HideBannerAd();
+        }
+
+
+        public void Revivir()
+        {
+            adRewardMostrado = false;
+            MostrarPanelRevivir(false);
+            //Advertising.HideBannerAd();
+
 
         }
     }

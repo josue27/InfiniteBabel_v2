@@ -89,7 +89,7 @@ public class BrincoAcumulado : MonoBehaviour
        // Eventos_Dispatcher.eventos.JugadorPerdio += PerdioJuego;
         Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
         Eventos_Dispatcher.Reinicio += Reiniciar;
-
+        Eventos_Dispatcher.eventos.Revivir += Revivir;
         LeanTouch.OnFingerDown+= DedoDown;
         LeanTouch.OnFingerUp +=DedoArriba;
 
@@ -426,7 +426,7 @@ public class BrincoAcumulado : MonoBehaviour
     }
     private void VibracionGolpe()
     {
-        MMVibrationManager.Haptic(HapticTypes.Failure);
+        VibracionesControl.instancia.Vibrar(TipoVibracion.Impacto);
     }
     private void OnTriggerExit(Collider other) {
         if(other.transform.tag == "apertura")
@@ -439,11 +439,6 @@ public class BrincoAcumulado : MonoBehaviour
 
     }
     ///
-
-
-
-
-
 
     private void InicioJuego()
     {
@@ -541,6 +536,7 @@ public class BrincoAcumulado : MonoBehaviour
         Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
         LeanTouch.OnFingerDown -= DedoDown;
         LeanTouch.OnFingerUp -= DedoArriba;
+        Eventos_Dispatcher.eventos.Revivir -= Revivir;
 
         Eventos_Dispatcher.Reinicio -= Reiniciar;
 
@@ -558,7 +554,32 @@ public class BrincoAcumulado : MonoBehaviour
         spritePersonaje.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
         // no aseguramos de devolverlo a su posicion original
         LeanTween.moveZ(this.gameObject, posEnPiso.position.z, 0.3f);
-       
-   
     }
+
+    public void Revivir()
+    {
+        ReproducirAnimacion("idle");
+        
+        gameObject.transform.position = new Vector3(0f, 0f, -3.05f);
+        //gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        //reorientamos el sprite porque le aplicamos un efecto cuando choca de rotacion
+        spritePersonaje.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+        // no aseguramos de devolverlo a su posicion original
+        LeanTween.moveZ(this.gameObject, posEnPiso.position.z, 0.3f);
+        puedeBrincar = true;
+        muerto = false;
+    }
+    public void PrepararParaRevivir()
+    {
+        muerto = false;
+        ReproducirAnimacion("idle");
+
+        gameObject.transform.position = new Vector3(0f, 0f, -3.05f);
+        //gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        //reorientamos el sprite porque le aplicamos un efecto cuando choca de rotacion
+        spritePersonaje.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+        // no aseguramos de devolverlo a su posicion original
+        LeanTween.moveZ(this.gameObject, posEnPiso.position.z, 0.3f);
+    }
+
 }

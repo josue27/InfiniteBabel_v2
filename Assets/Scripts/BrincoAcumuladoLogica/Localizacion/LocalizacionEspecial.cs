@@ -58,6 +58,7 @@ public class LocalizacionEspecial : MonoBehaviour
         }
         for (int i = 0; i < textosACambiar.Length; i++)
         {
+            
             textosACambiar[i].font = fontElegido;
         }
        

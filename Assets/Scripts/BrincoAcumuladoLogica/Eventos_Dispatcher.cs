@@ -18,6 +18,8 @@ public  class Eventos_Dispatcher : MonoBehaviour
     
     public Action<string> GuardarPersonaje;
 
+    public Action Revivir;
+
     public static Action JuegoCargado;
     public static Action JuegoSalvado;
 
@@ -44,4 +46,6 @@ public  class Eventos_Dispatcher : MonoBehaviour
     public void JuegoSalvado_Call() => JuegoSalvado?.Invoke();
 
     public void Reinico_Call() => Reinicio?.Invoke();
+
+    public void Revivir_Call() => Revivir.Invoke();
 }

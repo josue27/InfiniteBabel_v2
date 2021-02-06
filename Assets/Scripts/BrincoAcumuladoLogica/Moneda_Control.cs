@@ -6,7 +6,7 @@ public class Moneda_Control : MonoBehaviour
 {
 
     public Animator animMoneda;
-   
+    public bool esTaza =true ;
    void OnTriggerEnter(Collider other)
    {
        if(other.CompareTag("Player"))
@@ -19,7 +19,8 @@ public class Moneda_Control : MonoBehaviour
    }
    IEnumerator SecuenciaTomar()
    {
-       animMoneda.SetTrigger("tomar");
+        if(!esTaza)
+            animMoneda.SetTrigger("tomar");
        yield return new WaitForSeconds(0.2f);
        this.gameObject.SetActive(false);
    }

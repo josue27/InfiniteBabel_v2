@@ -515,6 +515,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mobile Console
       objectReference: {fileID: 0}
+    - target: {fileID: 1292013634339016, guid: 2f28a12e81a274d1ca7af6819004b613, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4212083960887514, guid: 2f28a12e81a274d1ca7af6819004b613, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -571,6 +575,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f28a12e81a274d1ca7af6819004b613, type: 3}
+--- !u!1 &680306152 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1292013634339016, guid: 2f28a12e81a274d1ca7af6819004b613,
+    type: 3}
+  m_PrefabInstance: {fileID: 680306151}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &703395952
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,6 +764,7 @@ MonoBehaviour:
   scenaJuego: brincoAcumulado_03_Perspective
   fillImagen: {fileID: 879689168}
   sliderPorcentaje: {fileID: 0}
+  mobileConsole: {fileID: 680306152}
 --- !u!4 &712882297
 Transform:
   m_ObjectHideFlags: 0

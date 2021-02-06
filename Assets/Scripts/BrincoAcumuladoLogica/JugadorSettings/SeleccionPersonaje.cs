@@ -62,6 +62,7 @@ namespace Brinco
                 enPersonaje = 0;
 
             CambiarPersonaje();
+            VibracionesControl.instancia.Vibrar(TipoVibracion.Seleccion);
         }
         public void AnteriorPersonaje()
         {
@@ -70,6 +71,8 @@ namespace Brinco
                 enPersonaje = personajes.Count-1;
 
             CambiarPersonaje();
+            VibracionesControl.instancia.Vibrar(TipoVibracion.Seleccion);
+
         }
         public void CambiarPersonaje()
         {

@@ -139,6 +139,7 @@ namespace Brinco
             Eventos_Dispatcher.JuegoCargado += CargarScores;
             Eventos_Dispatcher.Reinicio += Reinicio;
             panelScore.transform.position = panelScore_posCerrada.position;
+            Eventos_Dispatcher.eventos.Revivir += Revivir;
 
             nuevoHighScore_letrero.SetActive(false);
 
@@ -167,6 +168,7 @@ namespace Brinco
             Eventos_Dispatcher.eventos.JugadorPerdio -= FinJuego;
             Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
             Eventos_Dispatcher.JuegoCargado -= CargarScores;
+            Eventos_Dispatcher.eventos.Revivir -= Revivir;
 
         }
 
@@ -188,6 +190,7 @@ namespace Brinco
 
             scoreFinalRonda_text.text = ScoreRonda.ToString();
 
+            //Save_Control.instancia.SubirScoreCafe(MonedasTotales);
             //IngresarMonedasPartida();
         }
 
@@ -452,6 +455,7 @@ namespace Brinco
         public void RestarMonedas(int cantidad)
         {
             MonedasTotales -= cantidad;
+            MonedasPartida = MonedasTotales;//ojo solo sirve para display el que se guarda sigue siendo MonedasTotales
             //MonedasPartida = MonedasTotales;
             LerpInt(MonedasPartida, MonedasTotales, 1.0f);
 
@@ -495,6 +499,11 @@ namespace Brinco
             nuevoHighScore_letrero.SetActive(false);
             CargarScoreUsuario();
             AbrirPanelScore("mostrar");
+        }
+
+        void Revivir()
+        {
+
         }
 
     }

@@ -139,7 +139,30 @@ using Brinco;
 
 
         }
+        
 
+        public void SubirScoreCafe(int nuevoScoreCafe)
+        {
+            if (GameServices.IsInitialized())
+            {
+                //GameServices.ReportScore(nuevoScore, EM_GPGSIds.leaderboard_the_best_runner, (bool exito) => {
+                //   Debug.Log("Se subio el score exitosamente");
+                //});
+
+                GameServices.ReportScore(nuevoScoreCafe, EM_GameServicesConstants.Leaderboard_Cafes, (bool exito) => {
+                    Debug.Log("Se subio el score exitosamente");
+                });
+            }
+            else
+            {
+    #if UNITY_ANDROID
+                GameServices.Init();    // start a new initialization process
+
+    #elif UNITY_IOS
+                Debug.Log("Cannot show  Upload score);
+    #endif
+            }
+        }
 
         /// <summary>
         /// Asigna el nuevo Highscore a la variable local para su futuro guardado asi como

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Brinco;
+using UnityEngine.UI;
 using MoreMountains.NiceVibrations;
 public class SettingsControl : MonoBehaviour
 {
@@ -10,16 +11,18 @@ public class SettingsControl : MonoBehaviour
     public GameObject panelBotonesSuperiores;
     public GameObject panelIdiomas;
     public GameObject panelCreditos;
-
+  
     [SerializeField] Vector3 posPanelBotonesSuperiores_Activados;
     [SerializeField] Vector3 posPanelBotonesSuperiores_Desactivados;
     [SerializeField] bool vibracionActivada = true;
+    [SerializeField] Sprite botonVibracionActivada, botonVibracionDesactivada;
     private void Awake()
     {
         // posPanelBotonesSuperiores_Activados = panelBotonesSuperiores.transform.position;
         panelBotonesSuperiores.transform.localPosition = posPanelBotonesSuperiores_Desactivados;
         IntroJuego();
         Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
+        
     }
     private void Start()
     {
@@ -78,6 +81,17 @@ public class SettingsControl : MonoBehaviour
     {
         vibracionActivada = !vibracionActivada;
         MMVibrationManager.SetHapticsActive(vibracionActivada);
+        if(vibracionActivada)
+        {
+            VibracionesControl.instancia.Vibrar(TipoVibracion.Exito);
+        }
+        
+    }
+    public void ToggleVibracion(GameObject boton)
+    {
+        ToggleVibracion();
+      
+            boton.GetComponent<Image>().sprite = vibracionActivada? botonVibracionActivada : botonVibracionDesactivada;
         
     }
 }

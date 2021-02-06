@@ -47,7 +47,7 @@ namespace Brinco
 
         [Header("Monedas")]
         public int monedasTomadas;
-       
+        public int costoCafeRevivir = 30;
 
         [Space(10)]
         [Header("BandaTransportadora")]
@@ -67,17 +67,23 @@ namespace Brinco
 
         [SerializeField]
         private GameObject versionText;
-        
+
+
+        [SerializeField] private float tiempoReinicio = 4;
+        [SerializeField] private float reiniciandoEn = 3;
+        [SerializeField] private bool countDownReinicio;
+        [SerializeField] private GameObject panelCountDown;
+        [SerializeField] private TMP_Text textoCountDown;
         private void Awake()
         {
-//#if UNITY_EDITOR ///PARA mejorar rendimiento porque Debug.Log usa mucho proceso y lo ejecuta aun en las builds de cualquier plataforma
-//            Debug.unityLogger.logEnabled = true;
-//#else
-//        Debug.unityLogger.logEnabled = false;
-//#endif
+#if UNITY_EDITOR ///PARA mejorar rendimiento porque Debug.Log usa mucho proceso y lo ejecuta aun en las builds de cualquier plataforma
+            Debug.unityLogger.logEnabled = true;
+#else
+        Debug.unityLogger.logEnabled = false;
+#endif
 
-            
-            
+
+
         }
         void Start()
         {
@@ -157,6 +163,7 @@ namespace Brinco
             Eventos_Dispatcher.eventos.InicioJuego_llamada();
             LeanTween.moveLocalY(boton_jugar.gameObject, -800.0f, 0.5f).setEaseInOutSine();
 
+            VibracionesControl.instancia.Vibrar(TipoVibracion.Exito);
         }
         
         /// <summary>
@@ -209,6 +216,62 @@ namespace Brinco
             //SceneManager.LoadScene(1);
         }
 
+
+        /// <summary>
+        /// Llamado por UI por el usuario para que pueda revivir a cambio de una cantidad 
+        /// de cafe, se evalua si tiene el cafe suficiente de lo contrario no lo revive
+        /// </summary>
+        public void RevivirConCafe()
+        {
+            if (GetComponent<Score_Control>().MonedasTotales < costoCafeRevivir)
+            {
+                Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
+                VibracionesControl.instancia.Vibrar(TipoVibracion.Error);
+                Debug.Log("Sin cafe suficiente");
+                return;
+            }
+            else
+            {
+                Revivir();
+                GetComponent<Score_Control>().RestarMonedas(costoCafeRevivir);
+            }
+        }
+        /// <summary>
+        /// Llamado para iniciar la secuencia de Revivir
+        /// </summary>
+        public void Revivir()
+        { 
+            //Checar si tiene suficientes monedas
+           
+            StartCoroutine(Revivir_Secuencia());
+        }
+
+        private IEnumerator Revivir_Secuencia()
+        {
+
+            jugador.PrepararParaRevivir();
+            panelCountDown.SetActive(true);
+            textoCountDown.text = "3";
+            LeanTween.value(4, 0, tiempoReinicio).setOnUpdate((float t)=> {
+
+                int tiempo = Mathf.FloorToInt(t);
+                Debug.Log("Tiempo:"+tiempo);
+                textoCountDown.text =  tiempo <= 0? "GO": tiempo.ToString();
+
+
+            });
+            panel_reinicio.SetActive(false);
+
+            yield return new WaitForSeconds(3);
+            panelCountDown.SetActive(false);
+
+            estadoJuego = EstadoJuego.jugando;
+            panel_reinicio.SetActive(false);
+
+          
+            Eventos_Dispatcher.eventos.Revivir_Call();
+            Debug.Log("Reviviendo");
+        }
         private void OnDestroy()
         {
             Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;

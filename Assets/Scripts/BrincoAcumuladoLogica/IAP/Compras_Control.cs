@@ -5,6 +5,7 @@ using EasyMobile;
 using System;
 using UnityEngine.UI;
 using TMPro;
+using MoreMountains.NiceVibrations;
 #if EM_UIAP
 using UnityEngine.Purchasing;
 #endif
@@ -25,7 +26,7 @@ namespace Brinco
         public GameObject panelCandadoAbierto;
 
         [Header("UI Reinicio")]
-        public GameObject botonReinicio;
+        public GameObject botonAdReward;
         public GameObject botonNoAds;
         public GameObject panelNoAds_Tienda;
         [SerializeField]
@@ -118,6 +119,7 @@ namespace Brinco
             }
             else if (producto.Name == EM_IAPConstants.Product_RemoverAds)
             {
+                //OJO: Esto es para cuando el jugador compra el item no quitar
                 this.GetComponent<Ad_Control>().RemoverAds(true);
                 Debug.Log("se removieron los ads");
             }
@@ -133,11 +135,13 @@ namespace Brinco
                 //Sin usar
                 Debug.Log("Se compro" + producto.Name);
                 this.GetComponent<SeleccionPersonaje>().DesbloquearPersonaje(producto.Name);
+                MMVibrationManager.Haptic(HapticTypes.Success);
+
                 //Liberar personaje
 
             }
 
-            
+
 
 
         }
@@ -196,11 +200,11 @@ namespace Brinco
             {
                 bool remover = InAppPurchasing.IsProductOwned(EM_IAPConstants.Product_RemoverAds);
 
-                //GetComponent<Ad_Control>().RemoverAds(remover);
+               
                 if(remover)
                 {
                     botonNoAds.gameObject.SetActive(false);
-                    botonReinicio.transform.position = posSinAds.position;
+                    botonAdReward.transform.position = posSinAds.position;
                    // panelNoAds_Tienda.gameObject.SetActive(false);
                 }
 
@@ -270,6 +274,8 @@ namespace Brinco
             {
                 NativeUI.Alert("Error", "No internet connection ");
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
+                MMVibrationManager.Haptic(HapticTypes.Warning);
+
 
             }
         }

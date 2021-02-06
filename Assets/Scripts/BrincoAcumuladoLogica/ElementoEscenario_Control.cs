@@ -40,7 +40,7 @@ public class ElementoEscenario_Control : MonoBehaviour
         //LeanTween.cancel(this.gameObject);
         LeanTween.pause(this.gameObject);
     }
-
+   
     /// <summary>
     /// Llamada por mover para dar a entender que ya se cumplio totalmente su moviemineto y debe volver al Que
     /// </summary>

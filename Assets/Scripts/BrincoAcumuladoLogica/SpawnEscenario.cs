@@ -63,6 +63,7 @@ public class SpawnEscenario : MonoBehaviour
         Eventos_Dispatcher.eventos.InicioJuego +=   InicioJuego; 
         Eventos_Dispatcher.eventos.JugadorPerdio += FinJuego;
         Eventos_Dispatcher.Reinicio += Reinicio;
+        Eventos_Dispatcher.eventos.Revivir += Revivir;
         
         if(spritePiso)
             spritePiso_material = spritePiso.material;
@@ -71,7 +72,13 @@ public class SpawnEscenario : MonoBehaviour
         if (spriteLampara)
             spriteLampara_material = spriteLampara.material;
     }
- 
+    public void OnDisable()
+    {
+        Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
+        Eventos_Dispatcher.eventos.JugadorPerdio -= FinJuego;
+        Eventos_Dispatcher.Reinicio -= Reinicio;
+        Eventos_Dispatcher.eventos.Revivir -= Revivir;
+    }
     void Update()
     {
         if(spawnear)
@@ -255,10 +262,27 @@ public class SpawnEscenario : MonoBehaviour
         {
             elementoInicial.Parar();
         }
-        spritePiso_material.SetFloat("_Velocidad",0f);
+        spritePiso_material.SetFloat("_Velocidad",0);
         spriteFondo_material.SetFloat("_Velocidad",0f);
         spriteLampara_material.SetFloat("_Velocidad",0f);
 
+    }
+    private void Revivir()
+    {
+        spawnear = true;
+        foreach (Elemento elementoEnLista in elementos)
+        {
+            foreach (GameObject objeto in elementoEnLista.objetos)
+            {
+                if (objeto.activeInHierarchy)
+                {
+                    objeto.GetComponent<ElementoEscenario_Control>().ContinuarMovimiento();
+                }
+            }
+        }
+        spritePiso_material.SetFloat("_Velocidad", velocidadPiso);
+        spriteFondo_material.SetFloat("_Velocidad", velocidadFondo);
+        spriteLampara_material.SetFloat("_Velocidad", velocidadLampara);
     }
 
 
