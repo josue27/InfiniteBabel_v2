@@ -428,6 +428,27 @@ MonoBehaviour:
       _description: A man without shame...
       _storeSpecificIds: []
       _isEditingAdvanced: 0
+    - _name: Americano
+      _type: 0
+      _id: cafe1
+      _price: $1
+      _description: A man without shame...
+      _storeSpecificIds: []
+      _isEditingAdvanced: 0
+    - _name: Latte
+      _type: 0
+      _id: cafe2
+      _price: $1
+      _description: A man without shame...
+      _storeSpecificIds: []
+      _isEditingAdvanced: 0
+    - _name: Capuccino
+      _type: 0
+      _id: cafe3
+      _price: $1
+      _description: A man without shame...
+      _storeSpecificIds: []
+      _isEditingAdvanced: 0
   mNotificationSettings:
     mAutoInit: 1
     mAutoInitDelay: 0
@@ -532,5 +553,5 @@ MonoBehaviour:
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
   mIsSharingModuleEnable: 0
-  mActiveModuleIndex: 0
+  mActiveModuleIndex: 3
   mIsSelectingModule: 0

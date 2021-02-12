@@ -127,8 +127,11 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.7.0
+  bundleVersion: 1.7.1
   preloadedAssets:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -155,7 +158,7 @@ PlayerSettings:
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 28
+  AndroidBundleVersionCode: 29
   AndroidMinSdkVersion: 26
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -800,7 +803,10 @@ PlayerSettings:
   activeInputHandler: 0
   cloudProjectId: 2e36b96c-6203-4c91-b36b-e965212243d5
   framebufferDepthMemorylessMode: 0
-  qualitySettingsNames: []
+  qualitySettingsNames:
+  - Low
+  - Medium
+  - High
   projectName: Late Shift
   organizationId: josue-374575
   cloudEnabled: 0
