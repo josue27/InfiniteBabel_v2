@@ -95,7 +95,9 @@ using Brinco;
                 //if (juegoSalvadoLocal != null)
                 //    HighscoreUsuario = juegoSalvadoLocal.score;
                 NativeUI.Alert("Error connection", "We couldn´t connect with the cloud");
-                //debug_text.text = $"Score Local cargado{HighscoreUsuario}";
+            //debug_text.text = $"Score Local cargado{HighscoreUsuario}";
+                Score_Control.instancia.HighscoreUsuario = HighScoreUsuario;
+
                 GameServices.Init();
 
                 //if (Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)

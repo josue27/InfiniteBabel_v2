@@ -517,9 +517,9 @@ MonoBehaviour:
       mValue: android.permission.WRITE_EXTERNAL_STORAGE
     mIOSInfoPlistItems:
     - mKey: NSPhotoLibraryUsageDescription
-      mValue: '[Your usage description]'
+      mValue: For saving screenshots to photo library
     - mKey: NSPhotoLibraryAddUsageDescription
-      mValue: '[Your usage description]'
+      mValue: For saving screenshots to photo library
   mNativeApisSettings:
     mIsMediaEnabled: 0
     mMediaSettings:
@@ -552,6 +552,6 @@ MonoBehaviour:
   mIsIAPModuleEnable: 1
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
-  mIsSharingModuleEnable: 0
-  mActiveModuleIndex: 3
+  mIsSharingModuleEnable: 1
+  mActiveModuleIndex: 7
   mIsSelectingModule: 0

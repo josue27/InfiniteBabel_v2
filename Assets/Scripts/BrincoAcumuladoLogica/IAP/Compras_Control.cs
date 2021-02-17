@@ -87,43 +87,7 @@ namespace Brinco
 
         private void PurchaseCompletedHandler(IAPProduct producto)
         {
-            //Deshabilitado por cambio de propiedades
-            //if (producto.Name == EM_IAPConstants.Product_Cambio)
-            //{
-            //    Debug.Log($"Se compro dinero: {producto.Name}");
-            //    Score_Control.instancia.SumarMonedas(20,true);
-              
-            //    Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_MakeItRain);
-
-            //    AnimacionMonedaComprada();
-
-            //}
-            //else if(producto.Name == EM_IAPConstants.Product_Overtimepay)
-            //{
-            //    Debug.Log($"Se compro dinero: {producto.Name}");
-            //    Score_Control.instancia.SumarMonedas(50,true);
-
-            //    Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_MakeItRain);
-
-            //    AnimacionMonedaComprada();
-
-            //}
-            //else if (producto.Name == EM_IAPConstants.Product_Promovido)
-            //{
-            //    Debug.Log($"Se compro dinero: {producto.Name}");
-            //    Score_Control.instancia.SumarMonedas(100,true);
-
-            //    Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_MakeItRain);
-
-            //    AnimacionMonedaComprada();
-
-            //}
-            //else if (producto.Name == EM_IAPConstants.Product_RemoverAds)
-            //{
-            //    //OJO: Esto es para cuando el jugador compra el item no quitar
-            //    this.GetComponent<Ad_Control>().RemoverAds(true);
-            //    Debug.Log("se removieron los ads");
-            //}
+            
             if (producto.Name == EM_IAPConstants.Product_Americano)
             {
                 Debug.Log($"Se compro cafe: {producto.Name}");

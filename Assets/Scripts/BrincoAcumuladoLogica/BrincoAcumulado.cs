@@ -546,16 +546,21 @@ public class BrincoAcumulado : MonoBehaviour
     {
       
         ReproducirAnimacion("idle");
-        puedeBrincar = false;
-        muerto = false;
+        
         gameObject.transform.position = new Vector3(0f, 0f, -3.05f);
         //gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         //reorientamos el sprite porque le aplicamos un efecto cuando choca de rotacion
         spritePersonaje.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
         // no aseguramos de devolverlo a su posicion original
         LeanTween.moveZ(this.gameObject, posEnPiso.position.z, 0.3f);
+        puedeBrincar = false;
+        muerto = false;
     }
 
+    /// <summary>
+    /// Invocado por evento para continuar el juego, ajusta la animacion
+    /// y la posicion
+    /// </summary>
     public void Revivir()
     {
         ReproducirAnimacion("idle");
@@ -569,9 +574,13 @@ public class BrincoAcumulado : MonoBehaviour
         puedeBrincar = true;
         muerto = false;
     }
+
+    /// <summary>
+    /// Lamado(Master.cs) para acomodar el personaje, pero no puede brincar
+    /// hasta el event Revivir sea invocado
+    /// </summary>
     public void PrepararParaRevivir()
     {
-        muerto = false;
         ReproducirAnimacion("idle");
 
         gameObject.transform.position = new Vector3(0f, 0f, -3.05f);
@@ -580,6 +589,8 @@ public class BrincoAcumulado : MonoBehaviour
         spritePersonaje.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
         // no aseguramos de devolverlo a su posicion original
         LeanTween.moveZ(this.gameObject, posEnPiso.position.z, 0.3f);
+        muerto = false;
+
     }
 
 }
