@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # Version 1.2.163 - Dec 15, 2020
 ## Bug Fixes
 * Version Handler - Fixed measurement reporting
@@ -50,6 +51,8 @@
 * Export Unity Package: Workaround directory creation racy if multiple export
   operations are spawned at the same time.
 
+=======
+>>>>>>> Stashed changes
 # Version 1.2.156 - June 10, 2020
 ## Bug Fixes
 * Android Resolver: Fixed that the generated local repo assets contains

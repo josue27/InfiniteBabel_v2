@@ -10,6 +10,7 @@ namespace Brinco
 {
     public class Save_Control : MonoBehaviour
     {
+        [SerializeField] private bool gameServicesIniciado;
         public static Save_Control instancia;
 
         //Juego Nube
@@ -31,10 +32,15 @@ namespace Brinco
         {
            
         }
-
+        private void OnEnable() 
+        {
+            GameServices.UserLoginSucceeded += UsuarioInicioSesion;
+            GameServices.UserLoginFailed += UsuarioInicioSesion;
+        }
         void Start()
         {
             instancia = this;
+            gameServicesIniciado = GameServices.IsInitialized();
 
            // CargarJuegoLocal();
             CargarScoreUsuario();
@@ -47,7 +53,17 @@ namespace Brinco
             Eventos_Dispatcher.Reinicio += Reinicio;
 
         }
+        private void UsuarioInicioSesion()
+        {
+            //Llamamos a cargar el score por si las dudas de que no se habia iniciado sesion
+            CargarScoreUsuario();
+            CargarSavedGame();
 
+        }
+        private void UsuarioNoPudoIniciarSesion()
+        {
+            NativeUI.Alert("Connection Error","Error retreaving saved game");
+        }
         private void CargarJuegoLocal()
         {
             juegoSalvadoLocal = SaveGame.Load<Saved_Data>(juegoSalvadoLocal_ID);
@@ -57,7 +73,10 @@ namespace Brinco
         #region ScoreJugador
         public void CargarScoreUsuario()
         {
-            
+            // if(!gameServicesIniciado)
+            // {
+            //     GameServices.Init();
+            // }
 
             GameServices.LoadLocalUserScore(EM_GameServicesConstants.Leaderboard_Obstaculos, OnLocalUserScoreLoaded);
 
@@ -135,13 +154,38 @@ namespace Brinco
                 GameServices.Init();    // start a new initialization process
 
 #elif UNITY_IOS
-            Debug.Log("Cannot show  Upload score);
+            Debug.Log("Cannot show  Upload score");
 #endif
             }
 
 
         }
 
+<<<<<<< Updated upstream
+=======
+        public void SubirScoreCafe(int nuevoScoreCafe)
+        {
+            if (GameServices.IsInitialized())
+            {
+                //GameServices.ReportScore(nuevoScore, EM_GPGSIds.leaderboard_the_best_runner, (bool exito) => {
+                //   Debug.Log("Se subio el score exitosamente");
+                //});
+
+                GameServices.ReportScore(nuevoScoreCafe, EM_GameServicesConstants.Leaderboard_Cafes, (bool exito) => {
+                    Debug.Log("Se subio el score exitosamente");
+                });
+            }
+            else
+            {
+    #if UNITY_ANDROID
+                GameServices.Init();    // start a new initialization process
+
+    #elif UNITY_IOS
+                Debug.Log("Cannot show  Upload score");
+    #endif
+            }
+        }
+>>>>>>> Stashed changes
 
         /// <summary>
         /// Asigna el nuevo Highscore a la variable local para su futuro guardado asi como

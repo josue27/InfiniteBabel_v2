@@ -92,8 +92,14 @@
     "com.unity.package-manager-ui": {
       "version": "2.2.0",
       "depth": 0,
+<<<<<<< Updated upstream
       "source": "builtin",
       "dependencies": {}
+=======
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+>>>>>>> Stashed changes
     },
     "com.unity.probuilder": {
       "version": "4.1.2",
@@ -112,7 +118,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
+<<<<<<< Updated upstream
       "version": "7.3.1",
+=======
+      "version": "8.3.1",
+>>>>>>> Stashed changes
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -121,6 +131,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.universal": {
+<<<<<<< Updated upstream
       "version": "7.3.1",
       "depth": 0,
       "source": "registry",
@@ -130,6 +141,24 @@
       },
       "url": "https://packages.unity.com"
     },
+=======
+      "version": "8.3.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.render-pipelines.core": "8.3.1",
+        "com.unity.shadergraph": "8.3.1"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.searcher": {
+      "version": "4.0.9",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+>>>>>>> Stashed changes
     "com.unity.settings-manager": {
       "version": "1.0.0",
       "depth": 1,
@@ -138,11 +167,20 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.shadergraph": {
+<<<<<<< Updated upstream
       "version": "7.3.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.render-pipelines.core": "7.3.1"
+=======
+      "version": "8.3.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.render-pipelines.core": "8.3.1",
+        "com.unity.searcher": "4.0.9"
+>>>>>>> Stashed changes
       },
       "url": "https://packages.unity.com"
     },

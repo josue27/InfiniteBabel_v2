@@ -55,13 +55,22 @@ MonoBehaviour:
       mTargetingSettings:
         mTagForChildDirectedTreatment: 0
         mExtraOptions:
+<<<<<<< Updated upstream
           keys: []
           values: []
       mEnableTestMode: 0
+=======
+          keys:
+          - is_designed_for_families
+          values:
+          - true
+      mEnableTestMode: 1
+>>>>>>> Stashed changes
       mAppId:
         mIosId: 
         mAndroidId: 
       mDefaultBannerAdId:
+<<<<<<< Updated upstream
         mIosId: 
         mAndroidId: 
       mDefaultInterstitialAdId:
@@ -70,6 +79,16 @@ MonoBehaviour:
       mDefaultRewardedAdId:
         mIosId: 
         mAndroidId: 
+=======
+        mIosId: ca-app-pub-4624030930258187/9810604317
+        mAndroidId: ca-app-pub-4624030930258187/9810604317
+      mDefaultInterstitialAdId:
+        mIosId: ca-app-pub-4624030930258187/7941063413
+        mAndroidId: ca-app-pub-4624030930258187/7941063413
+      mDefaultRewardedAdId:
+        mIosId: ca-app-pub-4624030930258187/7941063413
+        mAndroidId: ca-app-pub-4624030930258187/5151442065
+>>>>>>> Stashed changes
       mCustomBannerAdIds:
         keys: []
         values: []
@@ -333,7 +352,7 @@ MonoBehaviour:
   mInAppPurchaseSettings:
     mAutoInit: 1
     mTargetAndroidStore: 0
-    mSimulateAppleAskToBuy: 0
+    mSimulateAppleAskToBuy: 1
     mInterceptApplePromotionalPurchases: 0
     mEnableAmazonSandboxTesting: 0
     mValidateAppleReceipt: 0
@@ -470,6 +489,10 @@ MonoBehaviour:
   mIsIAPModuleEnable: 1
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
+<<<<<<< Updated upstream
   mIsSharingModuleEnable: 0
+=======
+  mIsSharingModuleEnable: 1
+>>>>>>> Stashed changes
   mActiveModuleIndex: 3
   mIsSelectingModule: 0

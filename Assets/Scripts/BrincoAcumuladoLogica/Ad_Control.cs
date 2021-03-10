@@ -230,7 +230,22 @@ namespace Brinco
         }
         public void Reinicio()
         {
+<<<<<<< Updated upstream
             MostrarPanelAdReward(false);
+=======
+            MostrarPanelRevivir(false);
+            adRewardMostrado = false;
+            Advertising.HideBannerAd();
+        }
+
+
+        public void Revivir()
+        {
+            adRewardMostrado = false;
+            MostrarPanelRevivir(false);
+            //Advertising.HideBannerAd();
+
+>>>>>>> Stashed changes
 
         }
     }

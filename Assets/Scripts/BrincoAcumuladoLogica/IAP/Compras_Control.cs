@@ -49,14 +49,31 @@ namespace Brinco
             InAppPurchasing.PurchaseCompleted += PurchaseCompletedHandler;
             InAppPurchasing.PurchaseFailed += PurchaseFailedHandler;
         }
+         private void OnDisable()
+        {
+            InAppPurchasing.PurchaseCompleted -= PurchaseCompletedHandler;
+            InAppPurchasing.PurchaseFailed -= PurchaseFailedHandler;
+
+            InAppPurchasing.RestoreCompleted -= RestoreCompletedHandler;
+            InAppPurchasing.RestoreFailed -= RestoreFailedHandler;
+        }
         void Start()
         {
             isInitialized = InAppPurchasing.IsInitialized();
 
+<<<<<<< Updated upstream
             //foreach (IAPProduct producto in productos_DB)
             //{
             //    Debug.Log("Producto: " + producto.Name);
             //}
+=======
+            if(IAPisInitialized)
+            {
+#if UNITY_IOS
+                InAppPurchasing.RestorePurchases();
+#endif
+            }
+>>>>>>> Stashed changes
             BuscarProductoLocalized();
             SeComproNoAds();
             //Esta autoinicializada, no se necesita
@@ -115,6 +132,7 @@ namespace Brinco
 
             }
 
+<<<<<<< Updated upstream
         }
 
         private void OnDisable()
@@ -122,6 +140,27 @@ namespace Brinco
             InAppPurchasing.PurchaseCompleted -= PurchaseCompletedHandler;
             InAppPurchasing.PurchaseFailed -= PurchaseFailedHandler;
         }
+=======
+
+
+
+        }
+
+#if UNITY_IOS
+        // Successful restoration handler
+        void RestoreCompletedHandler()
+        {
+            Debug.Log("All purchases have been restored successfully.");
+        }
+
+        // Failed restoration handler
+        void RestoreFailedHandler()
+        {
+            Debug.Log("The purchase restoration has failed.");
+        }
+#endif
+       
+>>>>>>> Stashed changes
 
         /// <summary>
         /// Acomoda los productos llenando la base de datos que se utilizara en runtime
@@ -242,6 +281,9 @@ namespace Brinco
                 Debug.Log("Compras Control: GPS no inicializado");
                 NativeUI.Alert("Error", "No internet connection");
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
+
+                InAppPurchasing.InitializePurchasing();
+                InAppPurchasing.InitializeSucceeded += TiendaInicializada;
                 return;
             }
             if (!panelTienda)
@@ -250,6 +292,12 @@ namespace Brinco
             panelTienda.SetActive(!panelTienda.activeInHierarchy);
         }
 
+        private void TiendaInicializada()
+        {
+            IAPisInitialized = InAppPurchasing.IsInitialized();
+            InAppPurchasing.InitializeSucceeded -= TiendaInicializada;
+
+        }
 
         //Inicia una secuencia exclusiva de UIAP, donde manda a llamar el listoad de los productos y nos da la informacion de manera localizada, util para precios,nombres y descripciones dependiendo del pais
         void BuscarProductoLocalized()
