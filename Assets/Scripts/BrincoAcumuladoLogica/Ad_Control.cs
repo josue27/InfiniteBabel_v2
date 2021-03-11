@@ -292,6 +292,7 @@ namespace Brinco
         {
             MostrarPanelRevivir(false);
             Advertising.HideBannerAd();
+            adRewardMostrado = false;
         }
 
 
