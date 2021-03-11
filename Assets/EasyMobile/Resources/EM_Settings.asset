@@ -51,7 +51,7 @@ MonoBehaviour:
         keys: []
         values: []
     mAdMob:
-      mEnable: 1
+      mEnable: 0
       mTargetingSettings:
         mTagForChildDirectedTreatment: 1
         mExtraOptions:
@@ -208,7 +208,7 @@ MonoBehaviour:
         mIosId: 3875546
         mAndroidId: 3875547
       mDefaultBannerAdId:
-        mIosId: 
+        mIosId: endBanner
         mAndroidId: endBanner
       mDefaultInterstitialAdId:
         mIosId: video
@@ -553,5 +553,5 @@ MonoBehaviour:
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
   mIsSharingModuleEnable: 1
-  mActiveModuleIndex: 7
+  mActiveModuleIndex: 3
   mIsSelectingModule: 0

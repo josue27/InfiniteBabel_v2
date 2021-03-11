@@ -135,7 +135,7 @@ using Brinco;
                 GameServices.Init();    // start a new initialization process
 
 #elif UNITY_IOS
-            Debug.Log("Cannot show  Upload score);
+            Debug.Log("Cannot show  Upload score");
 #endif
             }
 
@@ -161,7 +161,7 @@ using Brinco;
                 GameServices.Init();    // start a new initialization process
 
     #elif UNITY_IOS
-                Debug.Log("Cannot show  Upload score);
+                Debug.Log("Cannot show  Upload score");
     #endif
             }
         }
