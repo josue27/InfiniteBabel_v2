@@ -11,7 +11,7 @@ PlayerSettings:
   defaultScreenOrientation: 0
   targetDevice: 0
   useOnDemandResources: 0
-  accelerometerFrequency: 60
+  accelerometerFrequency: 15
   companyName: ParallelsGames
   productName: Late Shift
   defaultCursor: {fileID: 0}
@@ -136,6 +136,7 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -156,7 +157,7 @@ PlayerSettings:
     Android: com.ParallelsGames.Late_Shift
   buildNumber:
     Standalone: 0
-    iPhone: 0
+    iPhone: 6
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
   AndroidBundleVersionCode: 30
@@ -729,6 +730,7 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform:
     Android: 3
     WebGL: 6
+    iPhone: 3
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: Template_Lightweight

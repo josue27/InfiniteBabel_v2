@@ -149,7 +149,7 @@ Transform:
   m_GameObject: {fileID: 6552898}
   m_LocalRotation: {x: 0.59636784, y: -0.3799282, z: 0.59636784, w: 0.3799282}
   m_LocalPosition: {x: 0.28, y: -5.09, z: -1.22}
-  m_LocalScale: {x: 8, y: 10, z: 3}
+  m_LocalScale: {x: 10.824, y: 10, z: 3}
   m_Children: []
   m_Father: {fileID: 66451865}
   m_RootOrder: 13
@@ -6169,7 +6169,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SWIPE DOWN TO UP TO GET DOWN FASTER
+  m_text: DESLIZA EL DEDO HACIA ARRIBA PARA BAJAR
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f794b1ee8f4164e44b0460ce32635570, type: 2}
   m_sharedMaterial: {fileID: 4003679277037692881, guid: f794b1ee8f4164e44b0460ce32635570,
@@ -6192,21 +6192,21 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.4
+  m_fontSize: 50.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 110.71
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
-  m_textAlignment: 258
+  m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -13766,18 +13766,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: 
-  buttonType: 0
-  consumePurchase: 1
-  onPurchaseComplete:
-    m_PersistentCalls:
-      m_Calls: []
-  onPurchaseFailed:
-    m_PersistentCalls:
-      m_Calls: []
-  titleText: {fileID: 0}
-  descriptionText: {fileID: 0}
-  priceText: {fileID: 0}
 --- !u!1 &936498914
 GameObject:
   m_ObjectHideFlags: 0
@@ -14260,7 +14248,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 2, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &957197212
 MonoBehaviour:
@@ -14473,7 +14461,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 2, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &967579735
 Animator:
@@ -24599,7 +24587,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.24444446}
   m_AnchorMax: {x: 1, y: 0.40270373}
-  m_AnchoredPosition: {x: 1.0490112, y: 215.49991}
+  m_AnchoredPosition: {x: 1.0490723, y: 215.49988}
   m_SizeDelta: {x: -2.0978, y: -13.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1331872438
@@ -31172,7 +31160,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SWIPE UP TO DOWN FOR JUMP
+  m_text: DESLIZA EL DEDO HACIA ABAJO PARA BRINCAR
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f794b1ee8f4164e44b0460ce32635570, type: 2}
   m_sharedMaterial: {fileID: 4003679277037692881, guid: f794b1ee8f4164e44b0460ce32635570,
@@ -31195,21 +31183,21 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 56.1
+  m_fontSize: 56.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 110.71
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
-  m_textAlignment: 258
+  m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -33075,12 +33063,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &1881192413 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1348376151896805675, guid: 5e91748b6e8d747d0814ecdfd7c82f61,
-    type: 3}
-  m_PrefabInstance: {fileID: 1348376151089374966}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1881451806
 GameObject:
   m_ObjectHideFlags: 0
@@ -33988,7 +33970,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1912224393}
-  - component: {fileID: 1912224392}
   - component: {fileID: 1912224394}
   m_Layer: 0
   m_Name: ---Spawner
@@ -33997,40 +33978,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1912224392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1912224391}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f4db50d0076ac7498fc035d7e1aa6a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  intervaloTiempo: 5
-  velocidadObstaculos: 4
-  probabilidadMoneda: 5
-  sigSpawn: 0
-  puedeSpawnear: 0
-  obstaculos_prefab: {fileID: 1881192413}
-  obstaculos_prefab_B: {fileID: 2345296147065433178, guid: 516e63b2ab8064a98a4409be42f49380,
-    type: 3}
-  obstaculos_prefab_C: {fileID: 1841165305305683654, guid: 30d7d301405064933a9d7bab99833c48,
-    type: 3}
-  maxY: 6
-  minY: 1
-  cantidadCajas: 0
-  alturaPrevia: 0
-  spawnTNT: 0
-  cantidadObstaculos: 10
-  obstaculos: []
-  pools:
-  - nombre: obstaculoA
-    objeto: {fileID: 1348376151896805675, guid: 5e91748b6e8d747d0814ecdfd7c82f61,
-      type: 3}
-    cantidad: 10
 --- !u!4 &1912224393
 Transform:
   m_ObjectHideFlags: 0
@@ -34796,7 +34743,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -34808,9 +34755,9 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 514
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -34875,7 +34822,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972819323}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 

@@ -269,6 +269,7 @@ namespace Brinco
                 NativeUI.Alert("Error", "No internet connection ");
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
                 MMVibrationManager.Haptic(HapticTypes.Warning);
+                // InAppPurchasing.InitializeSucceeded += ComprasActivadas;
 
 
             }
@@ -290,6 +291,8 @@ namespace Brinco
             {
                 NativeUI.Alert("Error", "No internet connection ");
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
+                InAppPurchasing.InitializeSucceeded += ComprasActivadas;
+
             }
         }
 
@@ -319,6 +322,8 @@ namespace Brinco
                 Debug.Log("Compras Control: GPS no inicializado");
                 NativeUI.Alert("Error", "No internet connection");
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
+                InAppPurchasing.InitializePurchasing();
+                InAppPurchasing.InitializeSucceeded += ComprasActivadas;
                 return;
             }
             if (!panelTienda)
@@ -327,7 +332,18 @@ namespace Brinco
             panelTienda.SetActive(!panelTienda.activeInHierarchy);
         }
 
-
+        /// <summary>
+        /// Llamado cuando se pudo inicializar el modulo de Unity IAP, es activado mediante un EventListener
+        /// Una vez llamado vuelve a buscar todo los personajes comprados y localizar
+        /// </summary>
+        private void ComprasActivadas()
+        {
+            InAppPurchasing.InitializeSucceeded -= ComprasActivadas;
+            IAPisInitialized = InAppPurchasing.IsInitialized();
+            BuscarProductoLocalized();
+            SeComproNoAds();
+            PersonajesComprados();
+        }
         //Inicia una secuencia exclusiva de UIAP, donde manda a llamar el listoad de los productos y nos da la informacion de manera localizada, util para precios,nombres y descripciones dependiendo del pais
         void BuscarProductoLocalized()
         {

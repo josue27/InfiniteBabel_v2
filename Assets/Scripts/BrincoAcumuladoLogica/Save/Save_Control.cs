@@ -62,7 +62,7 @@ using Brinco;
 
             }else if(!GameServices.IsInitialized())
             {
-                GameServices.Init();
+                // GameServices.Init();
                 GameServices.UserLoginSucceeded += UsuarioLogeoExitoso;
             }
 
@@ -121,13 +121,13 @@ using Brinco;
             }
             else
             {
-#if UNITY_ANDROID
+// #if UNITY_ANDROID
                 GameServices.Init();    // start a new initialization process
 
-#elif UNITY_IOS
-                Debug.Log("Cannot show  Upload score");
-                NativeUI.Alert("Error GS","Couldn´t save score");
-#endif
+// #elif UNITY_IOS
+//                 Debug.Log("Cannot show  Upload score");
+//                 NativeUI.Alert("Error GS","Couldn´t save score");
+// #endif
             }
 
 
@@ -148,12 +148,12 @@ using Brinco;
             }
             else
             {
-    #if UNITY_ANDROID
+  
                 GameServices.Init();    // start a new initialization process
 
-    #elif UNITY_IOS
+
                 Debug.Log("Cannot show  Upload score");
-    #endif
+ 
             }
         }
 
