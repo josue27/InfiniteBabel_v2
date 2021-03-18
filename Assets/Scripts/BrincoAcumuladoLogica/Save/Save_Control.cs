@@ -54,8 +54,7 @@ using Brinco;
         #region ScoreJugador
         public void CargarScoreUsuario()
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             if(GameServices.IsInitialized())
             {
                 GameServices.LoadLocalUserScore(EM_GameServicesConstants.Leaderboard_Obstaculos, OnLocalUserScoreLoaded);
@@ -65,12 +64,7 @@ using Brinco;
                 // GameServices.Init();
                 GameServices.UserLoginSucceeded += UsuarioLogeoExitoso;
             }
-=======
-            
->>>>>>> parent of 7760848... saved_control cleaning
-=======
-            
->>>>>>> parent of 7760848... saved_control cleaning
+
 
             GameServices.LoadLocalUserScore(EM_GameServicesConstants.Leaderboard_Obstaculos, OnLocalUserScoreLoaded);
 
