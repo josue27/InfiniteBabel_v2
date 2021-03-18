@@ -232,6 +232,7 @@ namespace Brinco
 
                 mostrandoAdRevivir = false;
                 reviviendo = false;
+                adRewardMostrado=false;
                 return;
             }
             else
@@ -243,6 +244,8 @@ namespace Brinco
                 if (this.GetComponent<Compras_Control>())
                     this.GetComponent<Compras_Control>().AnimacionMonedaComprada();
                 mostrandoAdRevivir = false;
+                 adRewardMostrado = false;
+
             }
 
         }
@@ -292,6 +295,7 @@ namespace Brinco
         {
             MostrarPanelRevivir(false);
             Advertising.HideBannerAd();
+            adRewardMostrado = false;
         }
 
 
