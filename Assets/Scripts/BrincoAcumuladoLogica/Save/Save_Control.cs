@@ -8,7 +8,7 @@ using Brinco;
     public class Save_Control : MonoBehaviour
     {
         public static Save_Control instancia;
-        
+
         //Juego Nube
         private SavedGame juegoNube;//este nos lo pide EasyMobile
         private Saved_Data juegoSalvadoNube;//este lo usamos para referencia local
@@ -23,6 +23,11 @@ using Brinco;
         public Saved_Data JuegoSalvadoNube { get => juegoSalvadoNube; set => juegoSalvadoNube = value; }
 
         [SerializeField] int reinicios = 0;
+
+        private void Awake()
+        {
+           
+        }
 
         void Start()
         {
@@ -44,18 +49,12 @@ using Brinco;
         {
             juegoSalvadoLocal = SaveGame.Load<Saved_Data>(juegoSalvadoLocal_ID);
         }
-        private void UsuarioLogeoExitoso()
-        {
-            CargarScoreUsuario();
-            CargarSavedGame();
-            GameServices.UserLoginSucceeded -= UsuarioLogeoExitoso;
-
-        }
 
 
         #region ScoreJugador
         public void CargarScoreUsuario()
         {
+<<<<<<< HEAD
             if(GameServices.IsInitialized())
             {
                 GameServices.LoadLocalUserScore(EM_GameServicesConstants.Leaderboard_Obstaculos, OnLocalUserScoreLoaded);
@@ -65,10 +64,13 @@ using Brinco;
                 // GameServices.Init();
                 GameServices.UserLoginSucceeded += UsuarioLogeoExitoso;
             }
+=======
+            
+>>>>>>> parent of 7760848... saved_control cleaning
 
+            GameServices.LoadLocalUserScore(EM_GameServicesConstants.Leaderboard_Obstaculos, OnLocalUserScoreLoaded);
 
         }
-        
         void OnLocalUserScoreLoaded(string leaderboardname, IScore scoreCargado)
         {
             if (scoreCargado != null)
@@ -77,6 +79,26 @@ using Brinco;
                 Debug.Log($"Score Google Play:{scoreCargado.value}");
                 HighScoreUsuario = int.Parse(scoreCargado.formattedValue);
                 Score_Control.instancia.HighscoreUsuario = HighScoreUsuario;
+
+                //Verificamos si el Score de la Nube es diferente al Local
+                //if (juegoSalvadoLocal != null)
+                //{
+
+                //    if (juegoSalvadoLocal.score > HighScoreUsuario)
+                //    {
+                //        HighScoreUsuario = juegoSalvadoLocal.score;
+
+                //    }
+                //    else
+                //    {
+                //        //Si el guardado local no supera al de GoogleServices entonces asignamos el de la nube al local
+                //        //quiere decir que hubo un conflicto en el guardado
+                //        //SaveGame.Save<int>(nombreSlotHighscore,HighscoreUsuario);
+                //        GuardarJuego_Local();
+                //    }
+                //}
+
+
 
             }
             else
@@ -124,10 +146,16 @@ using Brinco;
 // #if UNITY_ANDROID
                 GameServices.Init();    // start a new initialization process
 
+<<<<<<< HEAD
 // #elif UNITY_IOS
 //                 Debug.Log("Cannot show  Upload score");
 //                 NativeUI.Alert("Error GS","Couldn´t save score");
 // #endif
+=======
+#elif UNITY_IOS
+            Debug.Log("Cannot show  Upload score");
+#endif
+>>>>>>> parent of 7760848... saved_control cleaning
             }
 
 
@@ -190,7 +218,20 @@ using Brinco;
             else
             {
                 Debug.Log("Error al cargar juego guardado Nube: " + error);
-                //Llamamos al evento para que pueda continuar el juego
+                //INHABILITADO POR ERROR
+                ////if (SaveGame.Exists(juegoSalvadoLocal_ID))
+                ////{
+                ////    juegoSalvadoLocal = SaveGame.Load<Saved_Data>(juegoSalvadoLocal_ID);
+                ////    Debug.Log("Se cargo juego local");
+                ////    if (juegoSalvadoLocal != null)
+                ////    {
+                ////        MonedasTotales = juegoSalvadoLocal.monedas;
+                ////        ///Inhabilitamos porque no sabemos si esto afecta al guardado en nube
+                ////        //GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoSalvadoLocal.personajes);
+
+                ////    }
+                ////}
+
                 Eventos_Dispatcher.eventos.JuegoCargado_Call();
 
             }
@@ -214,11 +255,37 @@ using Brinco;
                             if (data.Length > 0)
                             {
                                 // Data processing
+                                //Debug.Log("Cloud save-monedas:" + data);
+
+                                // Saved_Data juegoRecuperado = ConvertidorData.ByteArra_Deserealizar(data);
+
                                 //Guardamos los datos descargados para futura comparacion
                                 juegoSalvadoNube = ConvertidorData.ByteArra_Deserealizar(data);
-                                
+                                //DEPRECATED:Cambiando a sistema donde 
+                                //Enviar monitos comprados a SeleccionPersonaje
+                                //GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoSalvadoNube.personajes);
+
                                 Score_Control.instancia.MonedasTotales = JuegoSalvadoNube.monedas;
 
+                              
+                                //Resolver conflicto de monedas
+                                //if (juegoSalvadoLocal != null)
+                                //{
+                                //    if (juegoSalvadoLocal.monedas > juegoSalvadoNube.monedas)
+                                //    {
+                                //        MonedasTotales = juegoSalvadoLocal.monedas;
+                                //        Debug.Log($"Conflicto Cloud y Local, las monedas en local({juegoSalvadoLocal.monedas}) es > a las de nube({juegoSalvadoNube.monedas}) se tomara en cuenta monedas Locales");
+                                //    }
+                                //    else
+                                //    {
+                                //        MonedasTotales = juegoSalvadoNube.monedas;
+                                //        Debug.Log($"Conflicto Cloud y Local, las monedas en local({juegoSalvadoLocal.monedas}) es < a las de nube({juegoSalvadoNube.monedas}) se tomaran en cuenta monedas Nube");
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    MonedasTotales = juegoSalvadoNube.monedas;
+                                //}
 
                             }
                             else
@@ -240,6 +307,13 @@ using Brinco;
             {
                 // The saved game is not open. You can optionally open it here and repeat the process.
                 Debug.Log("No se pudo abrir el archivo");
+                //Cargar con data Local
+                //if (juegoSalvadoLocal != null)
+                //{
+                //    MonedasTotales = juegoSalvadoLocal.monedas;
+                //    //  GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoSalvadoLocal.personajes);
+                //    //   GetComponent<Ad_Control>().RemoverAds(juegoSalvadoLocal.removeAds);
+                //}
 
             }
 
