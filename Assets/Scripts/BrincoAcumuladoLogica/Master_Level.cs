@@ -76,13 +76,8 @@ namespace Brinco
         [SerializeField] private TMP_Text textoCountDown;
         private void Awake()
         {
-#if UNITY_EDITOR ///PARA mejorar rendimiento porque Debug.Log usa mucho proceso y lo ejecuta aun en las builds de cualquier plataforma
-            Debug.unityLogger.logEnabled = true;
-#else
+
         Debug.unityLogger.logEnabled = false;
-#endif
-
-
 
         }
         void Start()

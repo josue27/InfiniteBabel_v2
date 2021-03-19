@@ -30,14 +30,14 @@ public class ObstaculoControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        #if UNITY_EDITOR
+        // #if UNITY_EDITOR
     
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            SetObstaculo();
+        // if(Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     SetObstaculo();
 
-        }
-        #endif
+        // }
+        // #endif
 
       //  this.transform.Translate(Vector3.back * (Time.deltaTime * velociadMovimiento));
 

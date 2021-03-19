@@ -131,12 +131,13 @@ using Brinco;
             }
             else
             {
-#if UNITY_ANDROID
-                GameServices.Init();    // start a new initialization process
+// #if UNITY_ANDROID
+//                 GameServices.Init();    // start a new initialization process
 
-#elif UNITY_IOS
-            Debug.Log("Cannot show  Upload score");
-#endif
+// #elif UNITY_IOS
+//             Debug.Log("Cannot show  Upload score");
+// #endif
+                GameServices.Init();
             }
 
 
@@ -157,12 +158,13 @@ using Brinco;
             }
             else
             {
-    #if UNITY_ANDROID
-                GameServices.Init();    // start a new initialization process
+    // #if UNITY_ANDROID
+    //             GameServices.Init();    // start a new initialization process
 
-    #elif UNITY_IOS
-                Debug.Log("Cannot show  Upload score");
-    #endif
+    // #elif UNITY_IOS
+    //             Debug.Log("Cannot show  Upload score");
+    // #endif
+                GameServices.Init();
             }
         }
 

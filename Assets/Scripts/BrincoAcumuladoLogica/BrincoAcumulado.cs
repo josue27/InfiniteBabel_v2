@@ -128,10 +128,7 @@ public class BrincoAcumulado : MonoBehaviour
 #if UNITY_ANDROID
         // Brinco_Movil();
 #endif
-#if UNITY_EDITOR || UNITY_WEBGL
-        //   Brinco_PC();
 
-#endif
         if (enPiso)
         {
             if (Input.touchCount > 0)
