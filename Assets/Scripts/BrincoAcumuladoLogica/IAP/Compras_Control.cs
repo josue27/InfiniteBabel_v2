@@ -66,7 +66,7 @@ namespace Brinco
             if(IAPisInitialized)
             {
 #if UNITY_IOS
-                InAppPurchasing.RestorePurchases();
+                // InAppPurchasing.RestorePurchases();
 #endif
             }
             BuscarProductoLocalized();
@@ -269,7 +269,8 @@ namespace Brinco
                 NativeUI.Alert("Error", "No internet connection ");
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
                 MMVibrationManager.Haptic(HapticTypes.Warning);
-                // InAppPurchasing.InitializeSucceeded += ComprasActivadas;
+                InAppPurchasing.InitializePurchasing();
+                InAppPurchasing.InitializeSucceeded += ComprasActivadas;
 
 
             }
@@ -291,6 +292,8 @@ namespace Brinco
             {
                 NativeUI.Alert("Error", "No internet connection ");
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
+                InAppPurchasing.InitializePurchasing();
+
                 InAppPurchasing.InitializeSucceeded += ComprasActivadas;
 
             }

@@ -121,10 +121,7 @@ using Brinco;
             //GuardarJuego_Local();
             if (GameServices.IsInitialized())
             {
-                //GameServices.ReportScore(nuevoScore, EM_GPGSIds.leaderboard_the_best_runner, (bool exito) => {
-                //   Debug.Log("Se subio el score exitosamente");
-                //});
-
+                
                 GameServices.ReportScore(nuevoScore, EM_GameServicesConstants.Leaderboard_Obstaculos, (bool exito) => {
                     Debug.Log("Se subio el score exitosamente");
                 });

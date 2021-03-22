@@ -19,6 +19,7 @@ namespace Brinco
         public int casosProbables_PanelRevivir = 3;
         public int casosFavorables_PanelRevivir = 1;
         public GameObject panelRevivir;
+        [SerializeField] private GameObject botonAdReward;//reward por cafes
         public bool mostrandoAdRevivir;
         public bool adRewardMostrado;
         public bool mostrandoAdIntermedio;
@@ -227,10 +228,10 @@ namespace Brinco
 
             if (reviviendo)
             {
-                Debug.Log("Ad Reward mostrado");
+                Debug.Log("Ad Reward Revivir mostrado");
                 Master_Level._masterBrinco.Revivir();
 
-                mostrandoAdRevivir = false;
+                //mostrandoAdRevivir = false;
                 reviviendo = false;
                 adRewardMostrado=false;
                 return;
@@ -244,7 +245,8 @@ namespace Brinco
                 if (this.GetComponent<Compras_Control>())
                     this.GetComponent<Compras_Control>().AnimacionMonedaComprada();
                 mostrandoAdRevivir = false;
-                 adRewardMostrado = false;
+                adRewardMostrado = false;
+                botonAdReward.SetActive(false);
 
             }
 
@@ -296,6 +298,8 @@ namespace Brinco
             MostrarPanelRevivir(false);
             Advertising.HideBannerAd();
             adRewardMostrado = false;
+            botonAdReward.SetActive(true);
+
         }
 
 
@@ -304,6 +308,7 @@ namespace Brinco
             adRewardMostrado = false;
             MostrarPanelRevivir(false);
             //Advertising.HideBannerAd();
+            botonAdReward.SetActive(true);
 
 
         }
