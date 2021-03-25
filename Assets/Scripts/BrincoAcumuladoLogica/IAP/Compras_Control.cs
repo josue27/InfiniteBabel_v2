@@ -32,7 +32,11 @@ namespace Brinco
         [SerializeField]
         private Transform  posSinAds;
         
-
+        [Space(10)]
+        [SerializeField]private GameObject panelCompraParent;
+        [SerializeField]private GameObject panelRestauracionEnProceso;
+        [SerializeField]private GameObject panelRestauracionFallo;
+        [SerializeField]private GameObject botonRestauracionCompra;
         [SerializeField]
         private GameObject panelAnimacionMoneda;
         [SerializeField]
@@ -52,28 +56,35 @@ namespace Brinco
             //iOS
             InAppPurchasing.RestoreCompleted += RestoreCompletedHandler;
             InAppPurchasing.RestoreFailed += RestoreFailedHandler;
+            InAppPurchasing.PurchaseDeferred += PurchaseDeferredHandler;
+
+
 
         }
         void Start()
         {
             IAPisInitialized = InAppPurchasing.IsInitialized();
 
+            if(IAPisInitialized == false)
+            {
+                InAppPurchasing.InitializePurchasing();
+            }
             //foreach (IAPProduct producto in productos_DB)
             //{
             //    Debug.Log("Producto: " + producto.Name);
             //}
 
-            if(IAPisInitialized)
-            {
-#if UNITY_IOS
-                // InAppPurchasing.RestorePurchases();
-#endif
-            }
             BuscarProductoLocalized();
             SeComproNoAds();
             PersonajesComprados();
             //Esta autoinicializada, no se necesita
           //  InAppPurchasing.InitializePurchasing();
+          #if UNITY_IOS
+            botonRestauracionCompra.SetActive(true);
+          #else
+            botonRestauracionCompra.SetActive(false);
+          #endif
+
 
             
         }
@@ -81,7 +92,8 @@ namespace Brinco
         private void PurchaseFailedHandler(IAPProduct producto, string failureReason)
         {
             Debug.Log($"No se pudo procesar la compra de : {producto.Name} failureReason:{failureReason}");
-            NativeUI.Alert("Error al comprar",$"The purchase {producto.Name} was not completed");
+            NativeUI.Alert("Error buying",$"The purchase {producto.Name} was not completed");
+            PermisoDePadreOtorgado();
 
         }
 
@@ -136,22 +148,12 @@ namespace Brinco
             }
 
 
-
+            PermisoDePadreOtorgado();
 
         }
 
 
-        // Successful restoration handler
-        void RestoreCompletedHandler()
-        {
-            Debug.Log("All purchases have been restored successfully.");
-        }
-
-        // Failed restoration handler
-        void RestoreFailedHandler()
-        {
-            Debug.Log("The purchase restoration has failed.");
-        }
+        
 
         private void OnDisable()
         {
@@ -160,6 +162,22 @@ namespace Brinco
 
             InAppPurchasing.RestoreCompleted -= RestoreCompletedHandler;
             InAppPurchasing.RestoreFailed -= RestoreFailedHandler;
+            InAppPurchasing.PurchaseDeferred -= PurchaseDeferredHandler;
+
+
+        }
+
+        private void PurchaseDeferredHandler(IAPProduct product)
+        {
+            //Activar UI para pedir permiso a un padre para activar
+            panelCompraParent.SetActive(true);
+
+        }
+        public void PermisoDePadreOtorgado()
+        {
+            //Ocultar UI de permiso parental
+            panelCompraParent.SetActive(false);
+
         }
 
         /// <summary>
@@ -333,6 +351,7 @@ namespace Brinco
                 return;
 
             panelTienda.SetActive(!panelTienda.activeInHierarchy);
+            // Eventos_Dispatcher.eventos.OcultarBannerAdd_Call(panelTienda.activeInHierarchy);
         }
 
         /// <summary>
@@ -347,10 +366,50 @@ namespace Brinco
             SeComproNoAds();
             PersonajesComprados();
         }
+#region  Restauracion Compras IOS
+        public void ReataurarCompras_UI()
+        {
+            InAppPurchasing.RestorePurchases();
+            //Activar UI para mostrar que estamos restaurando
+            if(panelRestauracionEnProceso)
+            {
+                panelRestauracionEnProceso.SetActive(true);
+            }
+        }
+        // Successful restoration handler
+        void RestoreCompletedHandler()
+        {
+            Debug.Log("All purchases have been restored successfully.");
+            //Desactivar UI y se debe entender que se completo la restauracion
+            if(panelRestauracionEnProceso)
+            {
+                panelRestauracionEnProceso.SetActive(false);
+            }
+        }
+
+        // Failed restoration handler
+        void RestoreFailedHandler()
+        {
+            Debug.Log("The purchase restoration has failed.");
+            //Mostrar UI donde se muestra error al tratar de restaurar compras
+            
+            panelRestauracionEnProceso?.SetActive(false);
+            panelRestauracionFallo?.SetActive(false);
+
+            
+        }
+        public void CerrarPanelFalloRestauracion()
+        {
+            panelRestauracionFallo?.SetActive(false);
+        }
+
+
+#endregion
+
         //Inicia una secuencia exclusiva de UIAP, donde manda a llamar el listoad de los productos y nos da la informacion de manera localizada, util para precios,nombres y descripciones dependiendo del pais
         void BuscarProductoLocalized()
         {
-#if EM_UIAP
+
             if (!IAPisInitialized)
             {
                 Debug.Log("Compras Control: UIAP no inicializado");
@@ -372,7 +431,7 @@ namespace Brinco
             }
             Debug.Log("Productos Tienda con precios localizados terminados");
             GetComponent<SeleccionPersonaje>().BuscarPrecioLocalizadoPersonajes();
-#endif
+
         }
 
 

@@ -52,20 +52,7 @@ public class SpawnObstaculos_Apertura : MonoBehaviour
         LlenarDiccionario();
         
     }
-     private void Update()
-    {
-        //if(puedeSpawnear)
-        //{
-        //    if(Time.time >= sigSpawn)
-        //    {
-        //        sigSpawn = Time.time + intervaloTiempo;
-        //        ActivarObstaculo("obstaculoA");
-                
-        //    }
-        //}
-
-        
-    }
+     
 
     
     void SpawnearPool()

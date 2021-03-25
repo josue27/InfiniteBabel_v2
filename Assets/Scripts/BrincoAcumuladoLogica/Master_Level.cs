@@ -344,12 +344,16 @@ namespace Brinco
                                                            nivelesDificultad[enNivel].spawnearCintasTransportadorasRotas,
                                                            nivelesDificultad[enNivel].minSigObstaculo,
                                                            nivelesDificultad[enNivel].maxSigObstaculo);
+           
+           if(SpawnObstaculos_Apertura.spawner)
+           {
             yield return new WaitForSeconds(0.5f);
            // EncenderBandaTransportadora(true);
             SpawnObstaculos_Apertura.spawner.EmpezoJuego();
          
             yield return new WaitForSeconds(1.5f);
             SpawnObstaculos_Apertura.spawner.ActivarObstaculo();
+           }
         }
 
         
@@ -394,10 +398,12 @@ namespace Brinco
 
                 }
                 //  SpawnObstaculos_Apertura.spawner.SetDificultad(SigVelocidad(), nivelesDificultad[enNivel].cantidadEspacios);
-                SpawnObstaculos_Apertura.spawner.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
-                                                               nivelesDificultad[enNivel].rateSpawn,
-                                                               nivelesDificultad[enNivel].probabilidadMoneda,
-                                                               nivelesDificultad[enNivel].spawnearTNT);
+                
+                //DEPRECATED Marzo 23
+                // SpawnObstaculos_Apertura.spawner.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
+                                                            //    nivelesDificultad[enNivel].rateSpawn,
+                                                            //    nivelesDificultad[enNivel].probabilidadMoneda,
+                                                            //    nivelesDificultad[enNivel].spawnearTNT);
 
                 SpawnEscenario.instancia.SetDificultad(nivelesDificultad[enNivel].cantidadEspacios,
                                                            nivelesDificultad[enNivel].rateSpawn,

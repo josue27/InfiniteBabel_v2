@@ -48,6 +48,8 @@ public class SettingsControl : MonoBehaviour
         if (!panelSettings) return;
 
         panelSettings.SetActive(!panelSettings.activeInHierarchy);
+        // Eventos_Dispatcher.eventos.OcultarBannerAdd_Call(panelSettings.activeInHierarchy);
+
     }
 
     public void Toggle_PanelIdiomas()

@@ -39,6 +39,7 @@ namespace Brinco
             Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
             Eventos_Dispatcher.eventos.Revivir += Revivir;
             Advertising.AdsRemoved += Advertising_AdsRemoved;
+            Eventos_Dispatcher.eventos.OcultarBannerAdd += OcultarBanner;
 
 
         }
@@ -69,7 +70,27 @@ namespace Brinco
 
         private void InicioJuego()
         {
-            Advertising.HideBannerAd();
+
+        }
+
+        /// <summary>
+        /// Llamado por eventdispatcher para aparecer u ocultar el banner
+        /// (normalmente llamado cuando aparece un menu)
+        /// </summary>
+        /// <param name="ocultar"></param>
+        private void OcultarBanner(bool ocultar)
+        {
+            #if UNITY_IOS
+            if(ocultar)
+            { 
+                
+                Advertising.HideBannerAd();
+            }else
+            {
+
+                MostrarAdBanner();
+            }
+            #endif
 
         }
 
@@ -275,6 +296,8 @@ namespace Brinco
             Eventos_Dispatcher.eventos.Revivir -= Revivir;
             //Duda si volver a desactivar aqui esto
             Advertising.AdsRemoved -= Advertising_AdsRemoved;
+            Eventos_Dispatcher.eventos.OcultarBannerAdd += OcultarBanner;
+
 
 
         }

@@ -206,9 +206,7 @@ namespace Brinco
                 {
                     Debug.Log("Highscore :" + highScoreUsuario + " superado guardano nuevo: " + ScoreRonda);
 
-                    //DEPRECATED:La funcion de ReportarNuevoHighScore hace eso
-                    //reportar a google play
-                    //Save_Control.instancia.SubirScoreGooglePlay(ScoreRonda);
+                    
                     Save_Control.instancia.ReportarNuevoHighScore(ScoreRonda);
                     //Asignar como highscore actual
                     //HighscoreUsuario = ScoreRonda;
@@ -217,14 +215,14 @@ namespace Brinco
                     nuevoHighScore_letrero.SetActive(true);
 
                 }
-                DesbloquearLogro();
+                DesbloquearLogroPrimeraCarrera();
 
             }
             else
             {//debe significar que no habia score y debe ser su primer juego
 
                 ///Desbloqueamos logro de primera vez
-                DesbloquearLogro();
+                DesbloquearLogroPrimeraCarrera();
 
                 //Save_Control.instancia.SubirScoreGooglePlay(ScoreRonda);
                 Save_Control.instancia.ReportarNuevoHighScore(ScoreRonda);
@@ -260,20 +258,7 @@ namespace Brinco
             //Abirr monitor de score inicial
             LeanTween.moveLocalY(monitorHighScore_inicial, 0f, 0.5f).setEaseInOutSine();       //highScoreLocal_text.SetText(highscoreLocal.ToString());
 
-            //No se esta usando este panel
-            //if (!panelScoreAbierto)
-            //{
-            //    LeanTween.moveY(panelScore, panelScore_posAbierta.position.y, velocidadApertura).setEaseOutBounce();
-            //    panelScoreAbierto = true;
-
-
-            //}
-            //else
-            //{
-            //    LeanTween.moveY(panelScore, panelScore_posCerrada.position.y, velocidadApertura).setEaseInBounce();
-            //    panelScoreAbierto = false;
-
-            //}
+            
 
         }
 
@@ -297,14 +282,7 @@ namespace Brinco
                 Debug.Log("Error no se encontro el estado");
         }
 
-        //public void AbrirPanelScore_Global(bool _abrir)
-        //{
-
-        //    highScore_tabla.gameObject.SetActive(_abrir);
-        //  //  if (_abrir) CargarScoreGlobal();
-
-        //}
-
+       
 
         /// <summary>
         /// Llamado por UI por el usuario, muestra el tablero nativo de Score de Google
@@ -328,9 +306,7 @@ namespace Brinco
         }
 
 
-
-
-        public void DesbloquearLogro()
+        public void DesbloquearLogroPrimeraCarrera()
         {
             Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_FirstRun);
         }
@@ -361,7 +337,9 @@ namespace Brinco
         }
 
 
-      
+        /// <summary>
+        /// Busca en Save_Control el valor del HighScoreUsuario Actual
+        /// </summary>
         public void CargarScoreUsuario()
         {
             // if(SaveGame.Exists(nombreSlotHighscore))

@@ -24,6 +24,7 @@ public  class Eventos_Dispatcher : MonoBehaviour
     public static Action JuegoSalvado;
 
     public static Action Reinicio;
+    public Action<bool> OcultarBannerAdd;
    void Awake()
    {
        eventos = this;
@@ -48,4 +49,6 @@ public  class Eventos_Dispatcher : MonoBehaviour
     public void Reinico_Call() => Reinicio?.Invoke();
 
     public void Revivir_Call() => Revivir.Invoke();
+
+    public void OcultarBannerAdd_Call(bool ocultar) => OcultarBannerAdd?.Invoke(ocultar);
 }

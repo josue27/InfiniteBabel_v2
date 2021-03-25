@@ -128,19 +128,23 @@ using Brinco;
             }
             else
             {
-// #if UNITY_ANDROID
-//                 GameServices.Init();    // start a new initialization process
+#if UNITY_ANDROID
+                GameServices.Init();    // start a new initialization process
 
-// #elif UNITY_IOS
-//             Debug.Log("Cannot show  Upload score");
-// #endif
-                GameServices.Init();
+#elif UNITY_IOS
+            Debug.Log("Cannot show  Upload score");
+#endif
+                // GameServices.Init();
             }
 
 
         }
         
-
+        /// <summary>
+        /// DEPRECATED: su funcionalidad esta siendo inecesaria
+        /// Sube la tazas del cafe al tablero
+        /// </summary>
+        /// <param name="nuevoScoreCafe"></param>
         public void SubirScoreCafe(int nuevoScoreCafe)
         {
             if (GameServices.IsInitialized())
