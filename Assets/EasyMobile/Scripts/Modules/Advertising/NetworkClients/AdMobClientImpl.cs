@@ -598,7 +598,11 @@ namespace EasyMobile
 
         private AdSize ToAdMobAdSize(BannerAdSize adSize)
         {
-            return adSize.IsSmartBanner ? AdSize.SmartBanner : new AdSize(adSize.Width, adSize.Height);
+            return adSize.IsSmartBanner
+            ? (mAdSettings.UseAdaptiveBanner
+                ? AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth)
+                : AdSize.SmartBanner)
+            : new AdSize(adSize.Width, adSize.Height);
         }
 
         private AdPosition ToAdMobAdPosition(BannerAdPosition pos)

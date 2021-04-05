@@ -13,7 +13,7 @@ namespace EasyMobile
 
         public string MessageId { get; set; }
 
-        public string RawData { get; private set; }
+        public byte[] RawData { get; private set; }
 
         public IDictionary<string, string> Data { get; set; }
 

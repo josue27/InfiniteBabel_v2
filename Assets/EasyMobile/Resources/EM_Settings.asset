@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EM_Settings
   m_EditorClassIdentifier: 
   mAdvertisingSettings:
+    mAutoInit: 1
     mAutoLoadAdsMode: 2
     mAdCheckingInterval: 10
     mAdLoadingInterval: 20
@@ -60,6 +61,7 @@ MonoBehaviour:
           values:
           - true
       mEnableTestMode: 0
+      mUseAdaptiveBanner: 0
       mAppId:
         mIosId: 
         mAndroidId: 
@@ -338,7 +340,7 @@ MonoBehaviour:
   mInAppPurchaseSettings:
     mAutoInit: 1
     mTargetAndroidStore: 0
-    mSimulateAppleAskToBuy: 1
+    mSimulateAppleAskToBuy: 0
     mInterceptApplePromotionalPurchases: 0
     mEnableAmazonSandboxTesting: 0
     mValidateAppleReceipt: 1
@@ -553,5 +555,5 @@ MonoBehaviour:
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
   mIsSharingModuleEnable: 1
-  mActiveModuleIndex: 1
+  mActiveModuleIndex: 3
   mIsSelectingModule: 0

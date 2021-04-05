@@ -66,43 +66,18 @@ using Brinco;
                 //debug_text.text = $"Score Google Play:{scoreCargado.value}";
                 Debug.Log($"Score Google Play:{scoreCargado.value}");
                 HighScoreUsuario = int.Parse(scoreCargado.formattedValue);
-                Score_Control.instancia.HighscoreUsuario = HighScoreUsuario;
-
-                //Verificamos si el Score de la Nube es diferente al Local
-                //if (juegoSalvadoLocal != null)
-                //{
-
-                //    if (juegoSalvadoLocal.score > HighScoreUsuario)
-                //    {
-                //        HighScoreUsuario = juegoSalvadoLocal.score;
-
-                //    }
-                //    else
-                //    {
-                //        //Si el guardado local no supera al de GoogleServices entonces asignamos el de la nube al local
-                //        //quiere decir que hubo un conflicto en el guardado
-                //        //SaveGame.Save<int>(nombreSlotHighscore,HighscoreUsuario);
-                //        GuardarJuego_Local();
-                //    }
-                //}
-
-
 
             }
             else
             {
-                Debug.Log($"Problema cargando el score local de GooglePlay cargando score Local o no tienes ningun score guardado");
-                //if (juegoSalvadoLocal != null)
-                //    HighscoreUsuario = juegoSalvadoLocal.score;
-                NativeUI.Alert("Error connection", "We couldn´t connect with the cloud");
-            //debug_text.text = $"Score Local cargado{HighscoreUsuario}";
-                Score_Control.instancia.HighscoreUsuario = HighScoreUsuario;
+                Debug.Log($"Problema cargando el score local de GooglePlay cargando score Local o" +
+                            "no tienes ningun score guardado");
+            
 
                 GameServices.Init();
 
-                //if (Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)
-                //    CargarScoreUsuario();
             }
+            Score_Control.instancia.HighscoreUsuario = HighScoreUsuario;
 
         }
 
@@ -125,16 +100,17 @@ using Brinco;
                 GameServices.ReportScore(nuevoScore, EM_GameServicesConstants.Leaderboard_Obstaculos, (bool exito) => {
                     Debug.Log("Se subio el score exitosamente");
                 });
+                
             }
             else
             {
-#if UNITY_ANDROID
-                GameServices.Init();    // start a new initialization process
+// #if UNITY_ANDROID
+//                 GameServices.Init();    // start a new initialization process
 
-#elif UNITY_IOS
-            Debug.Log("Cannot show  Upload score");
-#endif
-                // GameServices.Init();
+// #elif UNITY_IOS
+//             Debug.Log("Cannot show  Upload score");
+// #endif
+                 GameServices.Init();
             }
 
 
@@ -202,19 +178,7 @@ using Brinco;
             else
             {
                 Debug.Log("Error al cargar juego guardado Nube: " + error);
-                //INHABILITADO POR ERROR
-                ////if (SaveGame.Exists(juegoSalvadoLocal_ID))
-                ////{
-                ////    juegoSalvadoLocal = SaveGame.Load<Saved_Data>(juegoSalvadoLocal_ID);
-                ////    Debug.Log("Se cargo juego local");
-                ////    if (juegoSalvadoLocal != null)
-                ////    {
-                ////        MonedasTotales = juegoSalvadoLocal.monedas;
-                ////        ///Inhabilitamos porque no sabemos si esto afecta al guardado en nube
-                ////        //GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoSalvadoLocal.personajes);
-
-                ////    }
-                ////}
+                
 
                 Eventos_Dispatcher.eventos.JuegoCargado_Call();
 

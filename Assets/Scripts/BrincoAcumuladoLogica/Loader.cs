@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using EasyMobile;
-
+#if EM_UIAP
+using UnityEngine.Purchasing;
+#endif
 public class Loader : MonoBehaviour
 {
     public string scenaJuego = "brincoAcumulado_03_Perspective";
@@ -18,10 +20,14 @@ public class Loader : MonoBehaviour
         {
             RuntimeManager.Init();
         }
-#if DEVELOPMENT_BUILD
-        Debug.Log("DEVELOPMENT_BUILD");
-        mobileConsole.SetActive(true);
-#endif
+        if(!InAppPurchasing.IsInitialized())
+        {
+            InAppPurchasing.InitializePurchasing();
+        }
+// #if DEVELOPMENT_BUILD
+//         Debug.Log("DEVELOPMENT_BUILD");
+//         mobileConsole.SetActive(true);
+// #endif
 
     }
     void Start()

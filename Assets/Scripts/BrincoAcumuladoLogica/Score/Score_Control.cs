@@ -384,38 +384,7 @@ namespace Brinco
             MonedasPartida = MonedasTotales;
         }
 
-        /// <summary>
-        /// Inicia el comando para cargar el score en la nube y buscar cuantas monedas tiene el jugador
-        /// 
-        /// </summary>
-        public void CargarMonedas()
-        {
-
-            try
-            {
-                MonedasTotales = Save_Control.instancia.JuegoSalvadoNube.monedas;
-            }catch(Exception e)
-            {
-                Debug.Log("Error cargando monedas: "+e);
-            }
-            // OpenSavedGame("leer");
-        }
-
-        /// <summary>
-        /// Llamado cuando acaba el juego, se encarga de sumar las monedas ganadas
-        /// </summary>
-        private void IngresarMonedasPartida()
-        {
-            //Se supone que MonedasPartida es > MonedasTotales etnonces deberia dar positivo , haces esto para dar el efecto de ganancia?
-            if (MonedasPartida <= 0)
-            {
-                Debug.Log("No hay monedas para guardar saltando...");
-                return;
-            }
-            int totalPartida = Mathf.Abs(MonedasPartida - MonedasTotales);
-            SumarMonedas(totalPartida);
-
-        }
+    
        
         public void SumarMonedas(int cantidad)
         {

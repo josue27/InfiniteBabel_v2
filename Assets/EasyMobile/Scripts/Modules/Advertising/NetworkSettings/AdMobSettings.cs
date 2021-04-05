@@ -55,6 +55,15 @@ namespace EasyMobile
             set { mEnableTestMode = value; }
         }
 
+        /// <summary>
+        /// Use google mobile ad adaptive banner when calling for smart banner
+        /// </summary>
+        public bool UseAdaptiveBanner
+        {
+            get { return mUseAdaptiveBanner; }
+            set { mUseAdaptiveBanner = value; }
+        }
+
 
         /// <summary>
         /// Gets or sets the target settings.
@@ -99,6 +108,8 @@ namespace EasyMobile
         private AdMobTargetingSettings mTargetingSettings;
         [SerializeField]
         private bool mEnableTestMode;
+        [SerializeField]
+        private bool mUseAdaptiveBanner;
 
         [SerializeField]
         private AdId mAppId;

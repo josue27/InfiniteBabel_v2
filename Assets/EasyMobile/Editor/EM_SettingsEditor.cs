@@ -72,6 +72,9 @@ namespace EasyMobile.Editor
             public static SerializedProperty tapjoySettings;
             public static SerializedProperty unityAdsSettings;
             public static SerializedProperty vungleAdsSettings;
+            
+            // Module auto-initialization
+            public static EMProperty autoInit = new EMProperty(null, new GUIContent("Auto Init", "Whether the module should automatically initialize itself"));
 
             // Auto ad-loading settings.
             public static EMProperty autoLoadAdsMode = new EMProperty(null, new GUIContent("Auto Ad-Loading Mode"));
@@ -105,6 +108,7 @@ namespace EasyMobile.Editor
             public static EMProperty admobCustomInterstitialAdIds = new EMProperty(new GUIContent("Interstitial Ads"));
             public static EMProperty admobCustomRewardedAdIds = new EMProperty(new GUIContent("Rewarded Ads"));
             public static EMProperty admobEnableTestMode = new EMProperty(new GUIContent("Enable Test Mode"));
+            public static EMProperty admobAdaptiveBanner = new EMProperty(new GUIContent("Use Adaptive Banner"));
             public static EMProperty admobTestDeviceIds = new EMProperty(new GUIContent("Test Device IDs"));
             public static EMProperty admobTargetingSettings = new EMProperty(new GUIContent("Targeting Settings"));
 
@@ -363,7 +367,9 @@ namespace EasyMobile.Editor
             // Ad module properties.
             //--------------------------------------------------------------
             AdProperties.mainProperty = serializedObject.FindProperty("mAdvertisingSettings");
-
+            // Auto init
+            AdProperties.autoInit.property = AdProperties.mainProperty.FindPropertyRelative("mAutoInit");
+            
             // Auto ad-loading.
             AdProperties.autoLoadAdsMode.property = AdProperties.mainProperty.FindPropertyRelative("mAutoLoadAdsMode");
             AdProperties.adCheckingInterval.property = AdProperties.mainProperty.FindPropertyRelative("mAdCheckingInterval");
@@ -398,6 +404,7 @@ namespace EasyMobile.Editor
             AdProperties.admobCustomInterstitialAdIds.property = AdProperties.admobSettings.FindPropertyRelative("mCustomInterstitialAdIds");
             AdProperties.admobCustomRewardedAdIds.property = AdProperties.admobSettings.FindPropertyRelative("mCustomRewardedAdIds");
             AdProperties.admobEnableTestMode.property = AdProperties.admobSettings.FindPropertyRelative("mEnableTestMode");
+            AdProperties.admobAdaptiveBanner.property = AdProperties.admobSettings.FindPropertyRelative("mUseAdaptiveBanner");
             AdProperties.admobTestDeviceIds.property = AdProperties.admobSettings.FindPropertyRelative("mTestDeviceIds");
             AdProperties.admobTargetingSettings.property = AdProperties.admobSettings.FindPropertyRelative("mTargetingSettings");
 

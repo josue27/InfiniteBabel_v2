@@ -10,6 +10,16 @@ namespace EasyMobile
     public class AdSettings
     {
         /// <summary>
+        /// Gets or sets module auto init
+        /// </summary>
+        public bool AutoInit
+        {
+            get { return mAutoInit; }
+            set { mAutoInit = value; }
+        }
+        
+        
+        /// <summary>
         /// Gets or sets auto ad loading mode.
         /// </summary>
         public AutoAdLoadingMode AutoAdLoadingMode
@@ -161,6 +171,9 @@ namespace EasyMobile
                 rewardedAdNetwork = rewarded;
             }
         }
+
+        [SerializeField] 
+        private bool mAutoInit = true;
 
         // Automatic ad-loading config.
         [SerializeField]

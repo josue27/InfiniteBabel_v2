@@ -121,6 +121,10 @@ namespace EasyMobile.Editor
                 // Add required flags.
                 project.AddBuildProperty(targetGUID, "OTHER_LDFLAGS", "-ObjC");
 
+                // Fixing bug unrecognized category selector in Xcode 12.3:
+                // -ObjC needs to be added to project-wide build properties.
+                project.AddBuildProperty(project.ProjectGuid(), "OTHER_LDFLAGS", "-ObjC");
+
                 // Write PBX project.
                 project.WriteToFile(pbxPath);
 

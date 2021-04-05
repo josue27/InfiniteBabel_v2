@@ -236,6 +236,13 @@ namespace EasyMobile.Editor
             // Now draw the GUI.
             if (!isAdModuleEnable.boolValue)
                 return;
+            
+            // Module auto initialization
+            DrawUppercaseSection("AUTO_INITIALIZATION_FOLDOUT_KEY", "AUTO INITIALIZATION", () =>
+            {
+                EditorGUILayout.PropertyField(AdProperties.autoInit.property, AdProperties.autoInit.content);
+            });
+
 
             // Ads auto-load setup
             EditorGUILayout.Space();
@@ -475,6 +482,11 @@ namespace EasyMobile.Editor
                     EditorGUILayout.Space();
                     EditorGUILayout.LabelField("Test Mode", EditorStyles.boldLabel);
                     EditorGUILayout.PropertyField(AdProperties.admobEnableTestMode.property, AdProperties.admobEnableTestMode.content);
+
+                    // Adaptive banner mode.
+                    EditorGUILayout.Space();
+                    EditorGUILayout.LabelField("Adaptive Banner", EditorStyles.boldLabel);
+                    EditorGUILayout.PropertyField(AdProperties.admobAdaptiveBanner.property, AdProperties.admobAdaptiveBanner.content);
 
 #endif
                 }, null, false);

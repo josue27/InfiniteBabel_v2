@@ -8,6 +8,7 @@ using TMPro;
 using MoreMountains.NiceVibrations;
 #if EM_UIAP
 using UnityEngine.Purchasing;
+using UnityEngine.Purchasing.Security;
 #endif
 
 namespace Brinco
@@ -42,6 +43,12 @@ namespace Brinco
         [SerializeField]
         private float tiempoAnimacion =1.9f;
 
+        [Space(10)]
+        [SerializeField] private TMP_InputField respuestaOperacion_text;
+        [SerializeField] private TMP_Text operacion_text;
+        [SerializeField]private int respuestaOperacion;
+        private int intentosInitIAP= 0;
+
         private void OnValidate()
         {
             productos_DB = InAppPurchasing.GetAllIAPProducts();
@@ -67,16 +74,15 @@ namespace Brinco
 
             if(IAPisInitialized == false)
             {
-                InAppPurchasing.InitializePurchasing();
-            }
-            //foreach (IAPProduct producto in productos_DB)
-            //{
-            //    Debug.Log("Producto: " + producto.Name);
-            //}
+                ForzarConexionIAP();
+            }else
+            {
 
-            BuscarProductoLocalized();
-            SeComproNoAds();
-            PersonajesComprados();
+                BuscarProductoLocalized();
+                SeComproNoAds();
+                PersonajesComprados();
+            }
+            
             //Esta autoinicializada, no se necesita
           //  InAppPurchasing.InitializePurchasing();
           #if UNITY_IOS
@@ -92,7 +98,7 @@ namespace Brinco
         private void PurchaseFailedHandler(IAPProduct producto, string failureReason)
         {
             Debug.Log($"No se pudo procesar la compra de : {producto.Name} failureReason:{failureReason}");
-            NativeUI.Alert("Error buying",$"The purchase {producto.Name} was not completed");
+            // NativeUI.Alert("Error buying",$"The purchase {producto.Name} was not completed");
             PermisoDePadreOtorgado();
 
         }
@@ -103,6 +109,9 @@ namespace Brinco
             if (producto.Name == EM_IAPConstants.Product_Americano)
             {
                 Debug.Log($"Se compro cafe: {producto.Name}");
+
+
+
                 Score_Control.instancia.SumarMonedas(50, true);
 
                 Logros_Control.instancia.DesbloquearLogro(EM_GameServicesConstants.Achievement_MakeItRain);
@@ -148,12 +157,40 @@ namespace Brinco
             }
 
 
-            PermisoDePadreOtorgado();
+            // PermisoDePadreOtorgado();
 
         }
 
 
-        
+        bool ReadAppleInAppPurchaseReceipt(string id)
+        {
+            #if EM_UIAP
+
+            bool validPurchase = false;
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                // EM_IAPConstants.Sample_Product is the generated name constant of a product named "Sample Product".
+                AppleInAppPurchaseReceipt receipt = InAppPurchasing.GetAppleIAPReceipt(id);
+
+                // Print the receipt content.
+                if (receipt != null)
+                {
+                    validPurchase = true;
+                    Debug.Log("Product ID: " + receipt.productID);
+                    Debug.Log("Original Purchase Date: " + receipt.originalPurchaseDate.ToShortDateString());
+                    Debug.Log("Original Transaction ID: " + receipt.originalTransactionIdentifier);
+                    Debug.Log("Purchase Date: " + receipt.purchaseDate.ToShortDateString());
+                    Debug.Log("Transaction ID: " + receipt.transactionID);
+                    Debug.Log("Quantity: " + receipt.quantity);
+                    Debug.Log("Cancellation Date: " + receipt.cancellationDate.ToShortDateString());
+                    Debug.Log("Subscription Expiration Date: " + receipt.subscriptionExpirationDate.ToShortDateString());
+                }else{
+                    validPurchase = true;
+                }
+            }
+            return validPurchase;
+            #endif
+        }
 
         private void OnDisable()
         {
@@ -166,20 +203,66 @@ namespace Brinco
 
 
         }
-
+#region IOS Askt To buy
         private void PurchaseDeferredHandler(IAPProduct product)
         {
             //Activar UI para pedir permiso a un padre para activar
-            panelCompraParent.SetActive(true);
+            SetOperacionMatematica();
+            //panelCompraParent.SetActive(true);
+            
+            
 
         }
+        [EasyButtons.Button]
+        private void SetOperacionMatematica()
+        {
+            int r = UnityEngine.Random.Range(0,2);
+            if(r==0)//suma
+            {
+                int a = UnityEngine.Random.Range(0,50);
+                int b = UnityEngine.Random.Range(0,50);
+                respuestaOperacion = a+b;
+                operacion_text.text = ($"{a} + {b} =" );
+
+            }else if(r==1)//multiplicacion
+            {
+                int a = UnityEngine.Random.Range(1,10);
+                int b = UnityEngine.Random.Range(1,10);
+                respuestaOperacion = a*b;
+                operacion_text.text = ($"{a} x {b} =" );
+                
+            }
+        }
+        public void Respuesta()
+        {
+            Debug.Log("Respuesta"+respuestaOperacion.ToString());
+        }
+
+        /// <summary>
+        /// Llamado por UI de boton para comprobar la respuesta
+        /// </summary>
+        /// 
+        [EasyButtons.Button]
+        public void RespuestaOperacionSubmit()
+        {
+           Debug.Log("La respuesta es "+ respuestaOperacion);
+           if( Int32.Parse(respuestaOperacion_text.text) == respuestaOperacion)
+           {
+               Debug.Log("Respuesta correcta");
+           }else{
+               Debug.Log("Respuesta Incorrecta");
+
+           }
+        }
+
         public void PermisoDePadreOtorgado()
         {
             //Ocultar UI de permiso parental
             panelCompraParent.SetActive(false);
 
         }
-
+#endregion
+       
         /// <summary>
         /// Acomoda los productos llenando la base de datos que se utilizara en runtime
         /// </summary>
@@ -270,7 +353,23 @@ namespace Brinco
             }
         }
 
-        
+        private void ForzarConexionIAP()
+        {
+           
+            InAppPurchasing.InitializePurchasing();
+            InAppPurchasing.InitializeSucceeded += ComprasActivadas;
+            InAppPurchasing.InitializeFailed += ComprasFalloInicio;
+            
+        }
+        private void ComprasFalloInicio()
+        {
+            intentosInitIAP++;
+            if(intentosInitIAP >= 3)
+            {
+                NativeUI.Alert("Error", "No internet connection");
+                
+            }
+        }
         public void ComprarPersonaje()
         {
             //PersonajeScriptable personaje = this.GetComponent<SeleccionPersonaje>().BuscarDataPersonaje();
@@ -287,8 +386,7 @@ namespace Brinco
                 NativeUI.Alert("Error", "No internet connection ");
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
                 MMVibrationManager.Haptic(HapticTypes.Warning);
-                InAppPurchasing.InitializePurchasing();
-                InAppPurchasing.InitializeSucceeded += ComprasActivadas;
+                ForzarConexionIAP();
 
 
             }
@@ -301,7 +399,7 @@ namespace Brinco
         /// <param name="_id"></param>
         public void ComprarPersonaje(string _id)
         {
-            if(IAPisInitialized)
+            if(InAppPurchasing.IsInitialized())
             {
                 //Se tiene que pasar el _id del producto como viene en EasyMobile
                 InAppPurchasing.Purchase(_id);
@@ -341,11 +439,9 @@ namespace Brinco
             if (!IAPisInitialized)
             {
                 Debug.Log("Compras Control: GPS no inicializado");
-                NativeUI.Alert("Error", "No internet connection");
                 Sonido_Control.sonidos.ReproducirSonido_UI("errorBoton");
-                InAppPurchasing.InitializePurchasing();
-                InAppPurchasing.InitializeSucceeded += ComprasActivadas;
-                return;
+                ForzarConexionIAP();
+                
             }
             if (!panelTienda)
                 return;
@@ -365,6 +461,7 @@ namespace Brinco
             BuscarProductoLocalized();
             SeComproNoAds();
             PersonajesComprados();
+            intentosInitIAP= 0;
         }
 #region  Restauracion Compras IOS
         public void ReataurarCompras_UI()
@@ -421,13 +518,16 @@ namespace Brinco
             foreach (Producto _producto in productos)
             {
                 //OJO lo busca por el nombre, no el ID, ya que EasyMobile se encarga de administrar le ID
+                #if EM_UIAP
                 ProductMetadata dataProducto = InAppPurchasing.GetProductLocalizedData(_producto.producto.Name);
+
                 if(dataProducto != null)
                 {
                     if(_producto.precioText)
                         _producto.precioText.text = $"${dataProducto.localizedPrice}";
                     Debug.Log($"Producto {dataProducto.localizedTitle} localizado con precio {dataProducto.isoCurrencyCode} {dataProducto.localizedPrice}");
                 }
+                #endif
             }
             Debug.Log("Productos Tienda con precios localizados terminados");
             GetComponent<SeleccionPersonaje>().BuscarPrecioLocalizadoPersonajes();
