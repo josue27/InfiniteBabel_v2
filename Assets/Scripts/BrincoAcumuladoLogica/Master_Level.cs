@@ -77,7 +77,7 @@ namespace Brinco
         private void Awake()
         {
 
-        Debug.unityLogger.logEnabled = false;
+        //Debug.unityLogger.logEnabled = false;
 
         }
         void Start()

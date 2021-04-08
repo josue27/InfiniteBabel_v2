@@ -27,8 +27,6 @@ public class Logros_Control : MonoBehaviour
             Debug.Log("Logor desbloqueado:" + exito);
 
         });
-        
-
     
 
     }

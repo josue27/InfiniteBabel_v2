@@ -138,8 +138,8 @@ namespace Brinco
             Eventos_Dispatcher.eventos.InicioJuego += InicioJuego;
             Eventos_Dispatcher.JuegoCargado += CargarScores;
             Eventos_Dispatcher.Reinicio += Reinicio;
-            panelScore.transform.position = panelScore_posCerrada.position;
             Eventos_Dispatcher.eventos.Revivir += Revivir;
+            panelScore.transform.position = panelScore_posCerrada.position;
 
             nuevoHighScore_letrero.SetActive(false);
 
@@ -168,6 +168,8 @@ namespace Brinco
             Eventos_Dispatcher.eventos.JugadorPerdio -= FinJuego;
             Eventos_Dispatcher.eventos.InicioJuego -= InicioJuego;
             Eventos_Dispatcher.JuegoCargado -= CargarScores;
+            Eventos_Dispatcher.Reinicio -= Reinicio;
+
             Eventos_Dispatcher.eventos.Revivir -= Revivir;
 
         }
@@ -198,41 +200,36 @@ namespace Brinco
 
         private void CompararScore()
         {
-            //en teoria highscoreLocal ya deberia estar cargado y solamente checamos que sea mas de 0 para que
-            //valga la pena
-            if (highScoreUsuario > 0)
+            
+            if (ScoreRonda > HighscoreUsuario)//Si se llega a superar el score guardado
             {
-                if (ScoreRonda > highScoreUsuario)//Si se llega a superar el score guardado
-                {
                     Debug.Log("Highscore :" + highScoreUsuario + " superado guardano nuevo: " + ScoreRonda);
 
                     
                     Save_Control.instancia.ReportarNuevoHighScore(ScoreRonda);
                     //Asignar como highscore actual
-                    //HighscoreUsuario = ScoreRonda;
+                    HighscoreUsuario = ScoreRonda;
                    
 
                     nuevoHighScore_letrero.SetActive(true);
 
-                }
-                DesbloquearLogroPrimeraCarrera();
-
             }
-            else
-            {//debe significar que no habia score y debe ser su primer juego
+            // else if(highScoreUsuario == 0 && ScoreRonda > 0)
+            // {//debe significar que no habia score y debe ser su primer juego
 
-                ///Desbloqueamos logro de primera vez
-                DesbloquearLogroPrimeraCarrera();
+                
 
-                //Save_Control.instancia.SubirScoreGooglePlay(ScoreRonda);
-                Save_Control.instancia.ReportarNuevoHighScore(ScoreRonda);
+            //     //Save_Control.instancia.SubirScoreGooglePlay(ScoreRonda);
+            //     Save_Control.instancia.ReportarNuevoHighScore(ScoreRonda);
                
-                nuevoHighScore_letrero.SetActive(true);
+            //     nuevoHighScore_letrero.SetActive(true);
 
-                Debug.Log("Primer highscore salvado:" + ScoreRonda);
-            }
+            //     Debug.Log("Primer highscore salvado:" + ScoreRonda);
+            // }
             //para que se actualice el Highscore durante la partida
             // CargarScoreUsuario();
+            DesbloquearLogroPrimeraCarrera();
+
 
             if (ScoreRonda >= 5)
             {
@@ -444,7 +441,7 @@ namespace Brinco
         {
             ScoreRonda = 0;  
             nuevoHighScore_letrero.SetActive(false);
-            CargarScoreUsuario();
+            // CargarScoreUsuario();
             AbrirPanelScore("mostrar");
         }
 

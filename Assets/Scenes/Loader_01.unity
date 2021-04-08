@@ -573,6 +573,16 @@ PrefabInstance:
       propertyPath: tapCorner
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114977314496926096, guid: 2f28a12e81a274d1ca7af6819004b613,
+        type: 3}
+      propertyPath: showOnError
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114977314496926096, guid: 2f28a12e81a274d1ca7af6819004b613,
+        type: 3}
+      propertyPath: maxLogEntries
+      value: 200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f28a12e81a274d1ca7af6819004b613, type: 3}
 --- !u!1 &680306152 stripped

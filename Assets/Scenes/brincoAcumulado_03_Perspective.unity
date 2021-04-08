@@ -28931,7 +28931,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Isaac M. Amezcua, Jose Tinajero, Gary Roberts
+  m_text: Isaac M. Amezcua, Jose Tinajero, Gary Roberts, German Martinez
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f794b1ee8f4164e44b0460ce32635570, type: 2}
   m_sharedMaterial: {fileID: 4003679277037692881, guid: f794b1ee8f4164e44b0460ce32635570,

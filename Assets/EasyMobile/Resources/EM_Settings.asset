@@ -335,7 +335,7 @@ MonoBehaviour:
       Best Runner-->\r\n  <string name=\"leaderboard_the_best_runner\" translatable=\"false\">CgkIsfDXnPEcEAIQAQ</string>\r\n</resources>"
     mEnableMultiplayer: 0
     mEnableSavedGames: 1
-    mAutoConflictResolutionStrategy: 0
+    mAutoConflictResolutionStrategy: 1
     mGpgsDataSource: 0
   mInAppPurchaseSettings:
     mAutoInit: 1
@@ -555,5 +555,5 @@ MonoBehaviour:
   mIsGameServiceModuleEnable: 1
   mIsNotificationModuleEnable: 0
   mIsSharingModuleEnable: 1
-  mActiveModuleIndex: 3
+  mActiveModuleIndex: 1
   mIsSelectingModule: 0

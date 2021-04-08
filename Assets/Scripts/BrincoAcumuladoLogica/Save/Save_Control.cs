@@ -24,20 +24,21 @@ using Brinco;
 
         [SerializeField] int reinicios = 0;
 
-        private void Awake()
-        {
-           
-        }
+       
 
         void Start()
         {
             instancia = this;
+            if(!GameServices.IsInitialized())
+            {
 
-           // CargarJuegoLocal();
+            // CargarJuegoLocal();
+                
+                GameServices.Init();
+            }
             CargarScoreUsuario();
             CargarSavedGame();
             CargarPersonajeGuardado();
-
 
             Eventos_Dispatcher.eventos.GuardarPersonaje += GuardarPersonajeSeleccionado;
 
@@ -64,7 +65,7 @@ using Brinco;
             if (scoreCargado != null)
             {
                 //debug_text.text = $"Score Google Play:{scoreCargado.value}";
-                Debug.Log($"Score Google Play:{scoreCargado.value}");
+                Debug.Log($"Score GS Play:{scoreCargado.value}");
                 HighScoreUsuario = int.Parse(scoreCargado.formattedValue);
 
             }
@@ -92,15 +93,27 @@ using Brinco;
 
             //Salvamos primer el score localmente por si no hay internet
             // SaveGame.Save<int>(nombreSlotHighscore, nuevoScore);
-
+            if(nuevoScore <=0)
+            {
+                Debug.Log("Problema el score es 0, reviar");
+                return;
+            }
+            long nuevoScore_long = (long)nuevoScore;
             //GuardarJuego_Local();
             if (GameServices.IsInitialized())
             {
                 
-                GameServices.ReportScore(nuevoScore, EM_GameServicesConstants.Leaderboard_Obstaculos, (bool exito) => {
-                    Debug.Log("Se subio el score exitosamente");
+                GameServices.ReportScore(nuevoScore, EM_GameServicesConstants.Leaderboard_Obstaculos, (bool exito) => 
+                {
+                    Debug.Log("Se subio el score exitosamente a GS: "+nuevoScore+ "exito");
+                    // CargarScoreUsuario();
+
                 });
-                
+                Social.ReportScore(nuevoScore,"best_runner",(bool exito)=>{
+                    Debug.Log("Se subio el score exitosamente a UnityS: "+nuevoScore+ "exito");
+
+                });
+
             }
             else
             {
@@ -121,7 +134,7 @@ using Brinco;
         /// Sube la tazas del cafe al tablero
         /// </summary>
         /// <param name="nuevoScoreCafe"></param>
-        public void SubirScoreCafe(int nuevoScoreCafe)
+       /* public void SubirScoreCafe(int nuevoScoreCafe)
         {
             if (GameServices.IsInitialized())
             {
@@ -143,7 +156,7 @@ using Brinco;
     // #endif
                 GameServices.Init();
             }
-        }
+        }*/
 
         /// <summary>
         /// Asigna el nuevo Highscore a la variable local para su futuro guardado asi como
@@ -198,7 +211,7 @@ using Brinco;
                         //si error esta vacio o no existe o sea todo fue correcto
                         if (string.IsNullOrEmpty(error))
                         {
-                            Debug.Log("Juego Salvado de Nube leido con exito!");
+                            Debug.Log("Juego Salvado de Nube leido con exito! revizando contendio");
                             // Here you can process the data as you wish.
                             if (data.Length > 0)
                             {
@@ -209,31 +222,13 @@ using Brinco;
 
                                 //Guardamos los datos descargados para futura comparacion
                                 juegoSalvadoNube = ConvertidorData.ByteArra_Deserealizar(data);
-                                //DEPRECATED:Cambiando a sistema donde 
-                                //Enviar monitos comprados a SeleccionPersonaje
-                                //GetComponent<SeleccionPersonaje>().VerificarPersonajesComprados(juegoSalvadoNube.personajes);
+                               
 
                                 Score_Control.instancia.MonedasTotales = JuegoSalvadoNube.monedas;
 
-                              
-                                //Resolver conflicto de monedas
-                                //if (juegoSalvadoLocal != null)
-                                //{
-                                //    if (juegoSalvadoLocal.monedas > juegoSalvadoNube.monedas)
-                                //    {
-                                //        MonedasTotales = juegoSalvadoLocal.monedas;
-                                //        Debug.Log($"Conflicto Cloud y Local, las monedas en local({juegoSalvadoLocal.monedas}) es > a las de nube({juegoSalvadoNube.monedas}) se tomara en cuenta monedas Locales");
-                                //    }
-                                //    else
-                                //    {
-                                //        MonedasTotales = juegoSalvadoNube.monedas;
-                                //        Debug.Log($"Conflicto Cloud y Local, las monedas en local({juegoSalvadoLocal.monedas}) es < a las de nube({juegoSalvadoNube.monedas}) se tomaran en cuenta monedas Nube");
-                                //    }
-                                //}
-                                //else
-                                //{
-                                //    MonedasTotales = juegoSalvadoNube.monedas;
-                                //}
+                                Debug.Log("Juego Salvado de Nube tenia datos y fueron cargados");
+
+                                
 
                             }
                             else
@@ -290,7 +285,7 @@ using Brinco;
             //Aqui declaramo un objeto , al crearlo este se llena automaticamente con los datos de la partida
             Saved_Data saveJuego = NuevoSavedGame();
 
-            if (string.IsNullOrEmpty(error))
+            if (string.IsNullOrEmpty(error))//si no hay nada en error
             {
                 Debug.Log("Juego Salvado preparado para guardar  en la nube...");
 
@@ -378,12 +373,8 @@ using Brinco;
             Debug.Log("Guardando " + Score_Control.instancia.MonedasTotales + " monedas");
             save.monedas = Score_Control.instancia.MonedasTotales; 
             save.score = HighScoreUsuario;
-            //DEPRECATED: No deberiamos tener que pedirselo ya que Score_Control lo actualizara de haber un nuevo highscore
-            //save.score = Score_Control.instancia.ScoreFinal();
 
             save.removeAds = GetComponent<Ad_Control>().removerAdIntermedio;
-
-         
 
             List<PersonajeSalvado> personajesAGuardar = new List<PersonajeSalvado>();
 
@@ -470,14 +461,15 @@ using Brinco;
             {
                 GameServices.Init();
             }
+            GuardarJuego();
+            
             // HighScoreUsuario = Score_Control.instancia.HighscoreUsuario;
-            reinicios++;
-            if(reinicios == 3)
-            {
-                Debug.Log("Tercer reinicio guardado automatico...");
-                GuardarJuego();
-                reinicios = 0;
-            }
+            // reinicios++;
+            // if(reinicios == 3)
+            // {
+            //     Debug.Log("Tercer reinicio guardado automatico...");
+            //     reinicios = 0;
+            // }
             
         }
     }

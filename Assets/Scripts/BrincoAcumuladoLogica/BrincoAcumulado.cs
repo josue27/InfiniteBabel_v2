@@ -232,9 +232,11 @@ public class BrincoAcumulado : MonoBehaviour
     }
     public void DedoDown(LeanFinger dedo)
     {
-        if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.inicio || Master_Level._masterBrinco.estadoJuego == EstadoJuego.perdio ||
-            !puedeBrincar)
-            return;
+         if(Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando || !puedeBrincar)
+        return;
+        // if(Master_Level._masterBrinco.estadoJuego == EstadoJuego.inicio || Master_Level._masterBrinco.estadoJuego == EstadoJuego.perdio ||
+        //     !puedeBrincar)
+        //     return;
        // Debug.Log("Dedo abajo: "+dedo.GetWorldPosition(10,Camera.main));
         mousePosInit = dedo.GetWorldPosition(10,Camera.main);
 
@@ -247,11 +249,11 @@ public class BrincoAcumulado : MonoBehaviour
     }
     public void DedoArriba(LeanFinger dedo)
     {
-        //if(Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando)
-        // return;
-        if (Master_Level._masterBrinco.estadoJuego == EstadoJuego.inicio || Master_Level._masterBrinco.estadoJuego == EstadoJuego.perdio ||
-            !puedeBrincar)
-            return;
+        if(Master_Level._masterBrinco.estadoJuego != EstadoJuego.jugando || !puedeBrincar)
+        return;
+        // if (Master_Level._masterBrinco.estadoJuego == EstadoJuego.inicio || Master_Level._masterBrinco.estadoJuego == EstadoJuego.perdio ||
+        //     !puedeBrincar)
+        //     return;
 
         if (enPiso)
         { 
